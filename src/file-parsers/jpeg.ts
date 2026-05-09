@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {FileParserBase, AppSegmentParserBase} from '../parser.ts'
 import {fileParsers, segmentParsers} from '../plugins.ts'
 
@@ -68,9 +67,17 @@ export class JpegFileParser extends FileParserBase {
 		return firstTwoBytes === JPEG_SOI
 	}
 
-	appSegments = []
-	jpegSegments = []
-	unknownSegments = []
+	appSegments: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
+	jpegSegments: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
+	unknownSegments: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
+	mergedAppSegments?: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+	findAll?: boolean
+	wanted?: Set<string>
+	remaining?: Set<string>
+	unfinishedMultiSegment?: boolean
+
+	// Inherited from FileParserBase but declared here for arity matching.
+	declare readSegments: (segments: unknown[]) => Promise<void>
 
 	async parse() {
 		await this.findAppSegments()
@@ -95,7 +102,7 @@ export class JpegFileParser extends FileParserBase {
 		this.unfinishedMultiSegment = false
 	}
 
-	async findAppSegments(offset = 0, wantedArray) {
+	async findAppSegments(offset = 0, wantedArray?) {
 		this.setupSegmentFinderArgs(wantedArray)
 		let {file, findAll, wanted, remaining} = this
 		if (!findAll && this.file.chunked) {

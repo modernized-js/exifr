@@ -18,7 +18,7 @@ class PluginList extends Map {
 	}
 
 	// INVESTIGATE: move this check from runtime to options constructor
-	get(key, options) {
+	get(key, options?) {
 		if (!this.has(key))
 			throwNotLoaded(this.kind, key)
 		if (options) {

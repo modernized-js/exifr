@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {fileParsers} from '../plugins.ts'
 import {FileParserBase} from '../parser.ts'
 // Only HEIC uses BufferView.getUint64
@@ -57,6 +56,11 @@ export class IsoBmffParser extends FileParserBase {
 }
 
 export class HeifFileParser extends IsoBmffParser {
+
+	// Each concrete subclass (HeicFileParser, AvifFileParser) overrides
+	// `static type` with the FTYP brand it claims. Declared here so
+	// canHandle below can read it via `this.type` polymorphically.
+	static type: string
 
 	// NOTE: most parsers check if bytes 4-8 are 'ftyp' and then if 8-12 is one of heic/heix/hevc/hevx/heim/heis/hevm/hevs/mif1/msf1
 	//       but bytes 20-24 are actually always 'heic' for all of these formats

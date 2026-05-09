@@ -12,6 +12,15 @@ const DEFAULT = 'DEFAULT'
 
 export class FileParserBase {
 
+	// Declared so subclasses (TiffFileParser, JpegFileParser, IsoBmffParser
+	// and its descendants) can read these without TS faulting. `declare`
+	// keeps them type-only — actual assignment is in the constructor below.
+	declare options: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	declare file: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	declare parsers: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	extendOptions?(_options: any): void { return undefined }
+
 	constructor(options, file, parsers) {
 		if (this.extendOptions)
 			this.extendOptions(options)
@@ -20,7 +29,7 @@ export class FileParserBase {
 		this.parsers = parsers
 	}
 
-	errors = []
+	errors: unknown[] = []
 
 	injectSegment(type, chunk) {
 		if (this.options[type].enabled)
