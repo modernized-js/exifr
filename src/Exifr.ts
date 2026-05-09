@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {read} from './reader.ts'
 import {undefinedIfEmpty} from './util/helpers.ts'
 import {Options} from './options.ts'
@@ -8,10 +7,16 @@ import {throwError} from './util/helpers.ts'
 
 export class Exifr {
 
-	parsers = {}
-	output = {}
-	errors = []
-	pushToErrors = err => this.errors.push(err)
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	parsers: Record<string, any> = {}
+	output: Record<string, any> = {}
+	errors: unknown[] = []
+	declare options: Options
+	declare file: any
+	declare fileParser: any
+	/* eslint-enable @typescript-eslint/no-explicit-any */
+
+	pushToErrors = (err: unknown) => this.errors.push(err)
 
 	constructor(options) {
 		this.options = Options.useCached(options)
@@ -68,7 +73,7 @@ export class Exifr {
 	async executeParsers() {
 		const {output} = this
 		await this.fileParser.parse()
-		let promises = Object.values(this.parsers).map(async parser => {
+		let promises: Promise<unknown>[] = Object.values(this.parsers).map(async parser => {
 			const parserOutput = await parser.parse()
 			// each parser may want to merge its output into global differently.
 			parser.assignToOutput(output, parserOutput)
