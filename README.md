@@ -1,9 +1,7 @@
 <img src="https://raw.githubusercontent.com/MikeKovarik/exifr/master/logo/blue-small.png" width="160" alt="exifr">
 
-[![Build Status](https://travis-ci.org/MikeKovarik/exifr.svg?branch=master)](https://travis-ci.org/MikeKovarik/exifr)
-[![Coverage Status](https://coveralls.io/repos/github/MikeKovarik/exifr/badge.svg)](https://coveralls.io/github/MikeKovarik/exifr)
+[![CI](https://github.com/modernized-js/exifr/actions/workflows/ci.yml/badge.svg)](https://github.com/modernized-js/exifr/actions/workflows/ci.yml)
 [![gzip size](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/exifr/dist/mini.umd.js?compression=gzip)](https://www.jsdelivr.com/package/npm/exifr?path=dist)
-[![Dependency Status](https://david-dm.org/MikeKovarik/exifr.svg)](https://david-dm.org/MikeKovarik/exifr)
 [![jsDelivr downloads](https://data.jsdelivr.com/v1/package/npm/exifr/badge?style=rounded)](https://www.jsdelivr.com/package/npm/exifr?path=dist)
 [![npm downloads size](https://img.shields.io/npm/dm/exifr)](https://npmjs.org/package/exifr)
 [![NPM Version](https://img.shields.io/npm/v/exifr.svg?style=flat)](https://npmjs.org/package/exifr)
@@ -29,6 +27,12 @@
 📷 The fastest and most versatile JavaScript EXIF reading library.
 
 Try it yourself - [demo page & playground](https://mutiny.cz/exifr/).
+
+> **v8.0 modernization release** — public API is unchanged, but the
+> supported runtime envelope tightened. Minimum **Node.js 22.18+**, and
+> IE11 / pre-Chromium Edge are no longer supported (use the v7.x line
+> if you need them). See [CHANGELOG](./CHANGELOG.md#800--modernization-release)
+> for the full breaking-change list.
 
 ## Features
 

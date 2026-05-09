@@ -2,6 +2,74 @@
 
 ## [Unreleased]
 
+## [8.0.0] — modernization release
+
+This is a major modernization of the toolchain and runtime targets. The
+**public API is unchanged** — every export from v7.1.3 (`parse`, `gps`,
+`orientation`, `rotation`, `thumbnail`, `thumbnailUrl`, `sidecar`, the
+`Exifr` class, all options, dictionary helpers) keeps the same shape and
+behaviour. The breaking part is the supported runtime envelope.
+
+### Breaking
+
+- **Dropped IE11 and pre-Chromium Edge.** The legacy build path (Babel
+  pipeline + `src/polyfill/ie.mjs` + the `replaceBuiltinsWithIePolyfills`
+  rollup transform) is removed. Bundle target is now ES2020+. If you need
+  to support IE, stay on the v7.x line.
+- **Dropped Node.js ≤ 22.17.** Minimum runtime is **Node 22.18** (where
+  TypeScript stripping is enabled by default). `package.json#engines.node`
+  enforces this.
+- **Dropped the `dist/*.legacy.umd.cjs` build variant** (and its `.js`
+  mirror). Bundle output shrinks from 18 files to 12 (`mini` / `lite` /
+  `full` × `esm.mjs` / `esm.js` / `umd.cjs` / `umd.js`).
+- **Bundle size approximately halves**: ~1.2 MB → ~608 KB total dist
+  output, the build chain runs ~60 % faster.
+
+### Changed (internal — invisible to consumers, but worth noting)
+
+- All sources migrated from `.mjs` to `.ts`. The published types still
+  ship from the hand-written `index.d.ts`; emitting types from source is
+  scheduled for a follow-up release once internal type annotations are
+  filled in.
+- Test runner switched from `mocha` + `chai` to Node's built-in
+  `node:test` + `node:assert`. Custom runner at `test/run.mjs` enumerates
+  spec files via `fs.globSync` and uses `node:test`'s programmatic
+  `run()` API, with each spec file running in its own child process for
+  isolation.
+- Coverage tool switched from `c8` to Node's built-in test coverage
+  (`run({coverage: true, ...})`).
+- Build chain: rollup 2 → 4, `rollup-plugin-babel` removed,
+  `rollup-plugin-terser` → `@rollup/plugin-terser`, `rollup-plugin-notify`
+  removed. `rollup.config.js` shrinks 267 LOC → ~80 LOC.
+- CI moved from Travis (single Linux runner, Node 14.16) to GitHub
+  Actions (Linux + macOS + Windows, Node 22).
+- Tooling additions: ESLint 10 (flat config) + Prettier, Dependabot,
+  `yarn typecheck` (TypeScript strict-but-pragmatic config),
+  `@rollup/plugin-typescript` integrated into the build.
+- Package manager: `npm` → `yarn` (pinned via `packageManager` field).
+- Dropped unused devDependencies: `@babel/*` (16 packages),
+  `babel-plugin-transform-async-to-promises`,
+  `babel-plugin-transform-for-of-without-iterator`,
+  `rollup-plugin-babel`, `c8`, `coveralls`, `aurelia-script`, `decorate`,
+  `mocha`, `chai`, `rollup-plugin-notify`.
+
+### Fixed
+
+- Browser detection in Node 22+. `typeof navigator === 'object'` was used
+  to detect browser environments, but Node 21+ exposes `navigator` as a
+  global. exifr was therefore picking the browser-side default
+  `firstChunkSize` (65536) on modern Node instead of the smaller node
+  default (512). Fixed in `src/util/platform.ts` (was `platform.mjs`).
+- `AppSegmentParserBase.parse()` no longer requires every segment parser
+  to be loaded for single-segment unit testing. Previously the static
+  `parse()` constructed `Options` with all segments enabled by default,
+  so calling e.g. `Xmp.parse(buffer)` in isolation faulted
+  `checkLoadedPlugins()` because tiff was enabled but not registered.
+  The static path now disables every other segment by construction.
+- `cloneCjsAndMjsToJs` rollup writeBundle hook now returns the
+  `fs.copyFile()` promise so rollup awaits the `.js` mirror copies
+  before declaring the build complete (race fixed).
+
 ## [7.1.3]
 
 ### Fixed
