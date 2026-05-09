@@ -1,6 +1,6 @@
 {
   "name": "@modernized/exifr",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "📷 The fastest and most versatile JavaScript EXIF reading library — modernized fork of exifr (TypeScript, Node 22+, ES2020+ browser targets).",
   "author": "modernized (https://github.com/modernized-js)",
   "contributors": [
