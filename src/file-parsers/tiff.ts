@@ -1,5 +1,5 @@
 import {FileParserBase} from '../parser.mjs'
-import {TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.mjs'
+import {TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.ts'
 import {fileParsers} from '../plugins.mjs'
 import {estimateMetadataSize} from '../util/helpers.ts'
 import {TIFF_LITTLE_ENDIAN, TIFF_BIG_ENDIAN} from '../util/helpers.ts'

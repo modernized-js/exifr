@@ -1,4 +1,4 @@
-import {tagValues, createDictionary} from '../tags.mjs'
+import {tagValues, createDictionary} from '../tags.ts'
 
 
 // PNG Header Tags
