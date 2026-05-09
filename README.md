@@ -1,10 +1,10 @@
 <img src="https://raw.githubusercontent.com/MikeKovarik/exifr/master/logo/blue-small.png" width="160" alt="exifr">
 
 [![CI](https://github.com/modernized-js/exifr/actions/workflows/ci.yml/badge.svg)](https://github.com/modernized-js/exifr/actions/workflows/ci.yml)
-[![NPM Version](https://img.shields.io/npm/v/@modernized-js/exifr.svg?style=flat)](https://npmjs.org/package/@modernized-js/exifr)
-[![npm downloads](https://img.shields.io/npm/dm/@modernized-js/exifr)](https://npmjs.org/package/@modernized-js/exifr)
-[![jsDelivr downloads](https://data.jsdelivr.com/v1/package/npm/@modernized-js/exifr/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@modernized-js/exifr?path=dist)
-[![gzip size](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/@modernized-js/exifr/dist/mini.umd.js?compression=gzip)](https://www.jsdelivr.com/package/npm/@modernized-js/exifr?path=dist)
+[![NPM Version](https://img.shields.io/npm/v/@modernized/exifr.svg?style=flat)](https://npmjs.org/package/@modernized/exifr)
+[![npm downloads](https://img.shields.io/npm/dm/@modernized/exifr)](https://npmjs.org/package/@modernized/exifr)
+[![jsDelivr downloads](https://data.jsdelivr.com/v1/package/npm/@modernized/exifr/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@modernized/exifr?path=dist)
+[![gzip size](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/@modernized/exifr/dist/mini.umd.js?compression=gzip)](https://www.jsdelivr.com/package/npm/@modernized/exifr?path=dist)
 
 [Usage](#usage)
 •
@@ -26,7 +26,7 @@
 
 📷 The fastest and most versatile JavaScript EXIF reading library.
 
-> **About this fork** — This package, `@modernized-js/exifr`, is a
+> **About this fork** — This package, `@modernized/exifr`, is a
 > modernized fork of the original [`exifr`](https://github.com/MikeKovarik/exifr)
 > by Mike Kovarik. The public API is identical to upstream v7.1.3; the
 > v8.0 release ships a refreshed toolchain (TypeScript sources,
@@ -117,27 +117,27 @@ Exifr does what no other JS lib does. It's **efficient** and **blazing fast**!
 ## Installation
 
 ```
-npm install @modernized-js/exifr
+npm install @modernized/exifr
 # or
-yarn add @modernized-js/exifr
+yarn add @modernized/exifr
 ```
 
 Exifr comes in three prebuilt bundles. It's a good idea to start development with `full` and then scale down to `lite`, `mini`, or better yet, [build your own](#advanced-apis) around modular core.
 
 ```js
 // ES Module (recommended on Node 22.18+ and modern browsers)
-import exifr from '@modernized-js/exifr'
+import exifr from '@modernized/exifr'
 // Explicit ESM entry
-import exifr from '@modernized-js/exifr/dist/full.esm.mjs'
+import exifr from '@modernized/exifr/dist/full.esm.mjs'
 // CommonJS
-const exifr = require('@modernized-js/exifr')
+const exifr = require('@modernized/exifr')
 ```
 
 ```html
 <!-- ES Module in modern browsers -->
-<script type="module">import exifr from 'node_modules/@modernized-js/exifr/dist/lite.esm.js';</script>
+<script type="module">import exifr from 'node_modules/@modernized/exifr/dist/lite.esm.js';</script>
 <!-- classic UMD script -->
-<script src="https://cdn.jsdelivr.net/npm/@modernized-js/exifr/dist/lite.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@modernized/exifr/dist/lite.umd.js"></script>
 ```
 
 > Note: the v7-only `dist/lite.legacy.umd.js` (IE-targeted) bundle is no longer produced. If you still need IE support, install the upstream package instead: `npm install exifr@^7.1`.
@@ -155,7 +155,7 @@ Of course, you can use the `full` version in browser, or use any other build in 
 * **ESM** - Modern syntax for use in [modern browsers](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) and [Node.js](https://nodejs.org/api/esm.html).
 <br>Uses `import` syntax.
 * **UMD** - Universal format for browsers and Node.js.
-<br>Supports CJS `require('@modernized-js/exifr')`, AMD/RequireJS and global `window.exifr`.
+<br>Supports CJS `require('@modernized/exifr')`, AMD/RequireJS and global `window.exifr`.
 
 <details>
 <summary>Detailed comparison (click to expand)</summary>
@@ -191,7 +191,7 @@ If your webserver isn't configured to handle `.mjs` or `.cjs` files you can use 
 
 Exifr exports both named exports and a default export - object containing all the named exports.
 
-You can use `import * as exifr from '@modernized-js/exifr'` as well as `import exifr from '@modernized-js/exifr'` (recommended).
+You can use `import * as exifr from '@modernized/exifr'` as well as `import exifr from '@modernized/exifr'` (recommended).
 
 ## Examples
 
@@ -825,23 +825,23 @@ Scenario 1: We'll be handling `.jpg` files in blob format and we want to extract
 
 ```js
 // Core bundle has nothing in it
-import * as exifr from '@modernized-js/exifr/src/core.mjs'
+import * as exifr from '@modernized/exifr/src/core.mjs'
 // Now we import what we need
-import '@modernized-js/exifr/src/file-readers/BlobReader.mjs'
-import '@modernized-js/exifr/src/file-parsers/jpeg.mjs'
-import '@modernized-js/exifr/src/segment-parsers/icc.mjs'
-import '@modernized-js/exifr/src/dicts/icc-keys.mjs'
-import '@modernized-js/exifr/src/dicts/icc-values.mjs'
+import '@modernized/exifr/src/file-readers/BlobReader.mjs'
+import '@modernized/exifr/src/file-parsers/jpeg.mjs'
+import '@modernized/exifr/src/segment-parsers/icc.mjs'
+import '@modernized/exifr/src/dicts/icc-keys.mjs'
+import '@modernized/exifr/src/dicts/icc-values.mjs'
 ```
 
 Scenario 2: We want to parse `.heic` and `.tiff` photos, extract EXIF block (of TIFF segment). We only need the values to be translated. Keys will be left untranslated but we don't mind accessing them with raw numeric keys - `output[0xa40a]` instead of `output.Sharpness`. Also, we're not importing any (chunked) file reader because we only work with Uint8Array data.
 
 ```js
-import * as exifr from '@modernized-js/exifr/src/core.mjs'
-import '@modernized-js/exifr/src/file-parsers/heic.mjs'
-import '@modernized-js/exifr/src/file-parsers/tiff.mjs'
-import '@modernized-js/exifr/src/segment-parsers/tiff.mjs'
-import '@modernized-js/exifr/src/dicts/tiff-exif-values.mjs'
+import * as exifr from '@modernized/exifr/src/core.mjs'
+import '@modernized/exifr/src/file-parsers/heic.mjs'
+import '@modernized/exifr/src/file-parsers/tiff.mjs'
+import '@modernized/exifr/src/segment-parsers/tiff.mjs'
+import '@modernized/exifr/src/dicts/tiff-exif-values.mjs'
 ```
 </details>
 
@@ -863,7 +863,7 @@ TIFF ([EXIF](https://exiftool.org/TagNames/EXIF.html) & [GPS](https://exiftool.o
 
 ```js
 // Modify single tag's 0xa409 (Saturation) translation
-import exifr from '@modernized-js/exifr'
+import exifr from '@modernized/exifr'
 let exifKeys   = exifr.tagKeys.get('exif')
 let exifValues = exifr.tagValues.get('exif')
 exifKeys.set(0xa409, 'Saturation')
@@ -876,7 +876,7 @@ exifValues.set(0xa409, {
 
 ```js
 // Modify single tag's GPSDateStamp value is processed
-import exifr from '@modernized-js/exifr'
+import exifr from '@modernized/exifr'
 let gpsRevivers = exifr.tagRevivers.get('gps')
 gpsRevivers.set(0x001D, rawValue => {
   let [year, month, day] = rawValue.split(':').map(str => parseInt(str))
@@ -886,7 +886,7 @@ gpsRevivers.set(0x001D, rawValue => {
 
 ```js
 // Create custom dictionary for GPS block
-import exifr from '@modernized-js/exifr'
+import exifr from '@modernized/exifr'
 exifr.createDictionary(exifr.tagKeys, 'gps', [
   [0x0001, 'LatitudeRef'],
   [0x0002, 'Latitude'],
@@ -897,7 +897,7 @@ exifr.createDictionary(exifr.tagKeys, 'gps', [
 
 ```js
 // Extend existing IFD0 dictionary
-import exifr from '@modernized-js/exifr'
+import exifr from '@modernized/exifr'
 exifr.createDictionary(exifr.tagKeys, 'ifd0', [
   [0xc7b5, 'DefaultUserCrop'],
   [0xc7d5, 'NikonNEFInfo'],
