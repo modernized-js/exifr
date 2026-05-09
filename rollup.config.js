@@ -18,12 +18,14 @@ function injectIgnoreComments() {
 
 // Mirror every emitted .cjs / .mjs as a plain .js so the package.json
 // "main" / "module" fields keep their historical extensions and existing
-// consumers don't break.
+// consumers don't break. Returning the promise so rollup awaits the copy
+// before declaring the build complete — without it the build can finish
+// while a mirror is still being written.
 function cloneCjsAndMjsToJs() {
 	return {
 		writeBundle(bundle) {
 			let target = bundle.file.replace('.cjs', '.js').replace('.mjs', '.js')
-			fs.copyFile(bundle.file, target)
+			return fs.copyFile(bundle.file, target)
 		}
 	}
 }
