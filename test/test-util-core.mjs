@@ -4,8 +4,11 @@ import path from 'path'
 import {promises as fs} from 'fs'
 
 
-export var isBrowser = typeof navigator === 'object'
 export var isNode = typeof process === 'object' && process.versions && process.versions.node
+// Node 21+ exposes globalThis.navigator, so detect Node first and treat
+// anything else as browser. Plain `typeof navigator === 'object'` would
+// false-positive in modern Node.
+export var isBrowser = !isNode
 
 if (isBrowser) mocha.setup('bdd')
 

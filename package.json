@@ -31,19 +31,23 @@
   "main": "./dist/full.umd.js",
   "module": "./dist/full.esm.mjs",
   "types": "index.d.ts",
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "test": "mocha \"test/**/*.spec.mjs\" --recursive --exclude test/bundle-mini.spec.mjs --exclude test/bundle-lite.spec.mjs --exclude test/bundle-full.spec.mjs",
     "test-bundles": "mocha test/bundle-mini.spec.mjs && mocha test/bundle-lite.spec.mjs && mocha test/bundle-full.spec.mjs",
     "test-full": "mocha test/bundle-full.spec.mjs",
     "test-lite": "mocha test/bundle-lite.spec.mjs",
     "test-mini": "mocha test/bundle-mini.spec.mjs",
-    "coverage": "c8 npm test",
+    "coverage": "c8 yarn test",
     "dev": "rollup -c rollup.config.js -w",
     "build-mini": "rollup -c rollup.config.js mini",
     "build-lite": "rollup -c rollup.config.js lite",
     "build-full": "rollup -c rollup.config.js full",
     "build": "rollup -c rollup.config.js",
-    "prerelease": "npm run build"
+    "prerelease": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
