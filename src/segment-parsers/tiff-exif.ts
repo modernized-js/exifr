@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {AppSegmentParserBase} from '../parser.ts'
 import {segmentParsers} from '../plugins.ts'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP, TAG_MAKERNOTE, TAG_USERCOMMENT, TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.ts'
@@ -68,12 +67,38 @@ function getTypedArray(type) {
 // jpg wraps tiff into app1 segment.
 export class TiffCore extends AppSegmentParserBase {
 
+	// Field declarations populated during parseHeader / parseBlock /
+	// translation. `declare` keeps them type-only — assignments happen in
+	// the methods below. `any` for tag value containers because the
+	// per-block types are heterogenous (numbers, strings, dates, raw
+	// arrays, etc.).
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	declare le: boolean
+	declare headerParsed: boolean
+	declare ifd0Offset?: number
+	declare ifd1Offset?: number
+	declare exifOffset?: number
+	declare interopOffset?: number
+	declare gpsOffset?: number
+	declare ifd0?: any
+	declare ifd1?: any
+	declare exif?: any
+	declare gps?: any
+	declare interop?: any
+	declare iptc?: any
+	declare icc?: any
+	declare xmp?: any
+	declare ifd1Parsed?: boolean
+	declare makerNote?: unknown
+	declare userComment?: unknown
+	/* eslint-enable @typescript-eslint/no-explicit-any */
+
 	// TODO: future API
 	//tagsOutsideChunk = []
 
 	parseHeader() {
 		// Detect endian 11th byte of TIFF (1st after header)
-		const byteOrder = this.chunk.getUint16()
+		const byteOrder = this.chunk.getUint16(0)
 		if (byteOrder === TIFF_LITTLE_ENDIAN)
 			this.le = true // little endian
 		else if (byteOrder === TIFF_BIG_ENDIAN)
@@ -340,8 +365,10 @@ export class TiffExif extends TiffCore {
 			// TODO: assign this to this.translated or this.output when blocks are broken down to separate classes
 			//gps.latitude  = ConvertDMSToDD(...gps.get(TAG_GPS_LAT), gps.get(TAG_GPS_LATREF))
 			//gps.longitude = ConvertDMSToDD(...gps.get(TAG_GPS_LON), gps.get(TAG_GPS_LONREF))
-			gps.set('latitude',  ConvertDMSToDD(...gps.get(TAG_GPS_LAT), gps.get(TAG_GPS_LATREF)))
-			gps.set('longitude', ConvertDMSToDD(...gps.get(TAG_GPS_LON), gps.get(TAG_GPS_LONREF)))
+			const latArr = gps.get(TAG_GPS_LAT) as [number, number, number]
+			const lonArr = gps.get(TAG_GPS_LON) as [number, number, number]
+			gps.set('latitude',  ConvertDMSToDD(...latArr, gps.get(TAG_GPS_LATREF)))
+			gps.set('longitude', ConvertDMSToDD(...lonArr, gps.get(TAG_GPS_LONREF)))
 		}
 		return gps
 	}
@@ -385,7 +412,7 @@ export class TiffExif extends TiffCore {
 	get thumbnail() {return this.ifd1}
 
 	createOutput() {
-		const tiff = {}
+		const tiff: Record<string, unknown> = {}
 		let block, blockKey, blockOutput
 		for (blockKey of tiffBlocks) {
 			block = this[blockKey]

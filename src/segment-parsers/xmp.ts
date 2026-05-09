@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {AppSegmentParserBase} from '../parser.ts'
 import {segmentParsers} from '../plugins.ts'
 import {undefinedIfEmpty} from '../util/helpers.ts'
@@ -33,8 +32,8 @@ export default class Xmp extends AppSegmentParserBase {
 			return TIFF_HEADER_LENGTH + XMP_MAIN_HEADER.length + 1 // 1 for null termination between header and data
 	}
 
-	static findPosition(chunk, offset) {
-		const seg = super.findPosition(chunk, offset)
+	static findPosition(chunk, offset): any { // eslint-disable-line @typescript-eslint/no-explicit-any
+		const seg: any = super.findPosition(chunk, offset) // eslint-disable-line @typescript-eslint/no-explicit-any
 		// first is the main XMP, then the extended starts counting from 0.
 		// We could determine that the XMP has extension if we looked for 'HasExtendedXMP'
 		// but we don't want to read the segment here just yet.
@@ -61,6 +60,8 @@ export default class Xmp extends AppSegmentParserBase {
 
 	// WARNING: XMP as IFD0 tag in TIFF can be either Uint8Array or string.
 	// We need to be ready to accept any input data and turn it into string.
+	// @ts-expect-error -- Xmp.parse() consumes the result as a string instead
+	// of the BufferView shape the base class produces.
 	normalizeInput(input) {
 		return typeof input === 'string'
 			? input
@@ -142,6 +143,12 @@ segmentParsers.set('xmp', Xmp)
 
 export class XmlAttr {
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	declare ns: string
+	declare name: string
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	declare value: any
+
 	static findAll(string) {
 		// NOTE: regex has to be recreated each time because it's stateful due to use in exec()
 		const regex = /([a-zA-Z0-9-]+):([a-zA-Z0-9-]+)=("[^"]*"|'[^']*')/gm
@@ -177,7 +184,18 @@ const VALUE_PROP = 'value'
 
 export class XmlTag {
 
-	static findAll(xmpString, ns, name) {
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	declare ns: string
+	declare name: string
+	declare attrString: string
+	declare innerXml: string
+	declare attrs: XmlAttr[]
+	declare children: XmlTag[]
+	declare value: any
+	declare properties: any[]
+	/* eslint-enable @typescript-eslint/no-explicit-any */
+
+	static findAll(xmpString, ns?, name?) {
 		// NOTE: regex has to be recreated each time because it's stateful due to use in exec()
 		// handles both pair and self-closing tags.
 		if (ns !== undefined || name !== undefined) {

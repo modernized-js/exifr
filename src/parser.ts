@@ -107,13 +107,15 @@ end    = end of the content (as well as the APPn segment)
 */
 export class AppSegmentParserBase {
 
-	static headerLength = 4
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static headerLength: number | ((buffer: BufferView, offset: number, length: number) => number) = 4
 	// name. Couldn't use static name property because it is used by contructor name
-	static type = undefined
+	static type: string
 	// The data may span multiple APP segments.
-	static multiSegment = false
+	static multiSegment: boolean = false
 
-	static canHandle = () => false
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static canHandle: (...args: any[]) => any = () => false
 
 	// offset + length === end  |  begining and end of the whole segment, including the segment header 0xFF 0xEn + two lenght bytes.
 	// start  + size   === end  |  begining and end of parseable content
@@ -151,11 +153,24 @@ export class AppSegmentParserBase {
 			: new BufferView(input)
 	}
 
-	errors = []
-	// raw parsed tags
-	raw = new Map
+	// Declared so subclasses (Icc, Iptc, Jfif, Xmp, TiffCore and its
+	// descendants) can read these without TS faulting. `declare` keeps
+	// them type-only — actual assignment is in the constructor below.
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	declare chunk: BufferView
+	declare file: any
+	declare type: string
+	declare globalOptions: any
+	declare options: any
+	declare localOptions: any
+	declare canTranslate: boolean
+	/* eslint-enable @typescript-eslint/no-explicit-any */
 
-	constructor(chunk, options = {}, file) {
+	errors: unknown[] = []
+	// raw parsed tags
+	raw = new Map<unknown, unknown>()
+
+	constructor(chunk, options = {}, file?) {
 		// BufferView instance of the segment chunk. Possibly a subview of the same memory shared with this.file
 		this.chunk = this.normalizeInput(chunk)
 		// BufferView instance of the whole file.
