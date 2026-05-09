@@ -15,7 +15,8 @@
 		"allowJs": true,
 		"checkJs": false,
 
-		"strict": false,
+		"strict": true,
+		"noImplicitAny": false,
 		"useUnknownInCatchVariables": true,
 
 		"skipLibCheck": true,

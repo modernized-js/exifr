@@ -42,7 +42,7 @@ export class Base64Reader extends ChunkedReader {
 		const blockEnd = blockStart + Math.ceil(end / 3) * 4
 		base64 = base64.slice(blockStart, blockEnd)
 
-		const clampedLength = Math.min(length, this.size - offset)
+		const clampedLength = Math.min(length, this.size! - offset)
 		if (platform.hasBuffer) {
 			const slice = Buffer.from(base64, 'base64').slice(offsetInBlock, offsetInBlock + clampedLength)
 			return this.set(slice, offset, true)

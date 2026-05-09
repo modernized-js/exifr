@@ -47,8 +47,10 @@ export class PngFileParser extends FileParserBase {
 
 	catchError = err => this.errors.push(err)
 
-	metaChunks = []
-	unknownChunks = []
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	metaChunks: any[] = []
+	unknownChunks: any[] = []
+	/* eslint-enable @typescript-eslint/no-explicit-any */
 
 	async findPngChunksInRange(offset, end) {
 		const {file} = this

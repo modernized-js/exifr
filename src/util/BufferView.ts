@@ -137,7 +137,7 @@ export class BufferView {
 	// TODO: refactor
 	getUnicodeString(offset = 0, length = this.byteLength) {
 		// cannot use Uint16Array because it uses the other fucking endian order.
-		const chars = []
+		const chars: number[] = []
 		for (let i = 0; i < length && offset + i < this.byteLength; i += 2)
 			chars.push(this.getUint16(offset + i))
 		return arrayToCharCode(chars)

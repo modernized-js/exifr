@@ -45,15 +45,18 @@ if (typeof navigator === 'object') {
 			rotateCss = false
 		}
 	} else if (ua.includes('OS X 10')) {
-		const [, version] = ua.match(/OS X 10[_.](\d+)/)
-		rotateCanvas = rotateCss = Number(version) < 15
+		const match = ua.match(/OS X 10[_.](\d+)/)
+		if (match) {
+			const [, version] = match
+			rotateCanvas = rotateCss = Number(version) < 15
+		}
 	}
 	if (ua.includes('Chrome/')) {
-		const [, version] = ua.match(/Chrome\/(\d+)/)
-		rotateCanvas = rotateCss = Number(version) < 81
+		const match = ua.match(/Chrome\/(\d+)/)
+		if (match) rotateCanvas = rotateCss = Number(match[1]) < 81
 	} else if (ua.includes('Firefox/')) {
-		const [, version] = ua.match(/Firefox\/(\d+)/)
-		rotateCanvas = rotateCss = Number(version) < 77
+		const match = ua.match(/Firefox\/(\d+)/)
+		if (match) rotateCanvas = rotateCss = Number(match[1]) < 77
 	}
 }
 

@@ -5,7 +5,7 @@ import {throwError} from '../util/helpers.ts'
 
 const FULL_20_BITS = 0b11111111111111111111
 
-BufferView.prototype.getUint64 = function(offset) {
+BufferView.prototype.getUint64 = function(offset): number | bigint {
 	const part1 = this.getUint32(offset)
 	const part2 = this.getUint32(offset + 4)
 	if (part1 < FULL_20_BITS) {
@@ -18,9 +18,8 @@ BufferView.prototype.getUint64 = function(offset) {
 		// (for example can't do mixed math with numbers & bigints)
 		console.warn(`Using BigInt because of type 64uint but JS can only handle 53b numbers.`)
 		return (BigInt(part1) << BigInt(32)) | BigInt(part2)
-	} else {
-		// The value (when both 32b parts combined) is larger than 53 bits so we can't just use Number type
-		// and this environment doesn't support BigInt... throw error.
-		throwError(`Trying to read 64b value but JS can only handle 53b numbers.`)
 	}
+	// The value (when both 32b parts combined) is larger than 53 bits so we can't just use Number type
+	// and this environment doesn't support BigInt... throw error.
+	throwError(`Trying to read 64b value but JS can only handle 53b numbers.`)
 }

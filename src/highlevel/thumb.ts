@@ -24,9 +24,10 @@ export async function thumbnail(input) {
 
 // only available in browser
 export async function thumbnailUrl(input) {
-	const u8arr = await this.thumbnail(input)
+	const u8arr = await thumbnail(input)
 	if (u8arr !== undefined) {
 		const blob = new Blob([u8arr]) // note: dont use AB directly, because of byteOffset
 		return URL.createObjectURL(blob)
 	}
+	return undefined
 }

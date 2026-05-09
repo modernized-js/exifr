@@ -397,13 +397,15 @@ export class Options extends SharedOptions {
 
 }
 
-function findScopesForGlobalTagArray(tagArray, dictKeys) {
-	const scopes = []
-	let dict, scopedTags, blockKey, tagEntry
-	for (blockKey of dictKeys) {
-		dict = tagKeys.get(blockKey)
-		scopedTags = []
-		for (tagEntry of dict) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function findScopesForGlobalTagArray(tagArray, dictKeys): [string, any[]][] {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const scopes: [string, any[]][] = []
+	for (const blockKey of dictKeys) {
+		const dict = tagKeys.get(blockKey)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const scopedTags: any[] = []
+		for (const tagEntry of dict) {
 			// NOTE: not expading tagEntry into [key, val] because of performance
 			if (tagArray.includes(tagEntry[0]) || tagArray.includes(tagEntry[1]))
 				scopedTags.push(tagEntry[0])

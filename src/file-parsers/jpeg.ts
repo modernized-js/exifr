@@ -71,9 +71,9 @@ export class JpegFileParser extends FileParserBase {
 	jpegSegments: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
 	unknownSegments: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
 	mergedAppSegments?: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
-	findAll?: boolean
-	wanted?: Set<string>
-	remaining?: Set<string>
+	findAll!: boolean
+	wanted!: Set<string>
+	remaining!: Set<string>
 	unfinishedMultiSegment?: boolean
 
 	// Inherited from FileParserBase but declared here for arity matching.

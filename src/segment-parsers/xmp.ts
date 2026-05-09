@@ -293,7 +293,7 @@ const unwrapArray = array => array.length === 1 ? array[0] : array
 const getNamespace = (ns, root) => root[ns] ? root[ns] : root[ns] = {}
 
 function matchAll(string, regex) {
-	const matches = []
+	const matches: RegExpExecArray[] = []
 	if (!string) return matches
 	let match
 	while ((match = regex.exec(string)) !== null)
