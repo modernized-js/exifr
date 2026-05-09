@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {BufferView} from './BufferView.ts'
 import {BigInt} from '../util/platform.ts'
 import {throwError} from '../util/helpers.ts'
