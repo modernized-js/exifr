@@ -1,7 +1,8 @@
-import * as platform from './platform.mjs'
-import {BufferView} from './BufferView.mjs'
-//import {throwError} from './helpers.mjs'
-import {Buffer} from './platform.mjs'
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
+import * as platform from './platform.ts'
+import {BufferView} from './BufferView.ts'
+//import {throwError} from './helpers.ts'
+import {Buffer} from './platform.ts'
 
 
 export class DynamicBufferView extends BufferView {

@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs'
 import {assert} from './test-util-core.mjs'
 import {isNode, getPath} from './test-util-core.mjs'
-import {BufferView} from '../src/util/BufferView.mjs'
+import {BufferView} from '../src/util/BufferView.ts'
 
 
 // Node.js tries to share memory of newly created Buffer instances in shared large ArrayBuffer.

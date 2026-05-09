@@ -5,7 +5,7 @@ import * as exifr from '../src/bundles/full.mjs'
 import {Exifr} from '../src/bundles/full.mjs'
 // FIXME: importing directly from src/ breaks bundle tests
 import Xmp from '../src/segment-parsers/xmp.mjs'
-import {BufferView} from '../src/util/BufferView.mjs'
+import {BufferView} from '../src/util/BufferView.ts'
 
 
 describe('XMP Segment', () => {

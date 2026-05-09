@@ -1,7 +1,7 @@
 import {AppSegmentParserBase} from '../parser.mjs'
 import {segmentParsers} from '../plugins.mjs'
-import {throwError, normalizeString} from '../util/helpers.mjs'
-import {BufferView} from '../util/BufferView.mjs'
+import {throwError, normalizeString} from '../util/helpers.ts'
+import {BufferView} from '../util/BufferView.ts'
 
 
 const PROFILE_HEADER_LENGTH = 84

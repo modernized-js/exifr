@@ -61,6 +61,14 @@ const tsConfig = {
 	declarationMap: false,
 	emitDeclarationOnly: false,
 	noEmitOnError: false,
+	// Source files import each other via explicit `./foo.ts` paths during
+	// the gradual migration. Pair allowImportingTsExtensions with
+	// rewriteRelativeImportExtensions so the TS plugin emits JS with the
+	// .ts → .js rewrite applied — this satisfies the plugin's self-check
+	// (which otherwise refuses allowImportingTsExtensions for emit) and
+	// keeps the bundled output free of TS5097 warnings.
+	allowImportingTsExtensions: true,
+	rewriteRelativeImportExtensions: true,
 }
 
 const external = [...builtinModules, ...Object.keys(pkg.dependencies || {})]

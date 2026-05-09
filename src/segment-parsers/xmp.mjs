@@ -1,7 +1,7 @@
 import {AppSegmentParserBase} from '../parser.mjs'
 import {segmentParsers} from '../plugins.mjs'
-import {undefinedIfEmpty} from '../util/helpers.mjs'
-import {BufferView} from '../util/BufferView.mjs'
+import {undefinedIfEmpty} from '../util/helpers.ts'
+import {BufferView} from '../util/BufferView.ts'
 
 
 const XMP_CORE_HEADER     = 'http://ns.adobe.com/'

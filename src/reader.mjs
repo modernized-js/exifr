@@ -1,6 +1,6 @@
-import * as platform from './util/platform.mjs'
-import {BufferView} from './util/BufferView.mjs'
-import {throwError} from './util/helpers.mjs'
+import * as platform from './util/platform.ts'
+import {BufferView} from './util/BufferView.ts'
+import {throwError} from './util/helpers.ts'
 import {fileReaders} from './plugins.mjs'
 
 

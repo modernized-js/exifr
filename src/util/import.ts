@@ -1,4 +1,4 @@
-import * as platform from './platform.mjs'
+import * as platform from './platform.ts'
 
 
 const pass = arg => arg

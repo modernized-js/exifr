@@ -1,7 +1,7 @@
 import {fileReaders} from '../plugins.mjs'
 import {ChunkedReader} from './ChunkedReader.mjs'
-import * as platform from '../util/platform.mjs'
-import {Buffer} from '../util/platform.mjs'
+import * as platform from '../util/platform.ts'
+import {Buffer} from '../util/platform.ts'
 
 
 export class Base64Reader extends ChunkedReader {

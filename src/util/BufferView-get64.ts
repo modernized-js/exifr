@@ -1,6 +1,7 @@
-import {BufferView} from './BufferView.mjs'
-import {BigInt} from '../util/platform.mjs'
-import {throwError} from '../util/helpers.mjs'
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
+import {BufferView} from './BufferView.ts'
+import {BigInt} from '../util/platform.ts'
+import {throwError} from '../util/helpers.ts'
 
 
 const FULL_20_BITS = 0b11111111111111111111

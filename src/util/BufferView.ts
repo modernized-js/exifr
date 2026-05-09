@@ -1,5 +1,6 @@
-import {throwError} from './helpers.mjs'
-import {hasBuffer} from '../util/platform.mjs'
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
+import {throwError} from './helpers.ts'
+import {hasBuffer} from '../util/platform.ts'
 
 
 const arrayToCharCode = arr => String.fromCharCode.apply(null, arr)

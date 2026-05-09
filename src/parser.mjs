@@ -1,7 +1,7 @@
-import {BufferView} from './util/BufferView.mjs'
+import {BufferView} from './util/BufferView.ts'
 import {Options, segments} from './options.mjs'
 import {tagKeys, tagValues, tagRevivers} from './tags.mjs'
-import {throwError} from './util/helpers.mjs'
+import {throwError} from './util/helpers.ts'
 import {segmentParsers} from './plugins.mjs'
 
 

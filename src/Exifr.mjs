@@ -1,8 +1,8 @@
 import {read} from './reader.mjs'
-import {undefinedIfEmpty} from './util/helpers.mjs'
+import {undefinedIfEmpty} from './util/helpers.ts'
 import {Options} from './options.mjs'
 import {fileParsers, segmentParsers} from './plugins.mjs'
-import {throwError} from './util/helpers.mjs'
+import {throwError} from './util/helpers.ts'
 
 
 export class Exifr {

@@ -1,5 +1,5 @@
 import {assert} from './test-util-core.mjs'
-import {Ranges, DynamicBufferView} from '../src/util/DynamicBufferView.mjs'
+import {Ranges, DynamicBufferView} from '../src/util/DynamicBufferView.ts'
 
 
 describe('DynamicBufferView', () => {

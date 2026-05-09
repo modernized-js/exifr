@@ -2,8 +2,8 @@ import {TAG_MAKERNOTE, TAG_USERCOMMENT} from './tags.mjs'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP} from './tags.mjs'
 import {TAG_XMP, TAG_IPTC, TAG_ICC} from './tags.mjs'
 import {tagKeys} from './tags.mjs'
-import * as platform from './util/platform.mjs'
-import {throwError} from './util/helpers.mjs'
+import * as platform from './util/platform.ts'
+import {throwError} from './util/helpers.ts'
 import {segmentParsers, throwNotLoaded} from './plugins.mjs'
 
 
