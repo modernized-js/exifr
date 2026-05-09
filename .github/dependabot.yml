@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      babel:
+        patterns:
+          - "@babel/*"
+          - "babel-plugin-*"
+      rollup:
+        patterns:
+          - rollup
+          - "@rollup/*"
+          - "rollup-plugin-*"
+      eslint:
+        patterns:
+          - eslint
+          - "@eslint/*"
+          - eslint-config-*
+          - eslint-plugin-*
+      test-stack:
+        patterns:
+          - mocha
+          - chai
+          - c8
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
