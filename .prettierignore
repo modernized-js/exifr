@@ -1,0 +1,11 @@
+dist/
+node_modules/
+coverage/
+homepage/
+examples/
+benchmark/
+debug/
+test/webpack/dist/
+test/fixtures/
+yarn.lock
+CHANGELOG.md
