@@ -1,7 +1,13 @@
 import {promises as fs} from 'fs'
-import {builtinModules} from 'module'
-import {terser} from 'rollup-plugin-terser'
-import pkg from './package.json'
+import {builtinModules, createRequire} from 'module'
+import terser from '@rollup/plugin-terser'
+import typescript from '@rollup/plugin-typescript'
+
+// Rollup 4 no longer auto-loads JSON via `import pkg from './package.json'`,
+// and the config file is treated as a plain ESM module without import
+// attributes wired up — the simplest portable pattern is createRequire.
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 
 // Webpack consumers should keep `import('http')` etc. as a runtime import
@@ -10,9 +16,10 @@ import pkg from './package.json'
 // comments, so we re-inject after the chunk is rendered.
 function injectIgnoreComments() {
 	return {
+		name: 'inject-webpack-ignore-comments',
 		renderChunk(code) {
 			return code.replace(/import\(/g, 'import(/* webpackIgnore: true */ ')
-		}
+		},
 	}
 }
 
@@ -23,10 +30,16 @@ function injectIgnoreComments() {
 // while a mirror is still being written.
 function cloneCjsAndMjsToJs() {
 	return {
-		writeBundle(bundle) {
-			let target = bundle.file.replace('.cjs', '.js').replace('.mjs', '.js')
-			return fs.copyFile(bundle.file, target)
-		}
+		name: 'clone-cjs-and-mjs-to-js',
+		writeBundle(_options, bundle) {
+			const promises = []
+			for (const file of Object.keys(bundle)) {
+				const source = `dist/${file}`
+				const target = source.replace('.cjs', '.js').replace('.mjs', '.js')
+				if (source !== target) promises.push(fs.copyFile(source, target))
+			}
+			return Promise.all(promises)
+		},
 	}
 }
 
@@ -34,6 +47,20 @@ const terserConfig = {
 	compress: true,
 	mangle: true,
 	toplevel: true,
+}
+
+const tsConfig = {
+	tsconfig: './tsconfig.json',
+	// Type-checking happens via `yarn typecheck`. Rollup just needs to emit
+	// JavaScript through the TS compiler so .ts and .mjs sources can coexist
+	// during the gradual migration. Override outDir / declaration here so
+	// the plugin's emit folder matches rollup's output dir; declaration
+	// emission is left to a dedicated step in a later PR.
+	outDir: 'dist',
+	declaration: false,
+	declarationMap: false,
+	emitDeclarationOnly: false,
+	noEmitOnError: false,
 }
 
 const external = [...builtinModules, ...Object.keys(pkg.dependencies || {})]
@@ -46,6 +73,7 @@ function createBundle(inputPath, esmPath, umdPath) {
 	return {
 		input: inputPath,
 		plugins: [
+			typescript(tsConfig),
 			terser(terserConfig),
 			injectIgnoreComments(),
 			cloneCjsAndMjsToJs(),
