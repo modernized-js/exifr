@@ -1,5 +1,5 @@
 import {assert, getPath, getFile, assertOutputWithoutErrors} from './test-util-core.mjs'
-import * as exifr from '../src/bundles/full.mjs'
+import * as exifr from '../src/bundles/full.ts'
 
 
 export function testSegment({key, fileWith, fileWithout, definedByDefault, properties}) {

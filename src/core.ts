@@ -1,5 +1,5 @@
 // Exports from the depths of the library
-export {Exifr} from './Exifr.mjs'
+export {Exifr} from './Exifr.ts'
 // for advanced users
 export * from './options.ts'
 export {fileParsers, segmentParsers, fileReaders} from './plugins.ts'
@@ -7,7 +7,7 @@ export {tagKeys, tagValues, tagRevivers, createDictionary, extendDictionary} fro
 // undocumented, needed for demo page and tests
 export {fetchUrlAsArrayBuffer, readBlobAsArrayBuffer} from './reader.ts'
 
-import {Exifr} from './Exifr.mjs'
+import {Exifr} from './Exifr.ts'
 
 
 export async function parse(input, options) {

@@ -1,6 +1,6 @@
 import {assert, isNode} from '../test-util-core.mjs'
 import {getFile} from '../test-util-core.mjs'
-import * as exifr from '../../src/bundles/full.mjs'
+import * as exifr from '../../src/bundles/full.ts'
 import {testSegment, testMergeSegment, testImage, testImageFull} from '../test-util-suites.mjs'
 
 

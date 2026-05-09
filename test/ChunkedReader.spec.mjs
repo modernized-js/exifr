@@ -5,7 +5,7 @@ import {FsReader} from '../src/file-readers/FsReader.ts'
 import {BlobReader} from '../src/file-readers/BlobReader.ts'
 import {UrlFetcher} from '../src/file-readers/UrlFetcher.ts'
 import {Base64Reader} from '../src/file-readers/Base64Reader.ts'
-import {Exifr} from '../src/bundles/full.mjs'
+import {Exifr} from '../src/bundles/full.ts'
 import {createBlob} from './reader.spec.mjs'
 import {createBase64Url} from './reader.spec.mjs'
 

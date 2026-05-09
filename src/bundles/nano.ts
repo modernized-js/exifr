@@ -1,5 +1,5 @@
-export * from '../core.mjs'
-import * as core from '../core.mjs'
+export * from '../core.ts'
+import * as core from '../core.ts'
 export default core
 
 

@@ -1,6 +1,6 @@
 import {assert} from '../test-util-core.mjs'
 import {getFile} from '../test-util-core.mjs'
-import {Exifr} from '../../src/bundles/full.mjs'
+import {Exifr} from '../../src/bundles/full.ts'
 
 
 describe('JPEG - JpegFileParser', () => {

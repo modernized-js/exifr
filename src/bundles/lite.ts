@@ -1,5 +1,5 @@
-export * from './mini.mjs'
-import * as mini from './mini.mjs'
+export * from './mini.ts'
+import * as mini from './mini.ts'
 export default mini
 
 
