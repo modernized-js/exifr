@@ -1,7 +1,3 @@
-// only full bundle includes Node.js polyfill for fetch()
-import '../polyfill/fetch-node.mjs'
-
-
 export * from './lite.mjs'
 import * as lite from './lite.mjs'
 export default lite
