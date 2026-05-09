@@ -1,7 +1,6 @@
 import {fileReaders} from '../plugins.mjs'
 import {fetchUrlAsArrayBuffer} from '../reader.mjs'
 import {ChunkedReader} from './ChunkedReader.mjs'
-import {fetch} from '../polyfill/fetch.mjs'
 
 
 export class UrlFetcher extends ChunkedReader {
