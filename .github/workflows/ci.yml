@@ -37,5 +37,8 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Check exports
+        run: yarn check:exports
+
       - name: Test
         run: yarn test
