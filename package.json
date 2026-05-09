@@ -1,5 +1,5 @@
 {
-  "name": "exifr",
+  "name": "@modernized-js/exifr",
   "version": "8.0.0",
   "description": "📷 The fastest and most versatile JavaScript EXIF reading library.",
   "author": "Mike Kovarik",
@@ -22,11 +22,14 @@
     "orientation",
     "makernote"
   ],
-  "homepage": "https://mutiny.cz/exifr/",
-  "bugs": "https://github.com/MikeKovarik/exifr/issues",
+  "homepage": "https://github.com/modernized-js/exifr#readme",
+  "bugs": "https://github.com/modernized-js/exifr/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MikeKovarik/exifr.git"
+    "url": "https://github.com/modernized-js/exifr.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "./dist/full.umd.js",
   "module": "./dist/full.esm.mjs",
