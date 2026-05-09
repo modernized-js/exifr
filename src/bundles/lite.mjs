@@ -4,8 +4,8 @@ export default mini
 
 
 // File Readers
-import '../file-readers/UrlFetcher.mjs'
-import '../file-readers/BlobReader.mjs'
+import '../file-readers/UrlFetcher.ts'
+import '../file-readers/BlobReader.ts'
 
 // File Parser
 import '../file-parsers/jpeg.mjs'

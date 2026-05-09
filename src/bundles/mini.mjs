@@ -9,7 +9,7 @@ export * from '../highlevel/thumb.mjs'
 export * from '../highlevel/orientation.mjs'
 
 // File Readers
-import '../file-readers/BlobReader.mjs'
+import '../file-readers/BlobReader.ts'
 
 // File Parser
 import '../file-parsers/jpeg.mjs'

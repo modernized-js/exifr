@@ -1,5 +1,6 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {fileReaders} from '../plugins.mjs'
-import {ChunkedReader} from './ChunkedReader.mjs'
+import {ChunkedReader} from './ChunkedReader.ts'
 import * as platform from '../util/platform.ts'
 import {Buffer} from '../util/platform.ts'
 
