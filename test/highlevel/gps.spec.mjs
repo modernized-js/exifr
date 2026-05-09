@@ -13,13 +13,13 @@ describe('exifr.gps()', () => {
 	describe('output', () => {
 
 		it('returns latitue and logitude', async () => {
-			let output = await exifr.gps(input)
+			const output = await exifr.gps(input)
 			assert.exists(output.latitude)
 			assert.exists(output.longitude)
 		})
 
 		it('returns only {latitue, logitude}', async () => {
-			let output = await exifr.gps(input)
+			const output = await exifr.gps(input)
 			assert.lengthOf(Object.keys(output), 2)
 		})
 
@@ -28,7 +28,7 @@ describe('exifr.gps()', () => {
 	describe('under the hood', () => {
 
 		it('ifd0 only parses pointer to gps, gps only includess the necessary tags', async () => {
-			let exr = new Exifr(gpsOnlyOptions)
+			const exr = new Exifr(gpsOnlyOptions)
 			await exr.read(input)
 			await exr.parse()
 			assert.isBelow(exr.parsers.tiff.gps.size, 8)
@@ -36,7 +36,7 @@ describe('exifr.gps()', () => {
 		})
 
 		it('other blocks are not parsed at all', async () => {
-			let exr = new Exifr(gpsOnlyOptions)
+			const exr = new Exifr(gpsOnlyOptions)
 			await exr.read(input)
 			await exr.parse()
 			assert.isUndefined(exr.parsers.tiff.exif)

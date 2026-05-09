@@ -11,9 +11,9 @@ describe('webpack', () => {
 	if (isNode) {
 
 		async function execute(...args) {
-			let exec = util.promisify(cp.exec)
+			const exec = util.promisify(cp.exec)
 			try {
-				let {stdout, stderr} = await exec(...args)
+				const {stdout, stderr} = await exec(...args)
 				if (stderr) assert.fail(stderr)
 				return stdout
 			} catch(err) {
@@ -35,8 +35,8 @@ describe('webpack', () => {
 
 		it(`builds demo app with exifr without warnings`, {timeout: 5000}, async () => {
 			if (hasWebPack) {
-				let webpackFixturePath = getPath('../webpack')
-				let stdout = await execute('webpack', {cwd: webpackFixturePath})
+				const webpackFixturePath = getPath('../webpack')
+				const stdout = await execute('webpack', {cwd: webpackFixturePath})
 				if (stdout.includes('ERROR in')) assert.fail(stdout)
 			} else {
 				console.warn(`couldn't test webpack because it is not installed`)
@@ -45,7 +45,7 @@ describe('webpack', () => {
 
 	}
 
-	let bundleFilePath = '../webpack/dist/bundle.js'
+	const bundleFilePath = '../webpack/dist/bundle.js'
 
 	if (isBrowser) {
 
@@ -58,7 +58,7 @@ describe('webpack', () => {
 		})
 
 		it(`parses photo properly`, async () => {
-			let {umdResult, esmResult} = await createIframe('./webpack/index.html')
+			const {umdResult, esmResult} = await createIframe('./webpack/index.html')
 			assert.equal(umdResult.Model, 'Canon PowerShot S40')
 			assert.equal(esmResult.Model, 'Canon PowerShot S40')
 		})
@@ -70,7 +70,7 @@ describe('webpack', () => {
 		// isomorphic but needs the webpack bundle to be built first
 
 		it(`webpacked output shouldn't contain Buffer`, async () => {
-			let bundleFile = toString(await getFile(bundleFilePath))
+			const bundleFile = toString(await getFile(bundleFilePath))
 			if (bundleFile.includes('The buffer module from node.js, for the browser.'))
 				assert.fail('webpack bundled Buffer module with exifr')
 		})
@@ -81,8 +81,8 @@ describe('webpack', () => {
 
 function toString(buffer) {
 	if (buffer instanceof ArrayBuffer) {
-		let uint8 = new Uint8Array(buffer)
-		let decoder = new TextDecoder()
+		const uint8 = new Uint8Array(buffer)
+		const decoder = new TextDecoder()
 		return decoder.decode(uint8)
 	} else {
 		return buffer.toString()

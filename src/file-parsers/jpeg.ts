@@ -32,7 +32,7 @@ function isAppMarker(marker2) {
 }
 
 function getSegmentType(buffer, offset, length) {
-	for (let [type, Parser] of segmentParsers)
+	for (const [type, Parser] of segmentParsers)
 		if (Parser.canHandle(buffer, offset, length))
 			return type
 }
@@ -100,8 +100,8 @@ export class JpegFileParser extends FileParserBase {
 		let {file, findAll, wanted, remaining} = this
 		if (!findAll && this.file.chunked) {
 			findAll = Array.from(wanted).some(type => {
-				let Parser = segmentParsers.get(type)
-				let segOpts = this.options[type]
+				const Parser = segmentParsers.get(type)
+				const segOpts = this.options[type]
 				return Parser.multiSegment && segOpts.multiSegment
 			})
 			if (findAll) await this.file.readWhole()
@@ -117,9 +117,9 @@ export class JpegFileParser extends FileParserBase {
 			// EOF = End Of File
 			let eof = false
 			while (remaining.size > 0 && !eof && (file.canReadNextChunk || this.unfinishedMultiSegment)) {
-				let {nextChunkOffset} = file
+				const {nextChunkOffset} = file
 				// We might have previously found beginning of segment, but only fitst half of it be read in memory.
-				let hasIncompleteSegments = this.appSegments.some(seg => !this.file.available(seg.offset || seg.start, seg.length || seg.size))
+				const hasIncompleteSegments = this.appSegments.some(seg => !this.file.available(seg.offset || seg.start, seg.length || seg.size))
 				// Start reading where we the next block begins. That way we avoid reading part of file where some jpeg image data may be.
 				// Unless there's an incomplete segment. In this case start reading right where the last chunk ends to get the whole segment.
 				if (offset > nextChunkOffset && !hasIncompleteSegments)
@@ -137,7 +137,7 @@ export class JpegFileParser extends FileParserBase {
 		// TLDR: Make space for MARKER and LENGTH.
 		// Don't read right till end. If the last byte is marker, then length is out of bounds and crashes.
 		end -= 2
-		let {file, findAll, wanted, remaining, options} = this
+		const {file, findAll, wanted, remaining, options} = this
 		let marker2, length, type, Parser, seg, segOpts
 		for (; offset < end; offset++) {
 			if (file.getUint8(offset) !== MARKER_1) continue
@@ -192,13 +192,13 @@ export class JpegFileParser extends FileParserBase {
 	// Goes through this.appSegments and merge all segments that are split between multiple chunks.
 	// The processed array is written to this.mergedAppSegments.
 	mergeMultiSegments() {
-		let hasMultiSegments = this.appSegments.some(seg => seg.multiSegment)
+		const hasMultiSegments = this.appSegments.some(seg => seg.multiSegment)
 		if (!hasMultiSegments) return
-		let grouped = groupBy(this.appSegments, 'type')
+		const grouped = groupBy(this.appSegments, 'type')
 		this.mergedAppSegments = grouped.map(([type, typeSegments]) => {
-			let Parser = segmentParsers.get(type, this.options)
+			const Parser = segmentParsers.get(type, this.options)
 			if (Parser.handleMultiSegments) {
-				let chunk = Parser.handleMultiSegments(typeSegments)
+				const chunk = Parser.handleMultiSegments(typeSegments)
 				return {type, chunk}
 			} else {
 				return typeSegments[0]
@@ -222,7 +222,7 @@ export class JpegFileParser extends FileParserBase {
 }
 
 function groupBy(array, key) {
-	let groups = new Map
+	const groups = new Map
 	let item, groupKey, group
 	for (let i = 0; i < array.length; i++) {
 		item = array[i]

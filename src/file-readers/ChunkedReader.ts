@@ -52,8 +52,8 @@ export class ChunkedReader extends DynamicBufferView {
 			this.chunksRead++
 			return false
 		}
-		let sizeToRead = this.options.chunkSize
-		let chunk = await this.readChunk(offset, sizeToRead)
+		const sizeToRead = this.options.chunkSize
+		const chunk = await this.readChunk(offset, sizeToRead)
 		if (chunk) return chunk.byteLength === sizeToRead
 		return false
 	}

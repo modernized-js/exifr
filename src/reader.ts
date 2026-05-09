@@ -45,14 +45,14 @@ async function callReader(url, options, readerName, readerFn) {
 }
 
 async function callReaderClass(input, options, readerName) {
-	let Reader = fileReaders.get(readerName)
-	let file = new Reader(input, options)
+	const Reader = fileReaders.get(readerName)
+	const file = new Reader(input, options)
 	await file.read()
 	return file
 }
 
 async function callReaderFunction(input, readerFn) {
-	let rawData = await readerFn(input)
+	const rawData = await readerFn(input)
 	return new BufferView(rawData)
 }
 
@@ -61,7 +61,7 @@ async function callReaderFunction(input, readerFn) {
 export const fetchUrlAsArrayBuffer = url => fetch(url).then(res => res.arrayBuffer())
 
 export const readBlobAsArrayBuffer = blob => new Promise((resolve, reject) => {
-	let reader = new FileReader()
+	const reader = new FileReader()
 	reader.onloadend = () => resolve(reader.result || new ArrayBuffer)
 	reader.onerror = reject
 	reader.readAsArrayBuffer(blob)

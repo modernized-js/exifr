@@ -8,22 +8,22 @@ import * as exifr from '../src/bundles/full.ts'
 describe('IPTC Segment', () => {
 
 	it(`#41 - APP13 Without IPTC should be discarded and not throw error`, async () => {
-		let options = {iptc: true, xmp: false}
-		let buffer = await getFile(`issue-exifr-41-Error_Segment_Unreachable.jpg`)
-		let output = await exifr.parse(buffer, options)
+		const options = {iptc: true, xmp: false}
+		const buffer = await getFile(`issue-exifr-41-Error_Segment_Unreachable.jpg`)
+		const output = await exifr.parse(buffer, options)
 		assertOutputWithoutErrors(output)
 	})
 
 	it(`#47 - Handles special unicode characters`, async () => {
-		let input = await getFile('issue-exifr-47.jpeg')
-		var output = await exifr.parse(input, true)
+		const input = await getFile('issue-exifr-47.jpeg')
+		const output = await exifr.parse(input, true)
 		assert.equal(output.BylineTitle, '[Lerakják a síneket a Hatvani utcában]')
 		assert.equal(output.Keywords.slice(0, 154), 'Budapest. 5. kerület. Kossuth Lajos utca ; Budapest. 5. kerület. Szabad sajtó út 5-6. ; Budapest. 5. kerület. Március 15. tér. Belvárosi Fõplébániatemplom')
 	})
 
 	it(`#67 - Does not infinately loop through and cause leak`, async () => {
-		let input = await getFile('iptc-mess.jpg')
-		var output = await exifr.parse(input, true)
+		const input = await getFile('iptc-mess.jpg')
+		const output = await exifr.parse(input, true)
 		assert.equal(output.Byline, 'MARCO VILLANTI')
 		assert.isUndefined(output.City)
 	})
@@ -75,9 +75,9 @@ describe('IPTC Segment', () => {
 	})
 
 	it(`keywords is array`, async () => {
-		let options = {mergeOutput: false, iptc: true}
-		let input = await getFile('iptc-agency-photographer-example.jpg')
-		let output = await exifr.parse(input, options) || {}
+		const options = {mergeOutput: false, iptc: true}
+		const input = await getFile('iptc-agency-photographer-example.jpg')
+		const output = await exifr.parse(input, options) || {}
 		assert.isArray(output.iptc.Keywords)
 	})
 

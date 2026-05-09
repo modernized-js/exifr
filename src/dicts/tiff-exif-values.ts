@@ -1,7 +1,7 @@
 import {tagValues, createDictionary} from '../tags.ts'
 
 
-let exif = createDictionary(tagValues, 'exif', [
+const exif = createDictionary(tagValues, 'exif', [
 
 	// ExposureProgram
 	[0x8822, {

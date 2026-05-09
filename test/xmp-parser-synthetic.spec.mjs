@@ -72,14 +72,14 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`properly parses attribute`, () => {
-				let match = XmlAttr.findAll(`namespace:name="value"`)[0]
+				const match = XmlAttr.findAll(`namespace:name="value"`)[0]
 				assert.equal(match.ns, 'namespace')
 				assert.equal(match.name, 'name')
 				assert.equal(match.value, 'value')
 			})
 
 			it(`properly parses empty string value as undefined`, () => {
-				let match = XmlAttr.findAll(`namespace:name=""`)[0]
+				const match = XmlAttr.findAll(`namespace:name=""`)[0]
 				assert.equal(match.ns, 'namespace')
 				assert.equal(match.name, 'name')
 				assert.equal(match.value, undefined)
@@ -98,14 +98,14 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`properly parses attribute`, () => {
-				let match = XmlAttr.findAll(`namespace:name='value'`)[0]
+				const match = XmlAttr.findAll(`namespace:name='value'`)[0]
 				assert.equal(match.ns, 'namespace')
 				assert.equal(match.name, 'name')
 				assert.equal(match.value, 'value')
 			})
 
 			it(`properly parses empty string value as undefined`, () => {
-				let match = XmlAttr.findAll(`namespace:name=''`)[0]
+				const match = XmlAttr.findAll(`namespace:name=''`)[0]
 				assert.equal(match.ns, 'namespace')
 				assert.equal(match.name, 'name')
 				assert.equal(match.value, undefined)
@@ -124,7 +124,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`properly parses all attributes`, () => {
-				let [match1, match2, match3] = XmlAttr.findAll(`foo:first="abc" bar:second='def'`)
+				const [match1, match2, match3] = XmlAttr.findAll(`foo:first="abc" bar:second='def'`)
 				assert.equal(match1.ns, 'foo')
 				assert.equal(match1.name, 'first')
 				assert.equal(match1.value, 'abc')
@@ -142,60 +142,60 @@ describe('Xmp - synthetic tests', () => {
 		describe(`simple tag with primitive`, () => {
 
 			it(`has correct namespace and name`, () => {
-				let [tag] = XmlTag.findAll(`<tiff:Make>Canon</tiff:Make>`)
+				const [tag] = XmlTag.findAll(`<tiff:Make>Canon</tiff:Make>`)
 				assert.equal(tag.ns, 'tiff')
 				assert.equal(tag.name, 'Make')
 			})
 
 			it(`.children is empty`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
 				assert.isArray(tag.children)
 				assert.lengthOf(tag.children, 0)
 			})
 
 			it(`.attrs is empty`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
 				assert.isArray(tag.attrs)
 				assert.lengthOf(tag.attrs, 0)
 			})
 
 			it(`has correct value (string)`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
 				assert.strictEqual(tag.value, 'Canon')
 			})
 
 			it(`has correct value (integer)`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>42</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>42</ns:name>`)
 				assert.strictEqual(tag.value, 42)
 			})
 
 			it(`has correct value (float)`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>0.04</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>0.04</ns:name>`)
 				assert.strictEqual(tag.value, 0.04)
 			})
 
 			it(`has correct value (bool true)`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>true</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>true</ns:name>`)
 				assert.strictEqual(tag.value, true)
 			})
 
 			it(`has correct value (bool false)`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>false</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>false</ns:name>`)
 				assert.strictEqual(tag.value, false)
 			})
 
 			it(`empty string (0 length) value becomes undefined`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name></ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name></ns:name>`)
 				assert.strictEqual(tag.value, undefined)
 			})
 
 			it(`empty string (with spaces) value becomes undefined`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>  </ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>  </ns:name>`)
 				assert.strictEqual(tag.value, undefined)
 			})
 
 			it(`empty string (with tab) value becomes undefined`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>	</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>	</ns:name>`)
 				assert.strictEqual(tag.value, undefined)
 			})
 
@@ -207,45 +207,45 @@ describe('Xmp - synthetic tests', () => {
 			const code = `<ns:theArray><rdf:Seq><rdf:li>one</rdf:li><rdf:li>two</rdf:li></rdf:Seq></ns:theArray>`
 
 			it(`has correct namespace and name`, () => {
-				let [tag] = XmlTag.findAll(code)
+				const [tag] = XmlTag.findAll(code)
 				assert.equal(tag.ns, 'ns')
 				assert.equal(tag.name, 'theArray')
 			})
 
 			it(`.attrs is empty`, () => {
-				let [tag] = XmlTag.findAll(code)
+				const [tag] = XmlTag.findAll(code)
 				assert.isArray(tag.attrs)
 				assert.lengthOf(tag.attrs, 0)
 			})
 
 			it(`.value is undefined`, () => {
-				let [tag] = XmlTag.findAll(code)
+				const [tag] = XmlTag.findAll(code)
 				assert.isUndefined(tag.value)
 			})
 
 			it('has correct ammount of children (1)', () => {
-				let [container] = XmlTag.findAll(`
+				const [container] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>the only item</rdf:li>
 				</rdf:Seq></ns:theArray>`)
-				let [array] = container.children
+				const [array] = container.children
 				assert.lengthOf(container.children, 1)
 				assert.lengthOf(array.children, 1)
 			})
 
 			it('has correct ammount of children (2)', () => {
-				let [container] = XmlTag.findAll(`
+				const [container] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>one</rdf:li>
 					<rdf:li>two</rdf:li>
 				</rdf:Seq></ns:theArray>`)
-				let [array] = container.children
+				const [array] = container.children
 				assert.lengthOf(container.children, 1)
 				assert.lengthOf(array.children, 2)
 			})
 
 			it('has correct ammount of children (4)', () => {
-				let [container] = XmlTag.findAll(`
+				const [container] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>one</rdf:li>
 					<rdf:li>2</rdf:li>
@@ -253,7 +253,7 @@ describe('Xmp - synthetic tests', () => {
 					<rdf:li>four</rdf:li>
 					<rdf:li ns:baz="quo"/>
 				</rdf:Seq></ns:theArray>`)
-				let [array] = container.children
+				const [array] = container.children
 				assert.lengthOf(container.children, 1)
 				assert.lengthOf(array.children, 5)
 			})
@@ -273,25 +273,25 @@ describe('Xmp - synthetic tests', () => {
 				ns:attrBoolFalse="false"/>`
 
 				it(`.children is empty`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.children)
 					assert.lengthOf(tag.children, 0)
 				})
 
 				it(`.attrs contains correct attributes`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.attrs)
 					assert.lengthOf(tag.attrs, 5)
 				})
 
 				it(`.value is undefined`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isUndefined(tag.value)
 				})
 
 				it(`attributes have correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let findAttr = attrName => tag.attrs.find(attr => attr.name === attrName)
+					const [tag] = XmlTag.findAll(code)
+					const findAttr = attrName => tag.attrs.find(attr => attr.name === attrName)
 					assert.strictEqual(findAttr('attrString').value, 'the attr string')
 					assert.strictEqual(findAttr('attrFloat').value, 0.04)
 					assert.strictEqual(findAttr('attrInteger').value, 42)
@@ -314,25 +314,25 @@ describe('Xmp - synthetic tests', () => {
 				</ns:theObject>`
 
 				it(`.children contains correct children`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.children)
 					assert.lengthOf(tag.children, 5)
 				})
 
 				it(`.attrs is empty`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.attrs)
 					assert.lengthOf(tag.attrs, 0)
 				})
 
 				it(`.value is undefined`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isUndefined(tag.value)
 				})
 
 				it(`children have correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let findChild = attrName => tag.children.find(tag => tag.name === attrName)
+					const [tag] = XmlTag.findAll(code)
+					const findChild = attrName => tag.children.find(tag => tag.name === attrName)
 					assert.strictEqual(findChild('tagString').value, 'the tag string')
 					assert.strictEqual(findChild('tagFloat').value, 0.99)
 					assert.strictEqual(findChild('tagInteger').value, 11)
@@ -358,26 +358,26 @@ describe('Xmp - synthetic tests', () => {
 				</ns:theObject>`
 
 				it(`.children contains correct children`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.children)
 					assert.lengthOf(tag.children, 5)
 				})
 
 				it(`.attrs contains correct attributes`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isArray(tag.attrs)
 					assert.lengthOf(tag.attrs, 5)
 				})
 
 				it(`.value is undefined`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.isUndefined(tag.value)
 				})
 
 				it(`attributes and children have correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let findAttr = attrName => tag.attrs.find(attr => attr.name === attrName)
-					let findChild = attrName => tag.children.find(tag => tag.name === attrName)
+					const [tag] = XmlTag.findAll(code)
+					const findAttr = attrName => tag.attrs.find(attr => attr.name === attrName)
+					const findChild = attrName => tag.children.find(tag => tag.name === attrName)
 					assert.strictEqual(findAttr('attrString').value, 'the attr string')
 					assert.strictEqual(findAttr('attrFloat').value, 0.04)
 					assert.strictEqual(findAttr('attrInteger').value, 42)
@@ -395,7 +395,7 @@ describe('Xmp - synthetic tests', () => {
 			describe('mixed attrs and primitive value', () => {
 
 				it('object tag with value 1', () => {
-					let [tag] = XmlTag.findAll(`
+					const [tag] = XmlTag.findAll(`
 						<ns:tagObject ns:objString="the string">42</ns:tagObject>
 					`)
 					assert.equal(tag.name, 'tagObject')
@@ -405,7 +405,7 @@ describe('Xmp - synthetic tests', () => {
 				})
 
 				it('object tag with value 2', () => {
-					let [tag] = XmlTag.findAll(`
+					const [tag] = XmlTag.findAll(`
 						<ns:tagObject
 						ns:objString="the string"
 						ns:objBool="true">
@@ -421,7 +421,7 @@ describe('Xmp - synthetic tests', () => {
 				})
 
 				it('object tag with value 3', () => {
-					let [tag] = XmlTag.findAll(`
+					const [tag] = XmlTag.findAll(`
 						<ns:tagObject
 						ns:objString="attrval"
 						ns:objNumber="42">
@@ -443,7 +443,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('newlines & spaces', () => {
 
 			it('multiline, self closing tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<xmpMM:DerivedFrom
 						stRef:documentID="attrval1"
 						stRef:originalDocumentID="attrval2"
@@ -459,7 +459,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('multiline, pair tags', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<xmpMM:DerivedFrom
 						stRef:documentID="attrval1"
 						stRef:originalDocumentID="attrval2"
@@ -475,7 +475,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('multiline, pair tags with attributes and children', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<xmpMM:DerivedFrom
 						stRef:documentID="attrval1"
 						stRef:originalDocumentID="attrval2"
@@ -491,7 +491,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('all on one line, self closing tag', () => {
-				let [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2"/>`)
+				const [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2"/>`)
 				assert.equal(tag.ns, 'xmpMM')
 				assert.equal(tag.name, 'DerivedFrom')
 				assert.equal(tag.attrs[0].name, 'documentID')
@@ -502,7 +502,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('all on one line, pair tags', () => {
-				let [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2"></xmpMM:DerivedFrom>`)
+				const [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2"></xmpMM:DerivedFrom>`)
 				assert.equal(tag.ns, 'xmpMM')
 				assert.equal(tag.name, 'DerivedFrom')
 				assert.equal(tag.attrs[0].name, 'documentID')
@@ -513,7 +513,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('all on one line, pair tags with attributes and children', () => {
-				let [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2">the content</xmpMM:DerivedFrom>`)
+				const [tag] = XmlTag.findAll(`<xmpMM:DerivedFrom stRef:documentID="attrval1" stRef:originalDocumentID="attrval2">the content</xmpMM:DerivedFrom>`)
 				assert.equal(tag.ns, 'xmpMM')
 				assert.equal(tag.name, 'DerivedFrom')
 				assert.equal(tag.attrs[0].name, 'documentID')
@@ -528,7 +528,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('meta wrappers are ignored', () => {
 
 			it(`?xpacket > rdf:RDF > rdf:Description > data object`, () => {
-				let matches = XmlTag.findAll(`
+				const matches = XmlTag.findAll(`
 					<?xpacket>
 						<rdf:RDF>
 							<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
@@ -544,7 +544,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`rdf:RDF > rdf:Description > data object`, () => {
-				let matches = XmlTag.findAll(`
+				const matches = XmlTag.findAll(`
 					<rdf:RDF>
 						<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
 							<tiff:Make>Canon</tiff:Make>
@@ -558,7 +558,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`rdf:Description (with '') > data object`, () => {
-				let matches = XmlTag.findAll(`
+				const matches = XmlTag.findAll(`
 					<rdf:Description xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
 						<tiff:Make>Canon</tiff:Make>
 						<tiff:Model>Canon EOS 550D</tiff:Model>
@@ -570,7 +570,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`rdf:Description (with "") > data object`, () => {
-				let matches = XmlTag.findAll(`
+				const matches = XmlTag.findAll(`
 					<rdf:Description xmlns:tiff="http://ns.adobe.com/tiff/1.0/">
 						<tiff:Make>Canon</tiff:Make>
 						<tiff:Model>Canon EOS 550D</tiff:Model>
@@ -582,7 +582,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`tag with empty string attribute`, () => {
-				let matches = XmlTag.findAll(`
+				const matches = XmlTag.findAll(`
 					<rdf:Description rdf:about="">
 						<tiff:Make>Canon</tiff:Make>
 						<tiff:Model>Canon EOS 550D</tiff:Model>
@@ -594,7 +594,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`does not match plain string`, () => {
-				let matches = XmlTag.findAll(`Canon EOS 550D`)
+				const matches = XmlTag.findAll(`Canon EOS 550D`)
 				assert.lengthOf(matches, 0)
 			})
 		})
@@ -608,22 +608,22 @@ describe('Xmp - synthetic tests', () => {
 		describe('simple tag', () => {
 
 			it(`serializes primitive string value as the same string`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>Canon</ns:name>`)
 				assert.strictEqual(tag.serialize(), 'Canon')
 			})
 
 			it(`serializes primitive number value as the same number`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>42</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>42</ns:name>`)
 				assert.strictEqual(tag.serialize(), 42)
 			})
 
 			it(`serializes primitive bool value as the same bool`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name>False</ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name>False</ns:name>`)
 				assert.strictEqual(tag.serialize(), false)
 			})
 
 			it(`serializes empty string as undefined`, () => {
-				let [tag] = XmlTag.findAll(`<ns:name></ns:name>`)
+				const [tag] = XmlTag.findAll(`<ns:name></ns:name>`)
 				assert.isUndefined(tag.serialize())
 			})
 
@@ -632,7 +632,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('array tag', () => {
 
 			it(`serialize as the first item instead of array, if there's just one item`, () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>the only item</rdf:li>
 				</rdf:Seq></ns:theArray>`)
@@ -640,7 +640,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('has correct ammount items (2)', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>one</rdf:li>
 					<rdf:li>two</rdf:li>
@@ -649,7 +649,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('has correct ammount items (4)', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 				<ns:theArray><rdf:Seq>
 					<rdf:li>one</rdf:li>
 					<rdf:li>2</rdf:li>
@@ -661,42 +661,42 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('items have correct types: string', () => {
-				let [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>one</rdf:li><rdf:li>two</rdf:li></rdf:Seq></ns:theArray>`)
-				let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>one</rdf:li><rdf:li>two</rdf:li></rdf:Seq></ns:theArray>`)
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized[0], 'one')
 				assert.strictEqual(serialized[1], 'two')
 			})
 
 			it('items have correct types: bool - false', () => {
-				let [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>false</rdf:li><rdf:li>false</rdf:li></rdf:Seq></ns:theArray>`)
-				let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>false</rdf:li><rdf:li>false</rdf:li></rdf:Seq></ns:theArray>`)
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized[0], false)
 				assert.strictEqual(serialized[1], false)
 			})
 
 			it('items have correct types: bool - true', () => {
-				let [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>true</rdf:li><rdf:li>true</rdf:li></rdf:Seq></ns:theArray>`)
-				let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>true</rdf:li><rdf:li>true</rdf:li></rdf:Seq></ns:theArray>`)
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized[0], true)
 				assert.strictEqual(serialized[1], true)
 			})
 
 			it('items have correct types: integer', () => {
-				let [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>11</rdf:li><rdf:li>22</rdf:li></rdf:Seq></ns:theArray>`)
-				let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>11</rdf:li><rdf:li>22</rdf:li></rdf:Seq></ns:theArray>`)
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized[0], 11)
 				assert.strictEqual(serialized[1], 22)
 			})
 
 			it('items have correct types: float', () => {
-				let [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>1.1</rdf:li><rdf:li>2.2</rdf:li></rdf:Seq></ns:theArray>`)
-				let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<ns:theArray><rdf:Seq><rdf:li>1.1</rdf:li><rdf:li>2.2</rdf:li></rdf:Seq></ns:theArray>`)
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized[0], 1.1)
 				assert.strictEqual(serialized[1], 2.2)
 			})
 
 			it('items have correct types: mixed', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:theArray>
 						<rdf:Seq>
 							<rdf:li>one</rdf:li>
@@ -710,7 +710,7 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:Seq><
 					/ns:theArray>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.lengthOf(serialized, 8)
 				assert.strictEqual(serialized[0], 'one')
 				assert.strictEqual(serialized[1], 31)
@@ -723,7 +723,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('serialized array of objects has correct output', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:theArray>
 						<rdf:Seq>
 							<rdf:li>
@@ -738,17 +738,17 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:Seq><
 					/ns:theArray>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.lengthOf(serialized, 3)
 				assert.deepEqual(serialized[0], {tagString: 'first item', tagInteger: 67})
 				assert.deepEqual(serialized[1], {foo: 'bar', baz: 'quo'})
 				assert.deepEqual(serialized[2], {tagString: 'third item', tagString: 'another string', tagBool: false})
 			})
 
-			for (let tagName of ['rdf:Seq', 'rdf:Bag', 'rdf:Alt']) {
+			for (const tagName of ['rdf:Seq', 'rdf:Bag', 'rdf:Alt']) {
 
 				it(`${tagName} is single value if it has only one item`, () => {
-					let [tag] = XmlTag.findAll(`
+					const [tag] = XmlTag.findAll(`
 						<ns:tagArray>
 							<${tagName}>
 								<rdf:li>single value</rdf:li>
@@ -759,7 +759,7 @@ describe('Xmp - synthetic tests', () => {
 				})
 
 				it(`${tagName} is array if it has two or more items`, () => {
-					let [tag] = XmlTag.findAll(`
+					const [tag] = XmlTag.findAll(`
 						<ns:tagArray>
 							<${tagName}>
 								<rdf:li>one</rdf:li>
@@ -778,11 +778,11 @@ describe('Xmp - synthetic tests', () => {
 		describe(`object tag`, () => {
 
 			it(`undefined value is not stored as explicit undefined property`, () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description ns:undefinedAttr="">
+				const [tag] = XmlTag.findAll(`<rdf:Description ns:undefinedAttr="">
 					<ns:undefinedTag></ns:undefinedTag>
 					<ns:definedTag>some string</ns:definedTag>
 				</rdf:Description>`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.isObject(serialized)
 				assert.isUndefined(serialized.undefinedAttr)
 				assert.isUndefined(serialized.undefinedTag)
@@ -790,10 +790,10 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`empty object is serialized to undefined`, () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description ns:undefinedAttr="">
+				const [tag] = XmlTag.findAll(`<rdf:Description ns:undefinedAttr="">
 					<ns:undefinedTag></ns:undefinedTag>
 				</rdf:Description>`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.isUndefined(serialized)
 			})
 
@@ -807,18 +807,18 @@ describe('Xmp - synthetic tests', () => {
 				ns:attrBoolFalse="false"/>`
 
 				it(`serializes as object`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.typeOf(tag.serialize(), 'object')
 				})
 
 				it(`serialized object has all the attributes (and only them) as properties`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.hasAllKeys(tag.serialize(), ['attrString', 'attrInteger', 'attrFloat', 'attrBoolTrue', 'attrBoolFalse']) 
 				})
 
 				it(`serialized object correct contains correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let serialized = tag.serialize()
+					const [tag] = XmlTag.findAll(code)
+					const serialized = tag.serialize()
 					assert.strictEqual(serialized.attrString, 'the attr string')
 					assert.strictEqual(serialized.attrFloat, 0.04)
 					assert.strictEqual(serialized.attrInteger, 42)
@@ -839,18 +839,18 @@ describe('Xmp - synthetic tests', () => {
 				</ns:theObject>`
 
 				it(`serializes as object`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.typeOf(tag.serialize(), 'object')
 				})
 
 				it(`serialized object has all the children (and only them) as properties`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.hasAllKeys(tag.serialize(), ['tagString', 'tagInteger', 'tagFloat', 'tagBoolTrue', 'tagBoolFalse']) 
 				})
 
 				it(`serialized object correct contains correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let serialized = tag.serialize()
+					const [tag] = XmlTag.findAll(code)
+					const serialized = tag.serialize()
 					assert.strictEqual(serialized.tagString, 'the tag string')
 					assert.strictEqual(serialized.tagFloat, 0.99)
 					assert.strictEqual(serialized.tagInteger, 11)
@@ -878,12 +878,12 @@ describe('Xmp - synthetic tests', () => {
 				</ns:theObject>`
 
 				it(`serializes as object`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.typeOf(tag.serialize(), 'object')
 				})
 
 				it(`serialized object has all the attributes and children (and only them) as properties`, () => {
-					let [tag] = XmlTag.findAll(code)
+					const [tag] = XmlTag.findAll(code)
 					assert.hasAllKeys(tag.serialize(), [
 						'attrString', 'attrInteger', 'attrFloat', 'attrBoolTrue', 'attrBoolFalse',
 						'tagString', 'tagInteger', 'tagFloat', 'tagBoolTrue', 'tagBoolFalse',
@@ -891,8 +891,8 @@ describe('Xmp - synthetic tests', () => {
 				})
 
 				it(`serialized object correct contains correct values`, () => {
-					let [tag] = XmlTag.findAll(code)
-					let serialized = tag.serialize()
+					const [tag] = XmlTag.findAll(code)
+					const serialized = tag.serialize()
 					assert.strictEqual(serialized.attrString, 'the attr string')
 					assert.strictEqual(serialized.attrFloat, 0.04)
 					assert.strictEqual(serialized.attrInteger, 42)
@@ -912,7 +912,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('compounds & complex', () => {
 
 			it('attrs + primitive tags', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrBoolTrue="true"
@@ -926,7 +926,7 @@ describe('Xmp - synthetic tests', () => {
 						<ns:tagBoolFalse>false</ns:tagBoolFalse>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized.attrString, 'the attr string')
 				assert.strictEqual(serialized.attrFloat, 0.04)
 				assert.strictEqual(serialized.attrInteger, 42)
@@ -940,7 +940,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('attrs + array tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrInteger="42">
@@ -952,7 +952,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:tagArray>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized.attrString, 'the attr string')
 				assert.strictEqual(serialized.attrInteger, 42)
 				assert.isArray(serialized.tagArray)
@@ -961,7 +961,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('primitive tags + array tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description>
 						<ns:tagFloat>0.04</ns:tagFloat>
 						<ns:tagBoolTrue>true</ns:tagBoolTrue>
@@ -973,7 +973,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:tagArray>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized.tagFloat, 0.04)
 				assert.strictEqual(serialized.tagBoolTrue, true)
 				assert.isArray(serialized.tagArray)
@@ -982,7 +982,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('attrs + primitive tags + array tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrInteger="42">
@@ -996,7 +996,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:tagArray>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.strictEqual(serialized.attrString, 'the attr string')
 				assert.strictEqual(serialized.attrInteger, 42)
 				assert.strictEqual(serialized.tagFloat, 0.04)
@@ -1007,20 +1007,20 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('attrs + object tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrInteger="42">
 						<ns:theObject ns:action="derived" ns:parameters="saved to new location"/>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['attrString', 'attrInteger', 'theObject'])
 				assert.hasAllKeys(serialized.theObject, ['action', 'parameters'])
 			})
 
 			it('attrs + two object tags', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrInteger="42">
@@ -1028,27 +1028,27 @@ describe('Xmp - synthetic tests', () => {
 						<ns:secondObject ns:bool="false" ns:float="0.42" />
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['attrString', 'attrInteger', 'firstObject', 'secondObject'])
 				assert.hasAllKeys(serialized.firstObject, ['string', 'integer'])
 				assert.hasAllKeys(serialized.secondObject, ['bool', 'float'])
 			})
 
 			it('primitive tags + object tag', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description>
 						<ns:tagString>the attr string</ns:tagString>
 						<ns:tagInteger>42</ns:tagInteger>
 						<ns:theObject ns:action="derived" ns:parameters="saved to new location"/>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['tagString', 'tagInteger', 'theObject'])
 				assert.hasAllKeys(serialized.theObject, ['action', 'parameters'])
 			})
 
 			it('primitive tags + two object tags', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description>
 						<ns:tagString>the attr string</ns:tagString>
 						<ns:tagInteger>42</ns:tagInteger>
@@ -1056,14 +1056,14 @@ describe('Xmp - synthetic tests', () => {
 						<ns:secondObject ns:bool="false" ns:float="0.42" />
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['tagString', 'tagInteger', 'firstObject', 'secondObject'])
 				assert.hasAllKeys(serialized.firstObject, ['string', 'integer'])
 				assert.hasAllKeys(serialized.secondObject, ['bool', 'float'])
 			})
 
 			it('primitive tags + attrs + two object tags', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrInteger="42">
@@ -1073,14 +1073,14 @@ describe('Xmp - synthetic tests', () => {
 						<ns:secondObject ns:bool="false" ns:float="0.42" />
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['attrString', 'attrInteger', 'tagString', 'tagInteger', 'firstObject', 'secondObject'])
 				assert.hasAllKeys(serialized.firstObject, ['string', 'integer'])
 				assert.hasAllKeys(serialized.secondObject, ['bool', 'float'])
 			})
 
 			it('array of objects', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description>
 						<ns:arrayOfObjects>
 							<rdf:Seq>
@@ -1090,7 +1090,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:arrayOfObjects>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.hasAllKeys(serialized, ['arrayOfObjects'])
 				assert.lengthOf(serialized.arrayOfObjects, 2)
 				assert.hasAllKeys(serialized.arrayOfObjects[0], ['objString', 'objInteger'])
@@ -1099,7 +1099,7 @@ describe('Xmp - synthetic tests', () => {
 
 			// very oppinionated
 			it('array with single property of object', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<Container:Directory>
 						<rdf:Seq>
 						<rdf:li>
@@ -1117,7 +1117,7 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:Seq>
 					</Container:Directory>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				assert.lengthOf(serialized, 4)
 				assert.isObject(serialized[0])
 				assert.isUndefined(serialized[0].Item)
@@ -1132,7 +1132,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('stress-tests', () => {
 
 			it('attrs + primitive tags + object tags + array of objects', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:attrString="the attr string"
 					ns:attrBoolTrue="true"
@@ -1173,7 +1173,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:arrayOfMixedPrimitives>
 					</rdf:Description>
 				`)
-				let serialized = tag.serialize()
+				const serialized = tag.serialize()
 				// attrs
 				assert.strictEqual(serialized.attrString, 'the attr string')
 				assert.strictEqual(serialized.attrFloat, 0.04)
@@ -1198,7 +1198,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('attrs + primitive tags + object tags + array of objects 2', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<rdf:Description
 					ns:string="the attr string"
 					ns:bool="true"
@@ -1235,7 +1235,7 @@ describe('Xmp - synthetic tests', () => {
 						</ns:arrayOfObjects>
 					</rdf:Description>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 
 				assert.strictEqual(serialized.string, 'the attr string')
 				assert.strictEqual(serialized.bool, true)
@@ -1263,37 +1263,37 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('case 1 wrapped', () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description>
+				const [tag] = XmlTag.findAll(`<rdf:Description>
 					<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>
 				</rdf:Description>`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.BandName, 'LWIR')
 			})
 
 			it('case 1 raw', () => {
-				let [tag] = XmlTag.findAll(`<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>`)
-                let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>`)
+                const serialized = tag.serialize()
 				assert.equal(serialized, 'LWIR')
 			})
 
 			it('case 2 wrapped', () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description>
+				const [tag] = XmlTag.findAll(`<rdf:Description>
 					<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>
 				</rdf:Description>`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.isArray(serialized.BandName)
 				assert.deepEqual(serialized.BandName, ['LWIR', 'LWIR'])
 			})
 
 			it('case 2 raw', () => {
-				let [tag] = XmlTag.findAll(`<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>`)
-                let serialized = tag.serialize()
+				const [tag] = XmlTag.findAll(`<FLIR:BandName><rdf:Seq>\t<rdf:li>LWIR</rdf:li>\t<rdf:li>LWIR</rdf:li>\t</rdf:Seq>\t</FLIR:BandName>`)
+                const serialized = tag.serialize()
 				assert.isArray(serialized)
 				assert.deepEqual(serialized, ['LWIR', 'LWIR'])
 			})
 
 			it('case 3 wrapped', () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description>
+				const [tag] = XmlTag.findAll(`<rdf:Description>
 					<crs:ToneCurve>
 						<rdf:Seq>
 							<rdf:li>0, 0</rdf:li>
@@ -1301,13 +1301,13 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:Seq>
 					</crs:ToneCurve>
 				</rdf:Description>`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.isArray(serialized.ToneCurve)
 				assert.deepEqual(serialized.ToneCurve, ['0, 0', '255, 255'])
 			})
 
 			it('case 3 raw', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<crs:ToneCurve>
 						<rdf:Seq>
 							<rdf:li>0, 0</rdf:li>
@@ -1315,71 +1315,71 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:Seq>
 					</crs:ToneCurve>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.isArray(serialized)
 				assert.deepEqual(serialized, ['0, 0', '255, 255'])
 			})
 
 			it('case 4 wrapped', () => {
-				let [tag] = XmlTag.findAll(`<rdf:Description>
+				const [tag] = XmlTag.findAll(`<rdf:Description>
 					<ns:onlyChildren>children string</ns:onlyChildren>
 				</rdf:Description>`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.onlyChildren, 'children string')
 			})
 
 			it('case 4 raw', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:onlyChildren>children string</ns:onlyChildren>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized, 'children string')
 			})
 
 			it('> symbol in attribute', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:simple ns:name="less > than">children string</ns:simple>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.name, 'less > than')
 				assert.equal(serialized[VALUE_PROP], 'children string')
 			})
 
 			it('> in attribute, space before tag end', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:spaceBeforeTagEnd ns:name="less > than" >children string</ns:spaceBeforeTagEnd>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.name, 'less > than')
 				assert.equal(serialized[VALUE_PROP], 'children string')
 			})
 
 			it('> in attribute, new line before tag end', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:nlBeforeTagEnd
 					ns:name="less > than"
 					>children string</ns:nlBeforeTagEnd>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.name, 'less > than')
 				assert.equal(serialized[VALUE_PROP], 'children string')
 			})
 
 			it('> in attribute, new after tag start', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:nlAfterTagStart
 					ns:name="less > than">children string</ns:nlAfterTagStart>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.name, 'less > than')
 				assert.equal(serialized[VALUE_PROP], 'children string')
 			})
 
 			it('self closing tag-object with one attribute with > inside', () => {
-				let [tag] = XmlTag.findAll(`
+				const [tag] = XmlTag.findAll(`
 					<ns:object ns:name="less > than"/>
 				`)
-                let serialized = tag.serialize()
+                const serialized = tag.serialize()
 				assert.equal(serialized.name, 'less > than')
 			})
 
@@ -1395,7 +1395,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('basic', () => {
 
 			it('tag primitives', () => {
-				let {ns} = Xmp.parse(`<rdf:Description>
+				const {ns} = Xmp.parse(`<rdf:Description>
 					<ns:tagBoolTrue>true</ns:tagBoolTrue>
 					<ns:tagBoolFalse>false</ns:tagBoolFalse>
 					<ns:tagInteger>42</ns:tagInteger>
@@ -1424,7 +1424,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('array of strings contains strings', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description>
 						<ns:arrayOfPrimitives>
 							<rdf:Seq>
@@ -1441,7 +1441,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('array of mixed primitive values contains mixed types', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description>
 						<ns:arrayOfPrimitives>
 							<rdf:Seq>
@@ -1460,7 +1460,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('object tag is property in root (pair tags)', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description>
 						<ns:theObject ns:action="saved" ns:instanceID="943e9954eba8"/>
 					</rdf:Description>
@@ -1470,7 +1470,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('two object tags are properties in root', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description>
 						<ns:firstObject ns:action="derived" ns:parameters="saved to new location" />
 						<ns:secondObject
@@ -1506,7 +1506,7 @@ describe('Xmp - synthetic tests', () => {
 						</dc:creator>
 					</rdf:Description>
 				`
-				let output = Xmp.parse(code)
+				const output = Xmp.parse(code)
 				assert.containsAllKeys(output, ['xmlns', 'dc'])
 				assert.equal(output.xmlns.dc, 'http://purl.org/dc/elements/1.1/')
 				assert.containsAllKeys(output.dc, ['format', 'title', 'creator'])
@@ -1523,7 +1523,7 @@ describe('Xmp - synthetic tests', () => {
 						<xapMM:InstanceID>uuid:1a365cee-e070-4b52-8278-db5e46b20a4c</xapMM:InstanceID>
 					</rdf:Description>
 				`
-				let output = Xmp.parse(code)
+				const output = Xmp.parse(code)
 				assert.containsAllKeys(output, ['xmlns', 'xapMM'])
 				assert.equal(output.xmlns.xapMM, 'http://ns.adobe.com/xap/1.0/mm/')
 				assert.containsAllKeys(output.xapMM, ['DocumentID', 'InstanceID'])
@@ -1543,7 +1543,7 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:RDF>
 					</x:xmpmeta>
 				`
-				let output = Xmp.parse(code)
+				const output = Xmp.parse(code)
 				assert.equal(output.GImage.Data, '/9j/4AAQ')
 				assert.equal(output.GAudio.Data, 'AAAAGGZ0')
 			})
@@ -1553,12 +1553,12 @@ describe('Xmp - synthetic tests', () => {
 		describe('basic, unwrapped or invalid xmp input', () => {
 
 			it('empty string returns undefined', () => {
-				let output = Xmp.parse(``)
+				const output = Xmp.parse(``)
 				assert.isUndefined(output)
 			})
 
 			it('raw tag object (with no wrapper) correctly parses', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<ns:theObject
 						tiff:Make="Canon"
 						tiff:Model="Canon EOS 550D"
@@ -1573,7 +1573,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('raw primitive tags (with no wrapper) correctly parses', () => {
-				let {tiff} = Xmp.parse(`
+				const {tiff} = Xmp.parse(`
 					<tiff:Make>Canon</tiff:Make>
 					<tiff:Model>Canon EOS 550D</tiff:Model>
 				`)
@@ -1588,7 +1588,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('encapsulation is stripped down to content of rdf:Description', () => {
 
 			it('rdf:Description > data object', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
 						<tiff:Make>Canon</tiff:Make>
 						<tiff:Model>Canon EOS 550D</tiff:Model>
@@ -1601,7 +1601,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('rdf:RDF > rdf:Description > data object', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<rdf:RDF>
 						<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
 							<tiff:Make>Canon</tiff:Make>
@@ -1616,7 +1616,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('x:xmpmeta > rdf:RDF > rdf:Description > data object', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<x:xmpmeta>
 						<rdf:RDF>
 							<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
@@ -1633,7 +1633,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('?xpacket > rdf:RDF > rdf:Description > data object', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<?xpacket>
 						<rdf:RDF>
 							<rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>
@@ -1650,7 +1650,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('?xpacket > x:xmpmeta > rdf:RDF > rdf:Description > data object', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<?xpacket>
 						<x:xmpmeta>
 							<rdf:RDF>
@@ -1673,17 +1673,17 @@ describe('Xmp - synthetic tests', () => {
 		describe('rdf:Description without data returns undefined', () => {
 
 			it('empty self-closing rdf:Description returns undefined', () => {
-				let output = Xmp.parse(`<rdf:Description/>`)
+				const output = Xmp.parse(`<rdf:Description/>`)
 				assert.isUndefined(output)
 			})
 
 			it('empty pair rdf:Description returns undefined', () => {
-				let output = Xmp.parse(`<rdf:Description></rdf:Description>`)
+				const output = Xmp.parse(`<rdf:Description></rdf:Description>`)
 				assert.isUndefined(output)
 			})
 
 			it('empty pair rdf:Description with children spaces returns undefined', () => {
-				let output = Xmp.parse(`<rdf:Description>   </rdf:Description>`)
+				const output = Xmp.parse(`<rdf:Description>   </rdf:Description>`)
 				assert.isUndefined(output)
 			})
 
@@ -1692,7 +1692,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('rdf:Description with data returns object', () => {
 
 			it('self-closing rdf:Description with single attr', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description ns:attrString="the attr string"/>
 				`)
 				assert.isObject(ns)
@@ -1700,14 +1700,14 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('pair rdf:Description with single attr', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description ns:attrString="the attr string"></rdf:Description>
 				`)
 				assert.strictEqual(ns.attrString, 'the attr string')
 			})
 
 			it('pair rdf:Description with newline children with single attr', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description ns:attrString="the attr string">
 					</rdf:Description>
 				`)
@@ -1715,7 +1715,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('pair rdf:Description with single tag', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description>
 						<ns:tagString>the tag string</ns:tagString>
 					</rdf:Description>
@@ -1724,7 +1724,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('tag & attr strings', () => {
-				let {ns} = Xmp.parse(`
+				const {ns} = Xmp.parse(`
 					<rdf:Description ns:attrString="the attr string">
 						<ns:tagString>the tag string</ns:tagString>
 					</rdf:Description>
@@ -1755,7 +1755,7 @@ describe('Xmp - synthetic tests', () => {
 			`
 
 			it('all tags are parsed and grouped by namespace when {mergeOutput: false}', () => {
-				let output = Xmp.parse(code)
+				const output = Xmp.parse(code)
 				// containsAllKeys is not strict. output has to contain these, but there can be more
 				assert.containsAllKeys(output, ['tiff', 'aux', 'crs'])
 				assert.equal(output.tiff.Make, 'Canon')
@@ -1767,7 +1767,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('xmlns meta tags are stored in output.xmlns when {mergeOutput: false}', () => {
-				let output = Xmp.parse(code)
+				const output = Xmp.parse(code)
 				// containsAllKeys is not strict. output has to contain these, but there can be more
 				assert.isObject(output.xmlns)
 				assert.isString(output.xmlns.tiff)
@@ -1780,20 +1780,20 @@ describe('Xmp - synthetic tests', () => {
 		describe('empty objects are left undefined', () => {
 
 			it('the output is undefined if all namespaces are empty or undefined (grouped)', async () => {
-				let code = `<rdf:Description rdf:about=""/>`
-				let output = Xmp.parse(code)
+				const code = `<rdf:Description rdf:about=""/>`
+				const output = Xmp.parse(code)
 				assert.isUndefined(output)
 			})
 
 			it('the output is undefined if all namespaces are empty or undefined (merged)', async () => {
-				let code = `<rdf:Description rdf:about=""/>`
-				let output = Xmp.parse(code)
+				const code = `<rdf:Description rdf:about=""/>`
+				const output = Xmp.parse(code)
 				assert.isUndefined(output)
 			})
 
 			it('empty or undefined segments are not included in the output instead of being undefined (merged)', async () => {
-				let code = `<rdf:Description rdf:about="" foo:bar="baz"/>`
-				let output = Xmp.parse(code)
+				const code = `<rdf:Description rdf:about="" foo:bar="baz"/>`
+				const output = Xmp.parse(code)
 				assert.hasAllKeys(output, ['foo'])
 			})
 
@@ -1807,16 +1807,16 @@ describe('Xmp - synthetic tests', () => {
 	describe('nested lists of xmp-gcam-portrait.xml', () => {
 
 		it('assigns id to each list or list item', () => {
-			let input    = `<rdf:Seq><rdf:li><rdf:Seq><rdf:li>FooBar</rdf:li></rdf:Seq></rdf:li></rdf:Seq>`
-			let expected = `<rdf:Seq#1><rdf:li#1><rdf:Seq#2><rdf:li#2>FooBar</rdf:li#2></rdf:Seq#2></rdf:li#1></rdf:Seq#1>`
-			let output = idNestedTags(input)
+			const input    = `<rdf:Seq><rdf:li><rdf:Seq><rdf:li>FooBar</rdf:li></rdf:Seq></rdf:li></rdf:Seq>`
+			const expected = `<rdf:Seq#1><rdf:li#1><rdf:Seq#2><rdf:li#2>FooBar</rdf:li#2></rdf:Seq#2></rdf:li#1></rdf:Seq#1>`
+			const output = idNestedTags(input)
 			assert.equal(output, expected)
 		})
 
 		describe('extraction', () => {
 
 			it('core object', () => {
-				let [CameraIndices] = XmlTag.findAll(idNestedTags(`
+				const [CameraIndices] = XmlTag.findAll(idNestedTags(`
 					<Profile:CameraIndices>
 						<rdf:Seq>
 							<rdf:li>0</rdf:li>
@@ -1826,11 +1826,11 @@ describe('Xmp - synthetic tests', () => {
 				assert.equal(CameraIndices.ns, 'Profile')
 				assert.equal(CameraIndices.name, 'CameraIndices')
 				assert.lengthOf(CameraIndices.children, 1)
-				let [Seq] = CameraIndices.children
+				const [Seq] = CameraIndices.children
 				assert.equal(Seq.ns, 'rdf')
 				assert.equal(Seq.name, 'Seq')
 				assert.lengthOf(Seq.children, 1)
-				let [li] = Seq.children
+				const [li] = Seq.children
 				assert.equal(li.ns, 'rdf')
 				assert.equal(li.name, 'li')
 				assert.equal(li.value, 0)
@@ -1838,7 +1838,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('parent object', () => {
-				let [Profile] = XmlTag.findAll(idNestedTags(`
+				const [Profile] = XmlTag.findAll(idNestedTags(`
 					<Device:Profile Profile:Type="DepthPhoto">
 						<Profile:CameraIndices>
 							<rdf:Seq>
@@ -1851,15 +1851,15 @@ describe('Xmp - synthetic tests', () => {
 				assert.equal(Profile.name, 'Profile')
 				assert.lengthOf(Profile.attrs, 1)
 				assert.lengthOf(Profile.children, 1)
-				let [CameraIndices] = Profile.children
+				const [CameraIndices] = Profile.children
 				assert.equal(CameraIndices.ns, 'Profile')
 				assert.equal(CameraIndices.name, 'CameraIndices')
 				assert.lengthOf(CameraIndices.children, 1)
-				let [Seq] = CameraIndices.children
+				const [Seq] = CameraIndices.children
 				assert.equal(Seq.ns, 'rdf')
 				assert.equal(Seq.name, 'Seq')
 				assert.lengthOf(Seq.children, 1)
-				let [li] = Seq.children
+				const [li] = Seq.children
 				assert.equal(li.ns, 'rdf')
 				assert.equal(li.name, 'li')
 				assert.equal(li.value, 0)
@@ -1867,7 +1867,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('parent list item', () => {
-				let [parentLi] = XmlTag.findAll(idNestedTags(`
+				const [parentLi] = XmlTag.findAll(idNestedTags(`
 					<rdf:li>
 						<Device:Profile Profile:Type="DepthPhoto">
 							<Profile:CameraIndices>
@@ -1881,20 +1881,20 @@ describe('Xmp - synthetic tests', () => {
 				assert.equal(parentLi.ns, 'rdf')
 				assert.equal(parentLi.name, 'li')
 				assert.lengthOf(parentLi.children, 1)
-				let [Profile] = parentLi.children
+				const [Profile] = parentLi.children
 				assert.equal(Profile.ns, 'Device')
 				assert.equal(Profile.name, 'Profile')
 				assert.lengthOf(Profile.attrs, 1)
 				assert.lengthOf(Profile.children, 1)
-				let [CameraIndices] = Profile.children
+				const [CameraIndices] = Profile.children
 				assert.equal(CameraIndices.ns, 'Profile')
 				assert.equal(CameraIndices.name, 'CameraIndices')
 				assert.lengthOf(CameraIndices.children, 1)
-				let [Seq] = CameraIndices.children
+				const [Seq] = CameraIndices.children
 				assert.equal(Seq.ns, 'rdf')
 				assert.equal(Seq.name, 'Seq')
 				assert.lengthOf(Seq.children, 1)
-				let [li] = Seq.children
+				const [li] = Seq.children
 				assert.equal(li.ns, 'rdf')
 				assert.equal(li.name, 'li')
 				assert.equal(li.value, 0)
@@ -1902,7 +1902,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it('parent list (Seq)', () => {
-				let [parentSeq] = XmlTag.findAll(idNestedTags(`
+				const [parentSeq] = XmlTag.findAll(idNestedTags(`
 					<rdf:Seq>
 						<rdf:li>
 							<Device:Profile Profile:Type="DepthPhoto">
@@ -1918,24 +1918,24 @@ describe('Xmp - synthetic tests', () => {
 				assert.equal(parentSeq.ns, 'rdf')
 				assert.equal(parentSeq.name, 'Seq')
 				assert.lengthOf(parentSeq.children, 1)
-				let [parentLi] = parentSeq.children
+				const [parentLi] = parentSeq.children
 				assert.equal(parentLi.ns, 'rdf')
 				assert.equal(parentLi.name, 'li')
 				assert.lengthOf(parentLi.children, 1)
-				let [Profile] = parentLi.children
+				const [Profile] = parentLi.children
 				assert.equal(Profile.ns, 'Device')
 				assert.equal(Profile.name, 'Profile')
 				assert.lengthOf(Profile.attrs, 1)
 				assert.lengthOf(Profile.children, 1)
-				let [CameraIndices] = Profile.children
+				const [CameraIndices] = Profile.children
 				assert.equal(CameraIndices.ns, 'Profile')
 				assert.equal(CameraIndices.name, 'CameraIndices')
 				assert.lengthOf(CameraIndices.children, 1)
-				let [Seq] = CameraIndices.children
+				const [Seq] = CameraIndices.children
 				assert.equal(Seq.ns, 'rdf')
 				assert.equal(Seq.name, 'Seq')
 				assert.lengthOf(Seq.children, 1)
-				let [li] = Seq.children
+				const [li] = Seq.children
 				assert.equal(li.ns, 'rdf')
 				assert.equal(li.name, 'li')
 				assert.equal(li.value, 0)
@@ -1947,19 +1947,19 @@ describe('Xmp - synthetic tests', () => {
 		describe('serialization', () => {
 
 			it('core object', () => {
-				let [tag] = XmlTag.findAll(idNestedTags(`
+				const [tag] = XmlTag.findAll(idNestedTags(`
 					<Profile:CameraIndices>
 						<rdf:Seq>
 							<rdf:li>0</rdf:li>
 						</rdf:Seq>
 					</Profile:CameraIndices>
 				`))
-				let CameraIndices = tag.serialize()
+				const CameraIndices = tag.serialize()
 				assert.equal(CameraIndices, 0)
 			})
 
 			it('parent object', () => {
-				let [tag] = XmlTag.findAll(idNestedTags(`
+				const [tag] = XmlTag.findAll(idNestedTags(`
 					<Device:Profile Profile:Type="DepthPhoto">
 						<Profile:CameraIndices>
 							<rdf:Seq>
@@ -1968,13 +1968,13 @@ describe('Xmp - synthetic tests', () => {
 						</Profile:CameraIndices>
 					</Device:Profile>
 				`))
-				let Device = tag.serialize()
+				const Device = tag.serialize()
 				assert.equal(Device.Type, 'DepthPhoto')
 				assert.equal(Device.CameraIndices, 0)
 			})
 
 			it('parent list item', () => {
-				let [tag] = XmlTag.findAll(idNestedTags(`
+				const [tag] = XmlTag.findAll(idNestedTags(`
 					<rdf:li>
 						<Device:Profile Profile:Type="DepthPhoto">
 							<Profile:CameraIndices>
@@ -1985,13 +1985,13 @@ describe('Xmp - synthetic tests', () => {
 						</Device:Profile>
 					</rdf:li>
 				`))
-				let li = tag.serialize()
+				const li = tag.serialize()
 				assert.equal(li.Type, 'DepthPhoto')
 				assert.equal(li.CameraIndices, 0)
 			})
 
 			it('parent list (Seq)', () => {
-				let [tag] = XmlTag.findAll(idNestedTags(`
+				const [tag] = XmlTag.findAll(idNestedTags(`
 					<rdf:Seq>
 						<rdf:li>
 							<Device:Profile Profile:Type="DepthPhoto">
@@ -2004,7 +2004,7 @@ describe('Xmp - synthetic tests', () => {
 						</rdf:li>
 					</rdf:Seq>
 				`))
-				let seq = tag.serialize()
+				const seq = tag.serialize()
 				assert.equal(seq.Type, 'DepthPhoto')
 				assert.equal(seq.CameraIndices, 0)
 			})
@@ -2014,7 +2014,7 @@ describe('Xmp - synthetic tests', () => {
 		describe('parsing', () => {
 
 			it('nested list parse', () => {
-				let {Device} = Xmp.parse(`
+				const {Device} = Xmp.parse(`
 					<Device:Profiles>
 						<rdf:Seq>
 							<rdf:li>

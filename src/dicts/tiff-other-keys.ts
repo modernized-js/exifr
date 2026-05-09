@@ -124,7 +124,7 @@ extendDictionary(tagKeys, 'ifd0', [
 // TODO: check all of these and add missing ones.
 // https://metacpan.org/pod/Image::MetaData::JPEG::TagLists#Exif-tags-assigned-to-companies-for-IFD0-and-IFD1
 // https://metacpan.org/pod/Image::MetaData::JPEG::TagLists#Exif-tags-for-the-0th-IFD-Exif-private-subdirectory
-let otherTiffTags = [
+const otherTiffTags = [
 	[0x0111, 'StripOffsets'],
 	[0x0117, 'StripByteCounts'],
 	[0x0120, 'FreeOffsets'],

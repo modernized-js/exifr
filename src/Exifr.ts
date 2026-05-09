@@ -26,9 +26,9 @@ export class Exifr {
 		// JPEG's exif is based on TIFF structure from .tif files.
 		// .tif files start with either 49 49 (LE) or 4D 4D (BE) which is also header for the TIFF structure.
 		// JPEG starts with with FF D8, followed by APP0 and APP1 section (FF E1 + length + 'Exif\0\0' + data) which contains the TIFF structure (49 49 / 4D 4D + data)
-		let {file} = this
-		let marker = file.getUint16(0)
-		for (let [type, FileParser] of fileParsers) {
+		const {file} = this
+		const marker = file.getUint16(0)
+		for (const [type, FileParser] of fileParsers) {
 			if (FileParser.canHandle(file, marker)) {
 				this.fileParser = new FileParser(this.options, this.file, this.parsers)
 				return file[type] = true
@@ -40,7 +40,7 @@ export class Exifr {
 	}
 
 	async parse() {
-		let {output, errors} = this
+		const {output, errors} = this
 		this.setup()
 		// We're try catching here and not inside the executeParsers() because we shouldn't parse
 		// segments if file parser throws.
@@ -66,10 +66,10 @@ export class Exifr {
 	// EXAMPLE2: PNG file parser does a lot of parsing inside its .parse()
 	//           If it crashed, we'd also prematurely close before extracting any data.
 	async executeParsers() {
-		let {output} = this
+		const {output} = this
 		await this.fileParser.parse()
 		let promises = Object.values(this.parsers).map(async parser => {
-			let parserOutput = await parser.parse()
+			const parserOutput = await parser.parse()
 			// each parser may want to merge its output into global differently.
 			parser.assignToOutput(output, parserOutput)
 		})
@@ -81,17 +81,17 @@ export class Exifr {
 
 	async extractThumbnail() {
 		this.setup()
-		let {options, file} = this
-		let TiffParser = segmentParsers.get('tiff', options)
-		var seg
+		const {options, file} = this
+		const TiffParser = segmentParsers.get('tiff', options)
+		let seg
 		if (file.tiff)
 			seg = {start: 0, type: 'tiff'}
 		else if (file.jpeg)
 			seg = await this.fileParser.getOrFindSegment('tiff')
 		if (seg === undefined) return
-		let chunk = await this.fileParser.ensureSegmentChunk(seg)
-		let parser = this.parsers.tiff = new TiffParser(chunk, options, file)
-		let thumb = await parser.extractThumbnail()
+		const chunk = await this.fileParser.ensureSegmentChunk(seg)
+		const parser = this.parsers.tiff = new TiffParser(chunk, options, file)
+		const thumb = await parser.extractThumbnail()
 		if (file.close) file.close()
 		return thumb
 	}

@@ -7,16 +7,16 @@ import {BufferView} from '../src/util/BufferView.ts'
 describe('Xmp - real world cases', () => {
 
     async function getString(name) {
-        let arrayBuffer = await getFile(name)
-        let bufferView = new BufferView(arrayBuffer)
+        const arrayBuffer = await getFile(name)
+        const bufferView = new BufferView(arrayBuffer)
         return bufferView.getString()
     }
 
     it('xmp-MunchSP1919.xml', async () => {
 
-		let code = await getString('xmp-MunchSP1919.xml')
-		let output = Xmp.parse(code)
-		let namespaces = ['Iptc4xmpCore', 'MicrosoftPhoto', 'aux', 'crs', 'dc', 'exif', 'mediapro', 'photoshop', 'tiff', 'xmp', 'xmpMM']
+		const code = await getString('xmp-MunchSP1919.xml')
+		const output = Xmp.parse(code)
+		const namespaces = ['Iptc4xmpCore', 'MicrosoftPhoto', 'aux', 'crs', 'dc', 'exif', 'mediapro', 'photoshop', 'tiff', 'xmp', 'xmpMM']
 		assert.containsAllKeys(output, namespaces)
 		assert.deepEqual(output.aux, {
 			Firmware: '2.0.2',
@@ -61,8 +61,8 @@ describe('Xmp - real world cases', () => {
     describe('gpano: xmp + xmp extended', async () => {
 
         it('xmp-gpano-main.xml', async () => {
-			let code = await getString('xmp-gpano-main.xml')
-			let output = Xmp.parse(code)
+			const code = await getString('xmp-gpano-main.xml')
+			const output = Xmp.parse(code)
 			assert.deepEqual(output.xmlns, {
 				GPano: 'http://ns.google.com/photos/1.0/panorama/',
 				GImage: 'http://ns.google.com/photos/1.0/image/',
@@ -90,8 +90,8 @@ describe('Xmp - real world cases', () => {
 		})
 
         it('xmp-gpano-ext.xml', async () => {
-			let code = await getString('xmp-gpano-ext.xml')
-			let output = Xmp.parse(code)
+			const code = await getString('xmp-gpano-ext.xml')
+			const output = Xmp.parse(code)
 			assert.isObject(output.xmlns)
 			assert.equal(output.GImage.Data.slice(0, 8), '/9j/4AAQ')
 			assert.equal(output.GImage.Data.slice(-8),   'C6iMzP/Z')
@@ -100,8 +100,8 @@ describe('Xmp - real world cases', () => {
         })
 
         it('synthetically combined', async () => {
-			let code = await getString('xmp-gpano-main.xml') + await getString('xmp-gpano-ext.xml')
-			let output = Xmp.parse(code)
+			const code = await getString('xmp-gpano-main.xml') + await getString('xmp-gpano-ext.xml')
+			const output = Xmp.parse(code)
 			assert.deepEqual(output.xmlns, {
 				GPano: 'http://ns.google.com/photos/1.0/panorama/',
 				GImage: 'http://ns.google.com/photos/1.0/image/',
@@ -122,8 +122,8 @@ describe('Xmp - real world cases', () => {
     })
 
     it('xmp1.xml', async () => {
-		let code = await getString('xmp1.xml')
-		let output = Xmp.parse(code)
+		const code = await getString('xmp1.xml')
+		const output = Xmp.parse(code)
 		assert.equal(output.rdf.about, 'DJI Meta Data')
 		assert.equal(output['drone-dji'].AbsoluteAltitude, -8.074252)
 		assert.equal(output['drone-dji'].GimbalYawDegree, -115.300003)
@@ -136,8 +136,8 @@ describe('Xmp - real world cases', () => {
     })
 
     it('xmp2.xml', async () => {
-		let code = await getString('xmp2.xml')
-		let output = Xmp.parse(code)
+		const code = await getString('xmp2.xml')
+		const output = Xmp.parse(code)
 		// defined and used namespaces
 		assert.isObject(output.tiff)
 		assert.isObject(output.xmp)
@@ -162,8 +162,8 @@ describe('Xmp - real world cases', () => {
     })
 
     it('cookiezen.xmp', async () => {
-		let code = await getString('cookiezen.xmp')
-		let output = Xmp.parse(code)
+		const code = await getString('cookiezen.xmp')
+		const output = Xmp.parse(code)
 		// namespace definitions
 		assert.deepEqual(output.xmlns, {
 			xmpMM: 'http://ns.adobe.com/xap/1.0/mm/',
@@ -184,8 +184,8 @@ describe('Xmp - real world cases', () => {
     })
 
     it('xmp4.xml', async () => {
-		let code = await getString('xmp4.xml')
-		let output = Xmp.parse(code)
+		const code = await getString('xmp4.xml')
+		const output = Xmp.parse(code)
 		assert.equal(output.xmp.CreateDate, '2017-05-06T15:24:07.63')
 		assert.equal(output.aux.ApproximateFocusDistance, '168/100')
 		assert.equal(output.crs.Sharpness, 25)
@@ -196,8 +196,8 @@ describe('Xmp - real world cases', () => {
     })
 
     it('xmp-random.xml', async () => {
-		let code = await getString('xmp-random.xml')
-		let output = Xmp.parse(code)
+		const code = await getString('xmp-random.xml')
+		const output = Xmp.parse(code)
 		assert.deepEqual(output.dc.title, {
 			lang: 'x-default',
 			value: 'XMP Specification Part 3: Storage in Files',
@@ -208,8 +208,8 @@ describe('Xmp - real world cases', () => {
 
 // WARNING: UNFINISHED, INCOMPLETE, INCORRECT
     it('xmp-gcam-portrait.xml', async () => {
-		let code = await getString('xmp-gcam-portrait.xml')
-		let output = Xmp.parse(code)
+		const code = await getString('xmp-gcam-portrait.xml')
+		const output = Xmp.parse(code)
 		// main xmp
 		assert.equal(output.GCamera.BurstID, '3e972be5-3033-4f33-a532-fe90384f280a')
 		assert.equal(output.GCamera.BurstPrimary, 1)

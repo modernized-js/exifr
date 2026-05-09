@@ -11,7 +11,7 @@ import {Exifr} from './Exifr.ts'
 
 
 export async function parse(input, options) {
-	let exr = new Exifr(options)
+	const exr = new Exifr(options)
 	await exr.read(input)
 	return exr.parse()
 }

@@ -39,18 +39,18 @@ export class Base64Reader extends ChunkedReader {
 		if (length === undefined) {
 			length = this.size
 		}
-		let end = offset + length
-		let blockEnd = blockStart + Math.ceil(end / 3) * 4
+		const end = offset + length
+		const blockEnd = blockStart + Math.ceil(end / 3) * 4
 		base64 = base64.slice(blockStart, blockEnd)
 
-		let clampedLength = Math.min(length, this.size - offset)
+		const clampedLength = Math.min(length, this.size - offset)
 		if (platform.hasBuffer) {
-			let slice = Buffer.from(base64, 'base64').slice(offsetInBlock, offsetInBlock + clampedLength)
+			const slice = Buffer.from(base64, 'base64').slice(offsetInBlock, offsetInBlock + clampedLength)
 			return this.set(slice, offset, true)
 		} else {
-			let chunk = this.subarray(offset, clampedLength, true)
-			let binary = atob(base64)
-			let uint8view = chunk.toUint8()
+			const chunk = this.subarray(offset, clampedLength, true)
+			const binary = atob(base64)
+			const uint8view = chunk.toUint8()
 			for (let i = 0; i < clampedLength; i++)
 				uint8view[i] = binary.charCodeAt(offsetInBlock + i)
 			return chunk

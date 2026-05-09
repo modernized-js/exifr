@@ -26,7 +26,7 @@ export default class Xmp extends AppSegmentParserBase {
 	}
 
 	static headerLength(chunk, offset) {
-		let headerString = chunk.getString(offset + 4, XMP_EXTENDED_HEADER.length)
+		const headerString = chunk.getString(offset + 4, XMP_EXTENDED_HEADER.length)
 		if (headerString === XMP_EXTENDED_HEADER)
 			return XMP_EXTENDED_DATA_OFFSET
 		else
@@ -34,7 +34,7 @@ export default class Xmp extends AppSegmentParserBase {
 	}
 
 	static findPosition(chunk, offset) {
-		let seg = super.findPosition(chunk, offset)
+		const seg = super.findPosition(chunk, offset)
 		// first is the main XMP, then the extended starts counting from 0.
 		// We could determine that the XMP has extension if we looked for 'HasExtendedXMP'
 		// but we don't want to read the segment here just yet.
@@ -77,13 +77,13 @@ export default class Xmp extends AppSegmentParserBase {
 		if (!this.localOptions.parse)
 			return xmpString
 		xmpString = idNestedTags(xmpString)
-		let tags = XmlTag.findAll(xmpString, 'rdf', 'Description')
+		const tags = XmlTag.findAll(xmpString, 'rdf', 'Description')
 		if (tags.length === 0)
 			tags.push(new XmlTag('rdf', 'Description', undefined, xmpString))
-		let xmp = {}
+		const xmp = {}
 		let namespace
-		for (let tag of tags) {
-			for (let prop of tag.properties) {
+		for (const tag of tags) {
+			for (const prop of tag.properties) {
 				namespace = getNamespace(prop.ns, xmp)
 				assignToObject(prop, namespace)
 			}
@@ -100,7 +100,7 @@ export default class Xmp extends AppSegmentParserBase {
 			// XMP TIFF namespace is merged into IFD0 block of TIFF segment
 			// XMP EXIF namespace is merged into EXIF block of TIFF segment
 			// All other namespaces are assigned
-			for (let [ns, nsObject] of Object.entries(xmp)) {
+			for (const [ns, nsObject] of Object.entries(xmp)) {
 				switch (ns) {
 					case 'tiff':
 						this.assignObjectToOutput(root, 'ifd0', nsObject)
@@ -126,7 +126,7 @@ export default class Xmp extends AppSegmentParserBase {
 // removes undefined properties and empty objects
 function pruneObject(object) {
 	let val
-	for (let key in object) {
+	for (const key in object) {
 		val = object[key] = undefinedIfEmpty(object[key])
 		if (val === undefined)
 			delete object[key]
@@ -144,13 +144,13 @@ export class XmlAttr {
 
 	static findAll(string) {
 		// NOTE: regex has to be recreated each time because it's stateful due to use in exec()
-		let regex = /([a-zA-Z0-9-]+):([a-zA-Z0-9-]+)=("[^"]*"|'[^']*')/gm
+		const regex = /([a-zA-Z0-9-]+):([a-zA-Z0-9-]+)=("[^"]*"|'[^']*')/gm
 		return matchAll(string, regex).map(XmlAttr.unpackMatch)
 	}
 
 	static unpackMatch(match) {
-		let ns = match[1]
-		let name = match[2]
+		const ns = match[1]
+		const name = match[2]
 		let value = match[3].slice(1, -1)
 		value = normalizeValue(value)
 		return new XmlAttr(ns, name, value)
@@ -191,10 +191,10 @@ export class XmlTag {
 	}
 
 	static unpackMatch(match) {
-		let ns = match[1]
-		let name = match[2]
-		let attrString = match[4]
-		let innerXml = match[8]
+		const ns = match[1]
+		const name = match[2]
+		const attrString = match[4]
+		const innerXml = match[8]
 		return new XmlTag(ns, name, attrString, innerXml)
 	}
 
@@ -221,7 +221,7 @@ export class XmlTag {
 	}
 
 	get isList() {
-		let {ns, name} = this
+		const {ns, name} = this
 		return ns === 'rdf'
 			&& (name === 'Seq' || name === 'Bag' || name === 'Alt')
 	}
@@ -247,8 +247,8 @@ export class XmlTag {
 		if (this.isListItem && this.children.length === 1 && this.attrs.length === 0)
 			return this.children[0].serialize()
 		// process attributes and children tags into object
-		let output = {}
-		for (let prop of this.properties)
+		const output = {}
+		for (const prop of this.properties)
 			assignToObject(prop, output)
 		if (this.value !== undefined)
 			output[VALUE_PROP] = this.value
@@ -262,7 +262,7 @@ export class XmlTag {
 
 
 function assignToObject(prop, target) {
-	let serialized = prop.serialize()
+	const serialized = prop.serialize()
 	if (serialized !== undefined)
 		target[prop.name] = serialized
 }
@@ -274,7 +274,7 @@ var unwrapArray = array => array.length === 1 ? array[0] : array
 var getNamespace = (ns, root) => root[ns] ? root[ns] : root[ns] = {}
 
 function matchAll(string, regex) {
-	let matches = []
+	const matches = []
 	if (!string) return matches
 	let match
 	while ((match = regex.exec(string)) !== null)
@@ -284,9 +284,9 @@ function matchAll(string, regex) {
 
 export function normalizeValue(value) {
 	if (isUndefinable(value)) return undefined
-	let num = Number(value)
+	const num = Number(value)
 	if (!Number.isNaN(num)) return num
-	let lowercase = value.toLowerCase()
+	const lowercase = value.toLowerCase()
 	if (lowercase === 'true') return true
 	if (lowercase === 'false') return false
 	return value.trim()
@@ -310,19 +310,19 @@ const identifiableTags = [
 ]
 const nestedLiRegex = new RegExp(`(<|\\/)(${identifiableTags.join('|')})`, 'g')
 export function idNestedTags(xmpString) {
-	let stacks = {}
-	let counts = {}
-	for (let tag of identifiableTags) {
+	const stacks = {}
+	const counts = {}
+	for (const tag of identifiableTags) {
 		stacks[tag] = []
 		counts[tag] = 0
 	}
 	return xmpString.replace(nestedLiRegex, (match, prevChar, tag) => {
 		if (prevChar === '<') {
-			let id = ++counts[tag]
+			const id = ++counts[tag]
 			stacks[tag].push(id)
 			return `${match}#${id}`
 		} else {
-			let id = stacks[tag].pop()
+			const id = stacks[tag].pop()
 			return `${match}#${id}`
 		}
 	})

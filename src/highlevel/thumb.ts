@@ -14,9 +14,9 @@ export const thumbnailOnlyOptions = Object.assign({}, disableAllOptions, {
 
 
 export async function thumbnail(input) {
-	let exr = new Exifr(thumbnailOnlyOptions)
+	const exr = new Exifr(thumbnailOnlyOptions)
 	await exr.read(input)
-	let u8arr = await exr.extractThumbnail()
+	const u8arr = await exr.extractThumbnail()
 	if (u8arr && platform.hasBuffer)
 		return Buffer.from(u8arr)
 	else
@@ -25,9 +25,9 @@ export async function thumbnail(input) {
 
 // only available in browser
 export async function thumbnailUrl(input) {
-	let u8arr = await this.thumbnail(input)
+	const u8arr = await this.thumbnail(input)
 	if (u8arr !== undefined) {
-		let blob = new Blob([u8arr]) // note: dont use AB directly, because of byteOffset
+		const blob = new Blob([u8arr]) // note: dont use AB directly, because of byteOffset
 		return URL.createObjectURL(blob)
 	}
 }

@@ -8,7 +8,7 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 		describe('file readers', () => {
 			// fileReaders, fileParsers, segmentParsers
 
-			let loadedReaders = Array.from(exifr.fileReaders.keys())
+			const loadedReaders = Array.from(exifr.fileReaders.keys())
 
 			it(`Base64Reader should not be included`, async () => {
 				if (bundleOptions.fileReaders.base64)
@@ -43,8 +43,8 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 		describe('file parsers', () => {
 
 			it(`JPEG ${bundleOptions.fileParsers.jpeg ? 'should' : 'should not'} be included`, async () => {
-				let file = await getFile('IMG_20180725_163423-tiny.jpg')
-				let output = await exifr.parse(file, {tiff: true}).catch(err => err)
+				const file = await getFile('IMG_20180725_163423-tiny.jpg')
+				const output = await exifr.parse(file, {tiff: true}).catch(err => err)
 				if (bundleOptions.fileParsers.jpeg) {
 					assert.notInstanceOf(output, Error)
 				} else {
@@ -55,8 +55,8 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 			})
 
 			it(`TIFF ${bundleOptions.fileParsers.tiff ? 'should' : 'should not'} be included`, async () => {
-				let file = await getFile('001.tif')
-				let output = await exifr.parse(file, {tiff: true}).catch(err => err)
+				const file = await getFile('001.tif')
+				const output = await exifr.parse(file, {tiff: true}).catch(err => err)
 				if (bundleOptions.fileParsers.tiff) {
 					assert.notInstanceOf(output, Error)
 				} else {
@@ -67,8 +67,8 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 			})
 
 			it(`HEIC ${bundleOptions.fileParsers.heic ? 'should' : 'should not'} be included`, async () => {
-				let file = await getFile('heic-iphone7.heic')
-				let output = await exifr.parse(file, {tiff: true}).catch(err => err)
+				const file = await getFile('heic-iphone7.heic')
+				const output = await exifr.parse(file, {tiff: true}).catch(err => err)
 				if (bundleOptions.fileParsers.heic) {
 					assert.notInstanceOf(output, Error)
 				} else {
@@ -85,16 +85,16 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 			let file
 			before(async () => file = await getFile('BonTonARTSTORplusIPTC.jpg'))
 
-			let baseOptions = Object.fromEntries(Object.entries(bundleOptions.segmentParsers).map(entry => [entry[0], false]))
+			const baseOptions = Object.fromEntries(Object.entries(bundleOptions.segmentParsers).map(entry => [entry[0], false]))
 
-			for (let [key, enabled] of Object.entries(bundleOptions.segmentParsers)) {
+			for (const [key, enabled] of Object.entries(bundleOptions.segmentParsers)) {
 
-				let outputKey = key === 'tiff' ? 'ifd0' : key
-				let enabled = bundleOptions.segmentParsers[key]
+				const outputKey = key === 'tiff' ? 'ifd0' : key
+				const enabled = bundleOptions.segmentParsers[key]
 
 				it(`${key.toUpperCase()} ${enabled ? 'should' : 'should not'} be included`, async () => {
-					let parseOptions = Object.assign({}, baseOptions, {[key]: true, mergeOutput: false})
-					let output = await exifr.parse(file, parseOptions).catch(err => err)
+					const parseOptions = Object.assign({}, baseOptions, {[key]: true, mergeOutput: false})
+					const output = await exifr.parse(file, parseOptions).catch(err => err)
 					if (key === 'xmp') {
 						if (enabled) {
 							assert.equal(output.photoshop.ColorMode, 3)
@@ -118,15 +118,15 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 		describe('segment parsers', () => {
 
 			it('extracts basic TIFF info', async () => {
-				let file = await getFile('IMG_20180725_163423-tiny.jpg')
-				let output = await exifr.parse(file)
+				const file = await getFile('IMG_20180725_163423-tiny.jpg')
+				const output = await exifr.parse(file)
 				assert.equal(output.Model       || output[0x0110] , 'Pixel')
 				assert.equal(output.ISO         || output[0x8827] , 50)
 				assert.equal(output.GPSAltitude || output[0x0006] , 252)
 			})
 
 			it('.orientation()', async () => {
-				let file = await getFile('IMG_20180725_163423-tiny.jpg')
+				const file = await getFile('IMG_20180725_163423-tiny.jpg')
 				assert.equal(await exifr.orientation(file), 1)
 			})
 

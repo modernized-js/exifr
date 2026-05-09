@@ -17,19 +17,19 @@ class Dictionary extends Map {
 
 export function createDictionary(group, key, entries) {
 	//let dict = new Dictionary(entries)
-	let dict = new Dictionary()
+	const dict = new Dictionary()
 	// ie doesnt support constructor initialization
-	for (let [key, val] of entries)
+	for (const [key, val] of entries)
 		dict.set(key, val)
 	if (Array.isArray(key))
-		for (let k of key) group.set(k, dict)
+		for (const k of key) group.set(k, dict)
 	else
 		group.set(key, dict)
 	return dict
 }
 
 export function extendDictionary(group, blockName, newTags) {
-	let map = group.get(blockName)
+	const map = group.get(blockName)
 	let entry
 	for (entry of newTags) map.set(entry[0], entry[1])
 }

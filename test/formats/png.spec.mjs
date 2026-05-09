@@ -10,17 +10,17 @@ describe('PNG File format', () => {
 	describe('IHDR Segment (IHDR Chunk)', () => {
 
 		it(`IHDR should be parsed with default options`, async () => {
-			let options = undefined
-			let input = await getFile('png/IMG_20180725_163423-1.png')
-			let output = await exifr.parse(input, options)
+			const options = undefined
+			const input = await getFile('png/IMG_20180725_163423-1.png')
+			const output = await exifr.parse(input, options)
 			assert.equal(output.ImageWidth, 40)
 			assert.equal(output.BitDepth, 8)
 		})
 
 		it(`recovers from broken file (invalid crc) without crashing`, async () => {
-			let options = undefined
-			let input = await getFile('png/invalid-iCCP-missing-adler32-checksum.png')
-			let output = await exifr.parse(input, options)
+			const options = undefined
+			const input = await getFile('png/invalid-iCCP-missing-adler32-checksum.png')
+			const output = await exifr.parse(input, options)
 			assert.equal(output.ImageWidth, 460)
 			// ICC from PNG is currently available only on Nodejs
 			if (isNode) assert.isNotEmpty(output.errors)

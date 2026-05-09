@@ -6,7 +6,7 @@ const DEFAULT_SIZE = 16
 DataView.prototype.toString = function(size = DEFAULT_SIZE, name = this.constructor.name) {
 	if (typeof size !== 'number') size = DEFAULT_SIZE
 	size = Math.min(size, this.byteLength)
-	let values = (new Array(size))
+	const values = (new Array(size))
 		.fill(0)
 		.map((val, i) => this.getUint8(i))
 		.map(val => val.toString(16).padStart(2, '0'))
@@ -18,14 +18,14 @@ DataView.prototype.toString = function(size = DEFAULT_SIZE, name = this.construc
 }
 
 ArrayBuffer.prototype.toString = function(arg) {
-	let view = new DataView(this)
+	const view = new DataView(this)
 	return view.toString(arg, 'ArrayBuffer')
 }
 
 Uint8Array.prototype.toString = function(size = 10) {
 	if (typeof size !== 'number') size = DEFAULT_SIZE
 	size = Math.min(size, this.byteLength)
-	let values = (new Array(size))
+	const values = (new Array(size))
 		.fill(0)
 		.map((val, i) => this[i])
 		.map(val => val.toString(16).padStart(2, '0'))
@@ -36,7 +36,7 @@ Uint8Array.prototype.toString = function(size = 10) {
 Uint16Array.prototype.toString = function(size = 10) {
 	if (typeof size !== 'number') size = DEFAULT_SIZE
 	size = Math.min(size, this.byteLength)
-	let values = (new Array(size))
+	const values = (new Array(size))
 		.fill(0)
 		.map((val, i) => this[i])
 		.map(val => val.toString(16).padStart(4, '0'))

@@ -75,7 +75,7 @@ class SubOptions extends SharedOptions {
 				this.enabled = true
 				this.parse = userValue.parse !== false
 				if (this.canBeFiltered) {
-					let {pick, skip} = userValue
+					const {pick, skip} = userValue
 					if (pick && pick.length > 0) this.translateTagSet(pick, this.pick)
 					if (skip && skip.length > 0) this.translateTagSet(skip, this.skip)
 				}
@@ -99,7 +99,7 @@ class SubOptions extends SharedOptions {
 
 	translateTagSet(inputArray, outputSet) {
 		if (this.dict) {
-			let {tagKeys, tagValues} = this.dict
+			const {tagKeys, tagValues} = this.dict
 			let tag, index
 			for (tag of inputArray) {
 				if (typeof tag === 'string') {
@@ -111,7 +111,7 @@ class SubOptions extends SharedOptions {
 				}
 			}
 		} else {
-			for (let tag of inputArray) outputSet.add(tag)
+			for (const tag of inputArray) outputSet.add(tag)
 		}
 	}
 
@@ -126,7 +126,7 @@ class SubOptions extends SharedOptions {
 
 }
 
-var defaults = {
+const defaults = {
 	// APP Segments
 	jfif: false, // jpeg only (jpeg file header)
 	tiff: true,
@@ -199,7 +199,7 @@ var defaults = {
 }
 
 
-var existingInstances = new Map
+const existingInstances = new Map
 
 export class Options extends SharedOptions {
 
@@ -286,13 +286,13 @@ export class Options extends SharedOptions {
 	}
 
 	batchEnableWithBool(keys, value) {
-		for (let key of keys)
+		for (const key of keys)
 			this[key].enabled = value
 	}
 
 	batchEnableWithUserValue(keys, userOptions) {
-		for (let key of keys) {
-			let userOption = userOptions[key]
+		for (const key of keys) {
+			const userOption = userOptions[key]
 			this[key].enabled = userOption !== false && userOption !== undefined
 		}
 	}
@@ -300,17 +300,17 @@ export class Options extends SharedOptions {
 	setupGlobalFilters(pick, skip, dictKeys, disableableSegsAndBlocks = dictKeys) {
 		if (pick && pick.length) {
 			// if we're only picking, we can safely disable all other blocks and segments
-			for (let blockKey of disableableSegsAndBlocks)
+			for (const blockKey of disableableSegsAndBlocks)
 				this[blockKey].enabled = false
-			let entries = findScopesForGlobalTagArray(pick, dictKeys)
-			for (let [blockKey, tags] of entries) {
+			const entries = findScopesForGlobalTagArray(pick, dictKeys)
+			for (const [blockKey, tags] of entries) {
 				addToSet(this[blockKey].pick, tags)
 				// the blocks of tags from global picks are the only blocks we'll parse.
 				this[blockKey].enabled = true
 			}
 		} else if (skip && skip.length) {
-			let entries = findScopesForGlobalTagArray(skip, dictKeys)
-			for (let [segKey, tags] of entries)
+			const entries = findScopesForGlobalTagArray(skip, dictKeys)
+			for (const [segKey, tags] of entries)
 				addToSet(this[segKey].skip, tags)
 		}
 	}
@@ -319,7 +319,7 @@ export class Options extends SharedOptions {
 	// This method adds them to skip list if these segments are not requested.
 	// Also applies to MakerNote and UserComment
 	filterNestedSegmentTags() {
-		let {ifd0, exif, xmp, iptc, icc} = this
+		const {ifd0, exif, xmp, iptc, icc} = this
 		// not segments, regular but notable TIFF tags
 		if (this.makerNote)   exif.deps.add(TAG_MAKERNOTE)
 		else                  exif.skip.add(TAG_MAKERNOTE)
@@ -334,7 +334,7 @@ export class Options extends SharedOptions {
 
 	// INVESTIGATE: can this be moved to Tiff Segment parser?
 	traverseTiffDependencyTree() {
-		let {ifd0, exif, gps, interop} = this
+		const {ifd0, exif, gps, interop} = this
 		// interop pointer can be often found in EXIF besides IFD0.
 		if (interop.needed) {
 			exif.deps.add(TAG_IFD_INTEROP)
@@ -347,17 +347,17 @@ export class Options extends SharedOptions {
 						|| this.makerNote
 						|| this.userComment
 		// reenable all the blocks with pick or deps and lock in deps into picks if needed.
-		for (let key of tiffBlocks) this[key].finalizeFilters()
+		for (const key of tiffBlocks) this[key].finalizeFilters()
 	}
 
 	get onlyTiff() {
-		let bools = otherSegments.map(key => this[key].enabled)
+		const bools = otherSegments.map(key => this[key].enabled)
 		if (bools.some(bool => bool === true)) return false
 		return this.tiff.enabled
 	}
 
 	checkLoadedPlugins() {
-		for (let key of segments)
+		for (const key of segments)
 			if (this[key].enabled && !segmentParsers.has(key))
 				throwNotLoaded('segment parser', key)
 	}
@@ -365,7 +365,7 @@ export class Options extends SharedOptions {
 }
 
 function findScopesForGlobalTagArray(tagArray, dictKeys) {
-	let scopes = []
+	const scopes = []
 	let dict, scopedTags, blockKey, tagEntry
 	for (blockKey of dictKeys) {
 		dict = tagKeys.get(blockKey)
@@ -387,6 +387,6 @@ function getDefined(arg1, arg2) {
 }
 
 function addToSet(target, source) {
-	for (let item of source)
+	for (const item of source)
 		target.add(item)
 }

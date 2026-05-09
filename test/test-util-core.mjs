@@ -126,7 +126,7 @@ function ensurePathInFixtures(filePath) {
 
 export function getPath(filePath) {
 	if (filePath.startsWith('http')) return filePath
-	let fileInFixturesPath = ensurePathInFixtures(filePath)
+	const fileInFixturesPath = ensurePathInFixtures(filePath)
 	if (isNode)
 		return path.join(testFolderPath, fileInFixturesPath)
 	else
@@ -138,7 +138,7 @@ let staticServerPort = 80
 let staticServer
 export function startStaticServer() {
 	return new Promise(resolve => {
-		let app = express()
+		const app = express()
 		app.use(express.static(path.join(testFolderPath, 'fixtures')))
 		app.get('/redirect', (req, res) => res.redirect('/cookiezen.jpg'))
 		staticServer = app.listen(() => {
@@ -157,10 +157,10 @@ export function getUrl(filePath) {
 }
 
 
-let cachedFiles = {}
+const cachedFiles = {}
 
 export async function getFile(urlOrPath) {
-	let fullPath = getPath(urlOrPath)
+	const fullPath = getPath(urlOrPath)
 	if (cachedFiles[urlOrPath])
 		return cachedFiles[urlOrPath]
 	if (isBrowser)
@@ -172,7 +172,7 @@ export async function getFile(urlOrPath) {
 
 export function createIframe(url) {
 	return new Promise((resolve, reject) => {
-		let iframe = document.createElement('iframe')
+		const iframe = document.createElement('iframe')
 		iframe.src = url
 		iframe.style.width = '0px'
 		iframe.style.height = '0px'
@@ -186,9 +186,9 @@ export function createIframe(url) {
 	})
 }
 
-let yellow = '\x1b[33m'
-let colorReset = '\x1b[0m'
-let warn = console.warn.bind(console)
+const yellow = '\x1b[33m'
+const colorReset = '\x1b[0m'
+const warn = console.warn.bind(console)
 console.warn = function(...args) {
 	warn(yellow, ...args, colorReset)
 }

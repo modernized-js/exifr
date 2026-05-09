@@ -28,8 +28,8 @@ export class FileParserBase {
 	}
 
 	createParser(type, chunk) {
-		let Parser = segmentParsers.get(type)
-		let parser = new Parser(chunk, this.options, this.file)
+		const Parser = segmentParsers.get(type)
+		const parser = new Parser(chunk, this.options, this.file)
 		return this.parsers[type] = parser
 	}
 
@@ -39,11 +39,11 @@ export class FileParserBase {
 		// IDEA: dynamic loading through import(parser.type) ???
 		//       We would need to know the type of segment, but we dont since its implemented in parser itself.
 		//       I.E. Unless we first load apropriate parser, the segment is of unknown type.
-		for (let segment of segments) {
-			let {type, chunk} = segment
-			let segOpts = this.options[type]
+		for (const segment of segments) {
+			const {type, chunk} = segment
+			const segOpts = this.options[type]
 			if (segOpts && segOpts.enabled) {
-				let parser = this.parsers[type]
+				const parser = this.parsers[type]
 				if (parser && parser.append) {
 					// TODO multisegment: to be implemented. or deleted. some types of data may be split into multiple APP segments (FLIR, maybe ICC)
 					//parser.append(chunk)
@@ -57,14 +57,14 @@ export class FileParserBase {
 	async readSegments(segments) {
 		//let ranges = new Ranges(this.appSegments)
 		//await Promise.all(ranges.list.map(range => this.file.ensureChunk(range.offset, range.length)))
-		let promises = segments.map(this.ensureSegmentChunk)
+		const promises = segments.map(this.ensureSegmentChunk)
 		await Promise.all(promises)
 	}
 
 	// TODO: deprecate
 	ensureSegmentChunk = async seg => {
-		let start = seg.start
-		let size = seg.size || MAX_APP_SIZE
+		const start = seg.start
+		const size = seg.size || MAX_APP_SIZE
 		if (this.file.chunked) {
 			if (this.file.available(start, size)) {
 				seg.chunk = this.file.subarray(start, size)
@@ -110,13 +110,13 @@ export class AppSegmentParserBase {
 	// start  + size   === end  |  begining and end of parseable content
 	static findPosition(buffer, offset) {
 		// length at offset+2 is the size of APPn content plus the two appN length bytes. it does not include te appN 0xFF 0xEn marker.
-		let length = buffer.getUint16(offset + 2) + 2
-		let headerLength = typeof this.headerLength === 'function'
+		const length = buffer.getUint16(offset + 2) + 2
+		const headerLength = typeof this.headerLength === 'function'
 						? this.headerLength(buffer, offset, length)
 						: this.headerLength
-		let start = offset + headerLength
-		let size = length - headerLength
-		let end = start + size
+		const start = offset + headerLength
+		const size = length - headerLength
+		const end = start + size
 		return {offset, length, headerLength, start, size, end}
 	}
 
@@ -172,14 +172,14 @@ export class AppSegmentParserBase {
 
 	// split into separate function so that it can be used by TIFF but shared with other parsers.
 	translateBlock(rawTags, blockKey) {
-		let revivers = tagRevivers.get(blockKey)
-		let valDict  = tagValues.get(blockKey)
-		let keyDict  = tagKeys.get(blockKey)
-		let blockOptions = this.options[blockKey] // todo: refactor tiff so this isn't needed anymore (in favor of segOptions & options)
-		let canRevive       = blockOptions.reviveValues    && !!revivers
-		let canTranslateVal = blockOptions.translateValues && !!valDict
-		let canTranslateKey = blockOptions.translateKeys   && !!keyDict
-		let output = {}
+		const revivers = tagRevivers.get(blockKey)
+		const valDict  = tagValues.get(blockKey)
+		const keyDict  = tagKeys.get(blockKey)
+		const blockOptions = this.options[blockKey] // todo: refactor tiff so this isn't needed anymore (in favor of segOptions & options)
+		const canRevive       = blockOptions.reviveValues    && !!revivers
+		const canTranslateVal = blockOptions.translateValues && !!valDict
+		const canTranslateKey = blockOptions.translateKeys   && !!keyDict
+		const output = {}
 		for (let [key, val] of rawTags) {
 			if (canRevive && revivers.has(key))
 				val = revivers.get(key)(val)

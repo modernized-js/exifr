@@ -10,11 +10,11 @@ export const gpsOnlyOptions = Object.assign({}, disableAllOptions, {
 })
 
 export async function gps(input) {
-	let exr = new Exifr(gpsOnlyOptions)
+	const exr = new Exifr(gpsOnlyOptions)
 	await exr.read(input)
-	let output = await exr.parse()
+	const output = await exr.parse()
 	if (output && output.gps) {
-		let {latitude, longitude} = output.gps
+		const {latitude, longitude} = output.gps
 		return {latitude, longitude}
 	}
 }

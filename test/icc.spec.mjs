@@ -7,10 +7,10 @@ import * as exifr from '../src/bundles/full.ts'
 
 function testProfile(filePath, results = {}) {
 	it(`parsing .icc fixture ${filePath}`, async () => {
-		var buffer = await getFile(filePath)
-		var output = await Icc.parse(buffer)
+		const buffer = await getFile(filePath)
+		const output = await Icc.parse(buffer)
 		assertOutputWithoutErrors(output)
-		for (let [key, val] of Object.entries(results)) {
+		for (const [key, val] of Object.entries(results)) {
 			assert.equal(output[key], val)
 		}
 	})
@@ -70,9 +70,9 @@ describe('ICC Segment', () => {
 	√ icc      | offset  538213 | length   33266 | end  571479 | <Buffer ff e2 81 f0 49 43 43 5f 50 52 4f 46 49 4c>
 	*/
 	it(`should parse all segments of multisegment ICC .jpg file when {icc: {multiSegment: true}}`, async () => {
-		let input = await getFile('issue-metadata-extractor-65.jpg')
-		let options = {tiff: false, icc: {multiSegment: true}}
-		let icc = await exifr.parse(input, options)
+		const input = await getFile('issue-metadata-extractor-65.jpg')
+		const options = {tiff: false, icc: {multiSegment: true}}
+		const icc = await exifr.parse(input, options)
 		assert.lengthOf(icc.MediaWhitePoint, 20)
 		assert.lengthOf(icc.A2B0, 41478)
 		assert.lengthOf(icc.A2B2, 41478)

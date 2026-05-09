@@ -7,8 +7,8 @@ import {throwError} from '../util/helpers.ts'
 const FULL_20_BITS = 0b11111111111111111111
 
 BufferView.prototype.getUint64 = function(offset) {
-	let part1 = this.getUint32(offset)
-	let part2 = this.getUint32(offset + 4)
+	const part1 = this.getUint32(offset)
+	const part2 = this.getUint32(offset + 4)
 	if (part1 < FULL_20_BITS) {
 		// Warning: JS cannot handle 64-bit integers. The number will overflow and cause unexpected result
 		// if the number is larger than 53. We try to handle numbers up to 52 bits. 32+21 = 53 out of which
