@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {throwError} from './util/helpers.ts'
 
 
@@ -12,7 +11,9 @@ export function throwNotLoaded(kind, key) {
 
 class PluginList extends Map {
 
-	constructor(kind) {
+	declare kind: string
+
+	constructor(kind: string) {
 		super()
 		this.kind = kind
 	}

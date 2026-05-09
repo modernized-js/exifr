@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {BufferView} from './util/BufferView.ts'
 import {Options, segments} from './options.ts'
 import {tagKeys, tagValues, tagRevivers} from './tags.ts'
@@ -81,7 +80,7 @@ export class FileParserBase {
 				try {
 					seg.chunk = await this.file.readChunk(start, size)
 				} catch (err) {
-					throwError(`Couldn't read segment: ${JSON.stringify(seg)}. ${err.message}`)
+					throwError(`Couldn't read segment: ${JSON.stringify(seg)}. ${(err as Error).message}`)
 				}
 			}
 		} else if (this.file.byteLength > start + size) {
@@ -137,13 +136,14 @@ export class AppSegmentParserBase {
 		// not using; the target segment's own blocks (ifd0 / exif / gps /
 		// etc. for tiff) keep their defaults so parsing still produces
 		// normal output.
-		const userOptions = {}
+		const userOptions: Record<string, unknown> = {}
 		for (const name of segments) {
 			if (name !== this.type) userOptions[name] = false
 		}
 		userOptions[this.type] = segOptions
 		const options = new Options(userOptions)
-		const instance = new this(input, options, input)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const instance = new (this as any)(input, options, input)
 		return instance.parse()
 	}
 
@@ -164,6 +164,7 @@ export class AppSegmentParserBase {
 	declare options: any
 	declare localOptions: any
 	declare canTranslate: boolean
+	declare translated?: any
 	/* eslint-enable @typescript-eslint/no-explicit-any */
 
 	errors: unknown[] = []
@@ -175,7 +176,7 @@ export class AppSegmentParserBase {
 		this.chunk = this.normalizeInput(chunk)
 		// BufferView instance of the whole file.
 		this.file = file
-		this.type = this.constructor.type
+		this.type = (this.constructor as typeof AppSegmentParserBase).type
 		this.globalOptions = this.options = options // todo: rename to fileOptions ???
 		this.localOptions = options[this.type] // todo: rename to this.options
 		this.canTranslate = this.localOptions && this.localOptions.translate
@@ -229,7 +230,7 @@ export class AppSegmentParserBase {
 	}
 
 	assignToOutput(root, parserOutput) {
-		this.assignObjectToOutput(root, this.constructor.type, parserOutput)
+		this.assignObjectToOutput(root, (this.constructor as typeof AppSegmentParserBase).type, parserOutput)
 	}
 
 	assignObjectToOutput(root, key, parserOutput) {

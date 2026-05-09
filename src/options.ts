@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {TAG_MAKERNOTE, TAG_USERCOMMENT} from './tags.ts'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP} from './tags.ts'
 import {TAG_XMP, TAG_IPTC, TAG_ICC} from './tags.ts'
@@ -31,6 +30,11 @@ export const allFormatters = [...inheritables, 'sanitize', 'mergeOutput', 'silen
 
 class SharedOptions {
 
+	declare translateKeys: boolean
+	declare translateValues: boolean
+	declare reviveValues: boolean
+	declare multiSegment: boolean
+
 	get translate() {
 		return this.translateKeys
 			|| this.translateValues
@@ -42,12 +46,18 @@ class SharedOptions {
 class SubOptions extends SharedOptions {
 
 	enabled = false
-	skip = new Set
-	pick = new Set
-	deps = new Set // tags required by other blocks or segments (IFD pointers, makernotes)
+	skip = new Set<unknown>()
+	pick = new Set<unknown>()
+	deps = new Set<unknown>() // tags required by other blocks or segments (IFD pointers, makernotes)
 	translateKeys   = false
 	translateValues = false
 	reviveValues    = false
+
+	declare key: string
+	declare parse: boolean
+	declare canBeFiltered: boolean
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	declare dict?: any
 
 	get needed() {
 		return this.enabled
@@ -203,10 +213,23 @@ const existingInstances = new Map
 
 export class Options extends SharedOptions {
 
-	// Field declared for sidecar.ts which sets `options.chunked = false`.
-	// Declared via index signature on the class would be heavier than
-	// needed; explicit single field keeps the surface tight.
+	// Public-shape declarations for fields that other source files read off
+	// of an Options instance. Most internal fields are still accessed via
+	// dynamic indexing in this same file (still inside the migration window),
+	// so we only surface the names used externally here.
 	chunked?: boolean
+	declare silentErrors: boolean
+	declare mergeOutput: boolean
+	declare firstChunkSize?: number
+	declare firstChunkSizeNode: number
+	declare firstChunkSizeBrowser: number
+	declare ifd1: { enabled: boolean }
+
+	// Block / segment SubOptions are attached dynamically on construction
+	// (`this[key] = new SubOptions(...)`). The index signature surfaces
+	// them for the rest of the source.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[key: string]: any
 
 	// exporting for user to change
 	static default = defaults
@@ -269,8 +292,13 @@ export class Options extends SharedOptions {
 	}
 
 	setupFromObject(userOptions) {
-		tiffBlocks.ifd0 = tiffBlocks.ifd0 || tiffBlocks.image
-		tiffBlocks.ifd1 = tiffBlocks.ifd1 || tiffBlocks.thumbnail
+		// Existing behavior: aliases 'image' → 'ifd0' and 'thumbnail' → 'ifd1' on
+		// the (mutable) tiffBlocks array. The cast just lets TS see the dynamic
+		// property bag — runtime is unchanged.
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const blocks = tiffBlocks as any
+		blocks.ifd0 = blocks.ifd0 || blocks.image
+		blocks.ifd1 = blocks.ifd1 || blocks.thumbnail
 		let key
 		// needed for adding additional (and internal options properties like stopAfterSos for jpg)
 		Object.assign(this, userOptions)

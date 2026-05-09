@@ -1,5 +1,7 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-class Dictionary extends Map {
+class Dictionary<K = unknown, V = unknown> extends Map<K, V> {
+
+	allKeys?: K[]
+	allValues?: V[]
 
 	get tagKeys() {
 		if (!this.allKeys)
