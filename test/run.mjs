@@ -6,6 +6,7 @@ import path from 'node:path'
 const args = new Set(process.argv.slice(2))
 const wantBundles = args.has('--bundles')
 const wantOnlyBundle = ['mini', 'lite', 'full'].find(name => args.has('--' + name))
+const wantCoverage = args.has('--coverage')
 
 const normalize = file => file.replaceAll('\\', '/')
 
@@ -29,7 +30,21 @@ if (files.length === 0) {
 	process.exit(1)
 }
 
-const stream = run({files, concurrency: true})
+const runOptions = {files, concurrency: true}
+if (wantCoverage) {
+	runOptions.coverage = true
+	runOptions.coverageExcludeGlobs = [
+		'test/**',
+		'dist/**',
+		'node_modules/**',
+		'benchmark/**',
+		'debug/**',
+		'examples/**',
+		'homepage/**',
+	]
+}
+
+const stream = run(runOptions)
 stream.on('test:fail', () => {
 	process.exitCode = 1
 })
