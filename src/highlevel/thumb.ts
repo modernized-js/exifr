@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import * as platform from '../util/platform.ts'
 import {Buffer} from '../util/platform.ts'
 import {Exifr} from '../Exifr.ts'

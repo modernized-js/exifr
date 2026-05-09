@@ -203,6 +203,11 @@ const existingInstances = new Map
 
 export class Options extends SharedOptions {
 
+	// Field declared for sidecar.ts which sets `options.chunked = false`.
+	// Declared via index signature on the class would be heavier than
+	// needed; explicit single field keeps the surface tight.
+	chunked?: boolean
+
 	// exporting for user to change
 	static default = defaults
 
