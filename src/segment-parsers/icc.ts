@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {AppSegmentParserBase} from '../parser.ts'
 import {segmentParsers} from '../plugins.ts'
 import {throwError, normalizeString} from '../util/helpers.ts'
@@ -27,8 +26,8 @@ export default class Icc extends AppSegmentParserBase {
 			// full header is: ICC_PROFILE
 	}
 
-	static findPosition(chunk, offset) {
-		const seg = super.findPosition(chunk, offset)
+	static findPosition(chunk, offset): any { // eslint-disable-line @typescript-eslint/no-explicit-any
+		const seg: any = super.findPosition(chunk, offset) // eslint-disable-line @typescript-eslint/no-explicit-any
 		seg.chunkNumber  = chunk.getUint8(offset + 16)
 		seg.chunkCount   = chunk.getUint8(offset + 17)
 		seg.multiSegment = seg.chunkCount > 1
@@ -51,9 +50,9 @@ export default class Icc extends AppSegmentParserBase {
 		const {raw} = this
 		if (this.chunk.byteLength < PROFILE_HEADER_LENGTH)
 			throwError('ICC header is too short')
-		for (let [offset, parse] of Object.entries(headerParsers)) {
-			offset = parseInt(offset, 10)
-			const val = parse(this.chunk, offset)
+		for (const [offsetKey, parse] of Object.entries(headerParsers)) {
+			const offset = parseInt(offsetKey, 10)
+			const val = (parse as (chunk: BufferView, offset: number) => unknown)(this.chunk, offset)
 			if (val === EMPTY_VALUE) continue
 			raw.set(offset, val)
 		}

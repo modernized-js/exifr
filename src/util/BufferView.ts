@@ -40,7 +40,7 @@ export class BufferView {
 	// Augmentation: BufferView-get64.ts attaches getUint64 to the prototype.
 	declare getUint64?: (offset: number, le?: boolean) => number | bigint
 
-	static from(arg, le) {
+	static from(arg, le?) {
 		if (arg instanceof this && arg.le === le)
 			return arg
 		else
