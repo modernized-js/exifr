@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import * as platform from './platform.ts'
 import {BufferView} from './BufferView.ts'
 //import {throwError} from './helpers.ts'
@@ -7,15 +6,22 @@ import {Buffer} from './platform.ts'
 
 export class DynamicBufferView extends BufferView {
 
-	ranges = new Ranges
+	ranges = new Ranges()
 
-	constructor(...args) {
+	// `chunked` and `readChunk` are populated by the ChunkedReader subclass.
+	// `declare` keeps them as TYPE-ONLY assertions — without it TS would
+	// emit class field initializers that set them to undefined at runtime,
+	// silently overwriting the values that subclasses install.
+	declare chunked?: boolean
+	declare readChunk?: (offset: number, length: number) => Promise<unknown>
+
+	constructor(...args: ConstructorParameters<typeof BufferView>) {
 		super(...args)
 		if (this.byteLength !== 0)
 			this.ranges.add(0, this.byteLength)
 	}
 
-	_tryExtend(offset, length, abChunk) {
+	_tryExtend(offset, length, abChunk?) {
 		if (offset === 0 && this.byteLength === 0 && abChunk) {
 			// we can receive ArrayBuffer or Buffer
 			const dataView = new DataView(abChunk.buffer || abChunk, abChunk.byteOffset, abChunk.byteLength)
@@ -48,6 +54,8 @@ export class DynamicBufferView extends BufferView {
 	}
 
 	// TODO: write tests for extending .set()
+	// @ts-expect-error -- intentionally narrows base class's `Class?` parameter
+	// to `canExtend?: boolean` for the dynamic-buffer use case.
 	set(arg, offset, canExtend = false) {
 		if (canExtend) this._tryExtend(offset, arg.byteLength, arg)
 		const chunk = super.set(arg, offset)
@@ -58,7 +66,7 @@ export class DynamicBufferView extends BufferView {
 	async ensureChunk(offset, length) {
 		if (!this.chunked) return
 		if (this.ranges.available(offset, length)) return
-		await this.readChunk(offset, length)
+		await this.readChunk!(offset, length)
 	}
 
 	// Returns bool indicating wheter buffer contains useful data (read from file) at given offset/length

@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {throwError} from './helpers.ts'
 import {hasBuffer} from '../util/platform.ts'
 
@@ -27,6 +26,20 @@ export function toAsciiString(arg) {
 
 export class BufferView {
 
+	// Explicit field declarations so subclasses (DynamicBufferView,
+	// ChunkedReader) can access them without TS complaining. Use `declare`
+	// to keep them type-only — actual assignments happen in the constructor
+	// / _swapDataView, and class-field initializers would otherwise overwrite
+	// values set by subclasses.
+	declare le?: boolean
+	declare dataView: DataView
+	declare buffer: ArrayBuffer
+	declare byteOffset: number
+	declare byteLength: number
+
+	// Augmentation: BufferView-get64.ts attaches getUint64 to the prototype.
+	declare getUint64?: (offset: number, le?: boolean) => number | bigint
+
 	static from(arg, le) {
 		if (arg instanceof this && arg.le === le)
 			return arg
@@ -34,7 +47,7 @@ export class BufferView {
 			return new BufferView(arg, undefined, undefined, le)
 	}
 
-	constructor(arg, offset = 0, length, le) {
+	constructor(arg, offset = 0, length?, le?) {
 		if (typeof le === 'boolean') this.le = le
 		if (Array.isArray(arg)) arg = new Uint8Array(arg)
 		if (arg === 0) {
@@ -143,9 +156,9 @@ export class BufferView {
 
 
 	// todo: investiage - can this be removed?
-	getUintBytes(offset, bytes, le) {
+	getUintBytes(offset, bytes, le?) {
 		switch (bytes) {
-			case 1: return this.getUint8(offset, le)
+			case 1: return this.getUint8(offset)
 			case 2: return this.getUint16(offset, le)
 			case 4: return this.getUint32(offset, le)
 			// Extension only required for parsing HEIC, implemented in separate file.
@@ -154,9 +167,9 @@ export class BufferView {
 	}
 
 	// todo: investiage - can this be removed?
-	getUint(offset, size, le) {
+	getUint(offset, size, le?) {
 		switch (size) {
-			case 8:  return this.getUint8(offset, le)
+			case 8:  return this.getUint8(offset)
 			case 16: return this.getUint16(offset, le)
 			case 32: return this.getUint32(offset, le)
 			// Extension only required for parsing HEIC, implemented in separate file.
@@ -164,11 +177,7 @@ export class BufferView {
 		}
 	}
 
-	toString(arg) {
-		return this.dataView.toString(arg, this.constructor.name)
-	}
-
 	// do not delete
-	ensureChunk() {}
+	ensureChunk(_offset?: number, _length?: number): unknown { return undefined }
 
 }
