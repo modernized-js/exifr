@@ -74,6 +74,15 @@ export const assert = {
 			nodeAssertLoose.fail(msg ?? `assert.include does not support ${typeof haystack}`)
 		}
 	},
+	notInclude: (haystack, needle, msg) => {
+		if (typeof haystack === 'string' || Array.isArray(haystack)) {
+			nodeAssertLoose.ok(!haystack.includes(needle), msg ?? `expected ${haystack} not to include ${needle}`)
+		} else if (haystack instanceof Set) {
+			nodeAssertLoose.ok(!haystack.has(needle), msg)
+		} else {
+			nodeAssertLoose.fail(msg ?? `assert.notInclude does not support ${typeof haystack}`)
+		}
+	},
 
 	instanceOf: (v, ctor, msg) => nodeAssertLoose.ok(v instanceof ctor, msg ?? `expected instanceof ${ctor.name}`),
 	notInstanceOf: (v, ctor, msg) => nodeAssertLoose.ok(!(v instanceof ctor), msg),
