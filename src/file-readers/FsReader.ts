@@ -5,14 +5,14 @@ import * as platform from '../util/platform.ts'
 import dynamicImport from '../util/import.ts'
 
 
-let fsPromise = dynamicImport('fs', fs => fs.promises)
+const fsPromise = dynamicImport('fs', fs => fs.promises)
 
 export class FsReader extends ChunkedReader {
 
 	async readWhole() {
 		this.chunked = false
 		this.fs = await fsPromise
-		let buffer = await this.fs.readFile(this.input)
+		const buffer = await this.fs.readFile(this.input)
 		this._swapBuffer(buffer)
 	}
 
@@ -37,7 +37,7 @@ export class FsReader extends ChunkedReader {
 		if (offset + length > this.size)
 			length = this.size - offset
 		// read the chunk into newly created/extended chunk of the dynamic buffer.
-		var chunk = this.subarray(offset, length, true)
+		const chunk = this.subarray(offset, length, true)
 		await this.fh.read(chunk.dataView, 0, length, offset)
 		return chunk
 	}
@@ -46,7 +46,7 @@ export class FsReader extends ChunkedReader {
 	// (app can read more chunks after parsing the first)
 	async close() {
 		if (this.fh) {
-			let fh = this.fh
+			const fh = this.fh
 			this.fh = undefined
 			await fh.close()
 		}

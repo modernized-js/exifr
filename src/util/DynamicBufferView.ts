@@ -18,12 +18,12 @@ export class DynamicBufferView extends BufferView {
 	_tryExtend(offset, length, abChunk) {
 		if (offset === 0 && this.byteLength === 0 && abChunk) {
 			// we can receive ArrayBuffer or Buffer
-			let dataView = new DataView(abChunk.buffer || abChunk, abChunk.byteOffset, abChunk.byteLength)
+			const dataView = new DataView(abChunk.buffer || abChunk, abChunk.byteOffset, abChunk.byteLength)
 			this._swapDataView(dataView)
 		} else {
-			let end = offset + length
+			const end = offset + length
 			if (end > this.byteLength) {
-				let {dataView} = this._extend(end)
+				const {dataView} = this._extend(end)
 				this._swapDataView(dataView)
 			}
 		}
@@ -35,7 +35,7 @@ export class DynamicBufferView extends BufferView {
 			uintView = Buffer.allocUnsafe(newLength)
 		else
 			uintView = new Uint8Array(newLength)
-		let dataView = new DataView(uintView.buffer, uintView.byteOffset, uintView.byteLength)
+		const dataView = new DataView(uintView.buffer, uintView.byteOffset, uintView.byteLength)
 		uintView.set(new Uint8Array(this.buffer, this.byteOffset, this.byteLength), 0)
 		return {uintView, dataView}
 	}
@@ -50,7 +50,7 @@ export class DynamicBufferView extends BufferView {
 	// TODO: write tests for extending .set()
 	set(arg, offset, canExtend = false) {
 		if (canExtend) this._tryExtend(offset, arg.byteLength, arg)
-		let chunk = super.set(arg, offset)
+		const chunk = super.set(arg, offset)
 		this.ranges.add(offset, chunk.byteLength)
 		return chunk
 	}
@@ -81,12 +81,12 @@ export class Ranges {
 	//       even though there are a few unused bytes between the two needed ranges
 	add(offset, length, padding = 0) {
 		let end = offset + length
-		let within = this.list.filter(range => isBetween(offset, range.offset, end) || isBetween(offset, range.end, end))
+		const within = this.list.filter(range => isBetween(offset, range.offset, end) || isBetween(offset, range.end, end))
 		if (within.length > 0) {
 			offset = Math.min(offset, ...within.map(range => range.offset))
 			end    = Math.max(end,    ...within.map(range => range.end))
 			length = end - offset
-			let range = within.shift()
+			const range = within.shift()
 			range.offset = offset
 			range.length = length
 			range.end    = end
@@ -99,7 +99,7 @@ export class Ranges {
 	// Returns bool indicating wheter buffer contains useful data (read from file) at given offset/length
 	// or if its so far only allocated & unitialized memory ready to be written into.
 	available(offset, length) {
-		let end = offset + length
+		const end = offset + length
 		return this.list.some(range => range.offset <= offset && end <= range.end)
 	}
 

@@ -10,74 +10,74 @@ import {tiffBlocks} from '../src/bundles/full.ts'
 
 function testBlockResult(output, blockName, results = {}) {
 	assert.isObject(output[blockName], `output.${blockName} is undefined`)
-	for (let [key, val] of Object.entries(results)) {
+	for (const [key, val] of Object.entries(results)) {
 		assert.equal(output[blockName][key], val)
 	}
 }
 
 function testBlock({blockName, definedByDefault, results}) {
-	let fileWith = 'IMG_20180725_163423.jpg'
-	let fileWithout = 'noexif.jpg'
+	const fileWith = 'IMG_20180725_163423.jpg'
+	const fileWithout = 'noexif.jpg'
 
 	describe(`options.${blockName} enable/disable`, () => {
 
 		it(`output.${blockName} is undefined when {${blockName}: false}`, async () => {
-			let options = {mergeOutput: false, [blockName]: false}
-			let input = await getFile(fileWith)
-			let output = await exifr.parse(input, options) || {}
+			const options = {mergeOutput: false, [blockName]: false}
+			const input = await getFile(fileWith)
+			const output = await exifr.parse(input, options) || {}
 			assert.isUndefined(output[blockName], `output shouldn't contain ${blockName}`)
 		})
 
 		it(`output.${blockName} is defined when {${blockName}: true, tiff: false}`, async () => {
-			let options = {mergeOutput: false, [blockName]: true, tiff: false}
-			let input = await getFile(fileWith)
-			let output = await exifr.parse(input, options) || {}
+			const options = {mergeOutput: false, [blockName]: true, tiff: false}
+			const input = await getFile(fileWith)
+			const output = await exifr.parse(input, options) || {}
 			assert.exists(output[blockName], `output should contain ${blockName}`)
 		})
 
 		it(`output.${blockName} is the only defined block when {${blockName}: true, tiff: false}`, async () => {
-			let options = {mergeOutput: false, [blockName]: true, tiff: false}
-			let input = await getFile(fileWith)
-			let output = await exifr.parse(input, options) || {}
-			for (let key of tiffBlocks)
+			const options = {mergeOutput: false, [blockName]: true, tiff: false}
+			const input = await getFile(fileWith)
+			const output = await exifr.parse(input, options) || {}
+			for (const key of tiffBlocks)
 				if (key !== blockName)
 					assert.isUndefined(output[key], `output should not contain ${key}, only ${blockName}`)
 		})
 
 		if (fileWithout) {
 			it(`output.${blockName} is undefined if the file doesn't TIFF despite {${blockName}: false}`, async () => {
-				var options = {mergeOutput: false, [blockName]: true}
-				var file = await getFile(fileWithout)
-				var output = await exifr.parse(file, options) || {}
+				const options = {mergeOutput: false, [blockName]: true}
+				const file = await getFile(fileWithout)
+				const output = await exifr.parse(file, options) || {}
 				assert.isUndefined(output[blockName])
 			})
 			it(`output.${blockName} is undefined if the file doesn't TIFF despite {tiff: false}`, async () => {
-				var options = {mergeOutput: false, tiff: true}
-				var file = await getFile(fileWithout)
-				var output = await exifr.parse(file, options) || {}
+				const options = {mergeOutput: false, tiff: true}
+				const file = await getFile(fileWithout)
+				const output = await exifr.parse(file, options) || {}
 				assert.isUndefined(output[blockName])
 			})
 		}
 
 		it(`output.${blockName} is object when {${blockName}: true}`, async () => {
-			let options = {mergeOutput: false, [blockName]: true}
-			let input = await getFile(fileWith)
-			let output = await exifr.parse(input, options) || {}
+			const options = {mergeOutput: false, [blockName]: true}
+			const input = await getFile(fileWith)
+			const output = await exifr.parse(input, options) || {}
 			testBlockResult(output, blockName, results)
 		})
 
 		if (definedByDefault) {
 			it(`output.${blockName} is object by default`, async () => {
-				let options = {mergeOutput: false}
-				let input = await getFile(fileWith)
-				let output = await exifr.parse(input, options) || {}
+				const options = {mergeOutput: false}
+				const input = await getFile(fileWith)
+				const output = await exifr.parse(input, options) || {}
 				testBlockResult(output, blockName, results)
 			})
 		} else {
 			it(`output.${blockName} is undefined by default`, async () => {
-				let options = {mergeOutput: false}
-				let input = await getFile(fileWith)
-				let output = await exifr.parse(input, options) || {}
+				const options = {mergeOutput: false}
+				const input = await getFile(fileWith)
+				const output = await exifr.parse(input, options) || {}
 				assert.isUndefined(output[blockName], `output shouldn't contain ${blockName}`)
 			})
 		}
@@ -99,15 +99,15 @@ function testFormatterInheritanceInTiffBlock(argument) {
 describe('TIFF Segment', () => {
 
 	it(`should handle .tif with scattered TIFF (IFD0 pointing to the end of file)`, async () => {
-		let input = await getFile('001.tif')
-		let output = await exifr.parse(input)
+		const input = await getFile('001.tif')
+		const output = await exifr.parse(input)
 		assert.equal(output.Make, 'DJI')
 	})
 
 	it(`IFD0 is ignored and only sifted through for GPS IFD pointer when {ifd0: false, gps: true}`, async () => {
-		let input = await getFile('issue-metadata-extractor-152.tif')
-		let options = {mergeOutput: false, ifd0: false, gps: true}
-		var output = await exifr.parse(input, options)
+		const input = await getFile('issue-metadata-extractor-152.tif')
+		const options = {mergeOutput: false, ifd0: false, gps: true}
+		const output = await exifr.parse(input, options)
 		assert.isUndefined(output.ifd0)
 		//assert.isUndefined(output.ifd0.ImageWidth)
 		//assert.isUndefined(output.ifd0.Make)
@@ -118,57 +118,57 @@ describe('TIFF Segment', () => {
 	describe('random tests', () => {
 
 		it(`random issue {ifd0: false, exif: false, gps: false, interop: false, ifd1: true}`, async () => {
-			let input = await getFile('canon-dslr.jpg')
-			let options = {mergeOutput: false, ifd0: false, exif: false, gps: false, interop: false, ifd1: true}
-			var output = await exifr.parse(input, options)
+			const input = await getFile('canon-dslr.jpg')
+			const options = {mergeOutput: false, ifd0: false, exif: false, gps: false, interop: false, ifd1: true}
+			const output = await exifr.parse(input, options)
 			assert.isObject(output)
 		})
 
 		it(`empty spaces in string are trimmed`, async () => {
-			let input = await getFile('empty-imagedesc-in-ifd0.jpg') // this file has some weird string values
-			var output = await exifr.parse(input, {ifd0: true})
+			const input = await getFile('empty-imagedesc-in-ifd0.jpg') // this file has some weird string values
+			const output = await exifr.parse(input, {ifd0: true})
 			assert.equal(output.ImageDescription, undefined)
 		})
 
 		it(`empty strings are left undefined`, async () => {
-			let input = await getFile('empty-imagedesc-in-ifd0.jpg') // this file has some weird string values
-			var output = await exifr.parse(input, {gps: true})
+			const input = await getFile('empty-imagedesc-in-ifd0.jpg') // this file has some weird string values
+			const output = await exifr.parse(input, {gps: true})
 			assert.equal(output.GPSMapDatum, 'WGS-84')
 		})
 
 		it(`FileSource is unpacked to single value`, async () => {
-			let input = await getFile('empty-imagedesc-in-ifd0.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('empty-imagedesc-in-ifd0.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.notInstanceOf(output[0xa300], Uint8Array)
 		})
 
 		it(`SceneType is unpacked to single value`, async () => {
-			let input = await getFile('empty-imagedesc-in-ifd0.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('empty-imagedesc-in-ifd0.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.notInstanceOf(output[0xa301], Uint8Array)
 		})
 
 		it(`ExifVersion is 2.2 when <0x48 0x50 0x50 0x48>`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.equal(output[0x9000], '2.2')
 		})
 
 		it(`ExifVersion is 2.2 when <0x00 0x02 0x02 0x00>`, async () => {
-			let input = await getFile('32d08f4a5eb10332506ebedbb9bc7257.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('32d08f4a5eb10332506ebedbb9bc7257.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.equal(output[0x9000], '2.2')
 		})
 
 		it(`UCS2 string is properly revived to string`, async () => {
-			let input = await getFile('iptc-agency-photographer-example.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('iptc-agency-photographer-example.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.isTrue(output[0x9c9b].startsWith('Henry Bacon'))
 		})
 
 		it(`XPTitle and other XP* tags are revived from UCS2`, async () => {
-			let input = await getFile('iptc-agency-photographer-example.jpg')
-			var output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
+			const input = await getFile('iptc-agency-photographer-example.jpg')
+			const output = await exifr.parse(input, {exif: true, translateKeys: false, translateValues: false})
 			assert.isString(output[0x9c9b]) // XPTitle
 			assert.isString(output[0x9c9e]) // XPKeywords
 			assert.isString(output[0x9c9f]) // XPSubject
@@ -181,9 +181,9 @@ describe('TIFF Segment', () => {
 	describe('options.tiff = true/false shortcut', () => {
 
 		it(`{tiff: true} enables all TIFF blocks`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, tiff: true}
-			var output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, tiff: true}
+			const output = await exifr.parse(input, options)
 			assert.isObject(output.ifd0)
 			assert.isObject(output.exif)
 			assert.isObject(output.gps)
@@ -192,9 +192,9 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`{tiff: false} disables all TIFF blocks`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, tiff: false}
-			var output = await exifr.parse(input, options) || {}
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, tiff: false}
+			const output = await exifr.parse(input, options) || {}
 			assert.isUndefined(output.ifd0)
 			assert.isUndefined(output.exif)
 			assert.isUndefined(output.gps)
@@ -203,9 +203,9 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`{tiff: false, makerNote: true} disables all TIFF blocks except for those needed to get MakerNote`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, tiff: false, makerNote: true}
-			var output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, tiff: false, makerNote: true}
+			const output = await exifr.parse(input, options)
 			assert.isUndefined(output.ifd0)
 			assert.isUndefined(output.exif)
 			assert.isUndefined(output.gps)
@@ -215,9 +215,9 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`{tiff: false, exif: true} disables all TIFF blocks except for EXIF`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, tiff: false, exif: true}
-			var output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, tiff: false, exif: true}
+			const output = await exifr.parse(input, options)
 			assert.isUndefined(output.ifd0)
 			assert.isObject(output.exif)
 			assert.isUndefined(output.gps)
@@ -226,9 +226,9 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`{tiff: false, ifd1: true} disables all TIFF blocks except for thumbnail`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, tiff: false, ifd1: true}
-			var output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, tiff: false, ifd1: true}
+			const output = await exifr.parse(input, options)
 			assert.isUndefined(output.ifd0)
 			assert.isUndefined(output.exif)
 			assert.isUndefined(output.gps)
@@ -241,15 +241,15 @@ describe('TIFF Segment', () => {
 	describe('notable tags', () => {
 
 		it(`MakerNote is not parsed by default`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			var output = await exifr.parse(input)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const output = await exifr.parse(input)
 			assert.isUndefined(output.makerNote, `output.makerNote should be undefined`)
 			assert.isUndefined(output.MakerNote, `output.MakerNote should be undefined`)
 		})
 
 		it(`UserComment is not parsed by default`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			var output = await exifr.parse(input)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const output = await exifr.parse(input)
 			assert.isUndefined(output.userComment, `output.userComment should be undefined`)
 			assert.isUndefined(output.UserComment, `output.UserComment should be undefined`)
 		})
@@ -259,33 +259,33 @@ describe('TIFF Segment', () => {
 	describe('pick / skip', () => {
 
 		it(`only ifd0 picks are present in output (local array shorthand form)`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, ifd0: ['Make'], exif: false, gps: false, interop: false}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, ifd0: ['Make'], exif: false, gps: false, interop: false}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.Make)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`only ifd0 picks are present in output (tiff semi-global array form)`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, tiff: ['Make']}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, tiff: ['Make']}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.Make)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`only ifd0 picks are present in output (global picks array form)`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, pick: ['Make']}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, pick: ['Make']}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.Make)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`only ifd0, exif & gps pick are present in output`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: false}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: false}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.Make)
 			assert.exists(output.ISO)
 			assert.exists(output.GPSLatitude)
@@ -293,18 +293,18 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`only exif & gps pick are present in output`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, ifd0: false, exif: ['ISO'], gps: ['GPSLatitude'], interop: false}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, ifd0: false, exif: ['ISO'], gps: ['GPSLatitude'], interop: false}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.ISO)
 			assert.exists(output.GPSLatitude)
 			assert.lengthOf(Object.keys(output), 2)
 		})
 
 		it(`only ifd0, exif, gps & interop pick are present in output`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: ['InteropIndex']}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: ['InteropIndex']}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.Make)
 			assert.exists(output.ISO)
 			assert.exists(output.GPSLatitude)
@@ -313,9 +313,9 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`only ifd0, exif, gps & interop blocks with picked tags are present in output`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: ['InteropIndex']}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, ifd0: ['Make'], exif: ['ISO'], gps: ['GPSLatitude'], interop: ['InteropIndex']}
+			const output = await exifr.parse(input, options)
 			assert.exists(output.ifd0)
 			assert.exists(output.exif)
 			assert.exists(output.gps)
@@ -331,35 +331,35 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`does not contain exif, nor ifd0, but contains makerNote when {ifd0: false, exif: false, makerNote: true, mergeOutput: false}`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, ifd0: false, exif: false, gps: false, makerNote: true}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, ifd0: false, exif: false, gps: false, makerNote: true}
+			const output = await exifr.parse(input, options)
 			assert.isUndefined(output.exif)
 			assert.exists(output.makerNote)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`does not contain exif, nor ifd0, but contains makerNote when {ifd0: false, exif: false, makerNote: true, mergeOutput: true}`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: true, ifd0: false, exif: false, gps: false, makerNote: true}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: true, ifd0: false, exif: false, gps: false, makerNote: true}
+			const output = await exifr.parse(input, options)
 			assert.isUndefined(output.exif)
 			assert.exists(output.makerNote)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`options.ifd1 exists when {ifd0: false, exif: false, ifd1: true}`, async () => {
-			let input = await getFile('IMG_20180725_163423.jpg')
-			let options = {mergeOutput: false, ifd0: false, exif: false, gps: false, interop: false, ifd1: true}
-			let output = await exifr.parse(input, options)
+			const input = await getFile('IMG_20180725_163423.jpg')
+			const options = {mergeOutput: false, ifd0: false, exif: false, gps: false, interop: false, ifd1: true}
+			const output = await exifr.parse(input, options)
 			assert.isObject(output.ifd1)
 			assert.lengthOf(Object.keys(output), 1)
 		})
 
 		it(`edge case with .tif file`, async () => {
-			let file = await getFile('issue-metadata-extractor-152.tif')
-			let options = {tiff: true, ifd0: true, translateKeys: false}
-			let output = await exifr.parse(file, options)
+			const file = await getFile('issue-metadata-extractor-152.tif')
+			const options = {tiff: true, ifd0: true, translateKeys: false}
+			const output = await exifr.parse(file, options)
 			assert.exists(output[0xC68B])
 		})
 
@@ -380,26 +380,26 @@ describe('TIFF Segment', () => {
 		})
 
 		it(`should parse broken file without throwing when {silentErrors: true}`, async () => {
-			var output = await exifr.parse(brokenFile, {silentErrors: true})
+			const output = await exifr.parse(brokenFile, {silentErrors: true})
 			assert.isNotEmpty(output)
 			assert.notInstanceOf(output, Error, 'should not return Error instance')
 		})
 
 		it(`parses IFD0 correctly when GPS block is broken`, async () => {
-			var output = await exifr.parse(brokenFile, {silentErrors: true})
+			const output = await exifr.parse(brokenFile, {silentErrors: true})
 			assert.equal(output.Model, 'Canon EOS 30D')
 			assert.equal(output.Software, 'LIBFORMAT (c) Pierre-e Gougelet')
 		})
 
 		it(`parses EXIF correctly when GPS block is broken`, async () => {
-			var output = await exifr.parse(brokenFile, {silentErrors: true, translateValues: false})
+			const output = await exifr.parse(brokenFile, {silentErrors: true, translateValues: false})
 			assert.equal(output.ExposureTime, 0.004)
 			assert.equal(output.Sharpness, 2)
 			assert.equal(output.ExifImageWidth, 3504)
 		})
 
 		it(`parses some GPS tag before running into broken tags`, async () => {
-			var output = await exifr.parse(brokenFile, {silentErrors: true, reviveValues: false})
+			const output = await exifr.parse(brokenFile, {silentErrors: true, reviveValues: false})
 			assert.deepEqual(Array.from(output.GPSVersionID), [0x02, 0x02, 0x00, 0x00])
 		})
 
@@ -449,8 +449,8 @@ describe('TIFF - IFD0 / Image Block', () => {
 		describe('0xC68B OriginalRawFileName', () => {
 
 			const CODE = 0xC68B
-			let reviveOptions   = {tiff: true, ifd0: true, translateKeys: false, reviveValues: true}
-			let noReviveOptions = {tiff: true, ifd0: true, translateKeys: false, reviveValues: false}
+			const reviveOptions   = {tiff: true, ifd0: true, translateKeys: false, reviveValues: true}
+			const noReviveOptions = {tiff: true, ifd0: true, translateKeys: false, reviveValues: false}
 			let file1
 			let file2
 			before(async () => {
@@ -459,22 +459,22 @@ describe('TIFF - IFD0 / Image Block', () => {
 			})
 
 			it(`string & {reviveValues: false} => string`, async () => {
-				var output = await exifr.parse(file1, noReviveOptions)
+				const output = await exifr.parse(file1, noReviveOptions)
 				assert.isString(output[CODE])
 			})
 
 			it(`string & {reviveValues: true} => string`, async () => {
-				var output = await exifr.parse(file1, reviveOptions)
+				const output = await exifr.parse(file1, reviveOptions)
 				assert.isString(output[CODE])
 			})
 
 			it(`Uint8Array & {reviveValues: false} => Uint8Array`, async () => {
-				var output = await exifr.parse(file2, noReviveOptions)
+				const output = await exifr.parse(file2, noReviveOptions)
 				assert.instanceOf(output[CODE], Uint8Array)
 			})
 
 			it(`Uint8Array & {reviveValues: true} => string`, async () => {
-				var output = await exifr.parse(file2, reviveOptions)
+				const output = await exifr.parse(file2, reviveOptions)
 				assert.isString(output[CODE])
 			})
 
@@ -521,7 +521,7 @@ describe('TIFF - EXIF Block', () => {
 	})
 
 	it(`additional EXIF block test`, async () => {
-		let output = await exifr.parse(await getFile('img_1771.jpg'))
+		const output = await exifr.parse(await getFile('img_1771.jpg'))
 		assert.equal(output.ApertureValue, 4.65625)
 	})
 })
@@ -565,8 +565,8 @@ describe('TIFF - GPS Block', () => {
 	})
 
 	it(`additional GPS block test - practical latitude & longitude in output`, async () => {
-		let options = {mergeOutput: false}
-		let output = await exifr.parse(await getFile('IMG_20180725_163423.jpg'), options)
+		const options = {mergeOutput: false}
+		const output = await exifr.parse(await getFile('IMG_20180725_163423.jpg'), options)
 		assert.equal(output.gps.latitude, 50.29960277777778)
 		assert.equal(output.gps.longitude, 14.820294444444444)
 	})
@@ -649,20 +649,20 @@ describe('TIFF - Embedded XMP, ICC, IPTC in .tif files', () => {
 	describeEmbeddedSegment('iptc', TAG_IPTC)
 
 	function describeEmbeddedSegment(segKey, TAG) {
-		let uperKey = segKey.toUpperCase()
+		const uperKey = segKey.toUpperCase()
 
 		describe(uperKey, () => {
 
 			it(`extracts only ${uperKey} {tiff: false, ${segKey}: true}`, async () => {
-				let options = {tiff: false, iptc: true, mergeOutput: false}
-				var output = await exifr.parse(input, options)
+				const options = {tiff: false, iptc: true, mergeOutput: false}
+				const output = await exifr.parse(input, options)
 				assert.isDefined(output.iptc)
 				assert.lengthOf(Object.keys(output), 1)
 			})
 
 			it(`skips everything else than ${uperKey} in TIFF when {tiff: false, ${segKey}: true}`, async () => {
-				let options = {tiff: false, [segKey]: true, mergeOutput: false}
-				var exr = new Exifr(options)
+				const options = {tiff: false, [segKey]: true, mergeOutput: false}
+				const exr = new Exifr(options)
 				await exr.read(input)
 				await exr.parse(input)
 				assert.lengthOf(exr.options.ifd0.pick, 1)

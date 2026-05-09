@@ -7,7 +7,7 @@ describe('Xmp - issues', () => {
 		describe('#59 (regions): nested rdf:Description', () => {
 
 			it('RegionList with single item', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<rdf:Description>
 						<mwg-rs:Regions rdf:parseType="Resource">
 							<mwg-rs:AppliedToDimensions stDim:w="1697" stDim:h="1132" stDim:unit="pixel"/>
@@ -34,7 +34,7 @@ describe('Xmp - issues', () => {
 			})
 
 			it('RegionList with multiple items', () => {
-				let output = Xmp.parse(`
+				const output = Xmp.parse(`
 					<rdf:Description>
 						<mwg-rs:Regions rdf:parseType="Resource">
 							<mwg-rs:AppliedToDimensions stDim:w="1697" stDim:h="1132" stDim:unit="pixel"/>

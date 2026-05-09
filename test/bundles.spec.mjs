@@ -10,11 +10,11 @@ describe('bundles', () => {
 
 	if (isBrowser) {
 
-		let bundles = ['mini', 'lite', 'full']
-		for (let bundle of bundles) {
+		const bundles = ['mini', 'lite', 'full']
+		for (const bundle of bundles) {
 
 			it(bundle, async () => {
-				let {exif, gps, orientation} = await createIframe(`./bundles/${bundle}.html`)
+				const {exif, gps, orientation} = await createIframe(`./bundles/${bundle}.html`)
 				assert.equal(exif.Model       || exif[0x0110] , 'Pixel')
 				assert.equal(exif.ISO         || exif[0x8827] , 50)
 				assert.equal(exif.GPSAltitude || exif[0x0006] , 252)

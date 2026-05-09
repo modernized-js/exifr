@@ -28,7 +28,7 @@ export default class Icc extends AppSegmentParserBase {
 	}
 
 	static findPosition(chunk, offset) {
-		let seg = super.findPosition(chunk, offset)
+		const seg = super.findPosition(chunk, offset)
 		seg.chunkNumber  = chunk.getUint8(offset + 16)
 		seg.chunkCount   = chunk.getUint8(offset + 17)
 		seg.multiSegment = seg.chunkCount > 1
@@ -48,22 +48,22 @@ export default class Icc extends AppSegmentParserBase {
 	}
 
 	parseHeader() {
-		let {raw} = this
+		const {raw} = this
 		if (this.chunk.byteLength < PROFILE_HEADER_LENGTH)
 			throwError('ICC header is too short')
 		for (let [offset, parse] of Object.entries(headerParsers)) {
 			offset = parseInt(offset, 10)
-			let val = parse(this.chunk, offset)
+			const val = parse(this.chunk, offset)
 			if (val === EMPTY_VALUE) continue
 			raw.set(offset, val)
 		}
 	}
 
 	parseTags() {
-		let {raw} = this
+		const {raw} = this
 		let tagCount = this.chunk.getUint32(128)
 		let offset = 132
-		let chunkLength = this.chunk.byteLength
+		const chunkLength = this.chunk.byteLength
 		let code, valueOffset, valueLength, type, value
 		while (tagCount--) {
 			code        = this.chunk.getString(offset, 4)
@@ -99,7 +99,7 @@ export default class Icc extends AppSegmentParserBase {
 	}
 
 	parseDesc(offset) {
-		let length  = this.chunk.getUint32(offset + 8) - 1 // last byte is null termination
+		const length  = this.chunk.getUint32(offset + 8) - 1 // last byte is null termination
 		return normalizeString(this.chunk.getString(offset + 12, length))
 	}
 
@@ -114,17 +114,17 @@ export default class Icc extends AppSegmentParserBase {
 
 	// Multi Localized Unicode Type
 	parseMluc(tagOffset) {
-		let {chunk} = this
-		let entryCount  = chunk.getUint32(tagOffset + 8)
-		let entrySize   = chunk.getUint32(tagOffset + 12)
+		const {chunk} = this
+		const entryCount  = chunk.getUint32(tagOffset + 8)
+		const entrySize   = chunk.getUint32(tagOffset + 12)
 		let entryOffset = tagOffset + 16
-		let values      = []
+		const values      = []
 		for (let i = 0; i < entryCount; i++) {
-			let lang    = chunk.getString(entryOffset + 0, 2)
-			let country = chunk.getString(entryOffset + 2, 2)
-			let length  = chunk.getUint32(entryOffset + 4)
-			let offset  = chunk.getUint32(entryOffset + 8) + tagOffset
-			let text = normalizeString(chunk.getUnicodeString(offset, length))
+			const lang    = chunk.getString(entryOffset + 0, 2)
+			const country = chunk.getString(entryOffset + 2, 2)
+			const length  = chunk.getUint32(entryOffset + 4)
+			const offset  = chunk.getUint32(entryOffset + 8) + tagOffset
+			const text = normalizeString(chunk.getUnicodeString(offset, length))
 			values.push({lang, country, text})
 			entryOffset += entrySize
 		}
@@ -183,18 +183,18 @@ function parseDate(view, offset) {
 }
 
 function concatChunks(chunks) {
-	let buffers = chunks.map(s => s.chunk.toUint8())
-	let combined = concatBuffers(buffers)
+	const buffers = chunks.map(s => s.chunk.toUint8())
+	const combined = concatBuffers(buffers)
     return new BufferView(combined)
 }
 
 function concatBuffers(buffers) {
-	let ArrayType = buffers[0].constructor
+	const ArrayType = buffers[0].constructor
     let totalLength = 0
-    for (let buffer of buffers) totalLength += buffer.length
-    let result = new ArrayType(totalLength)
+    for (const buffer of buffers) totalLength += buffer.length
+    const result = new ArrayType(totalLength)
     let offset = 0
-    for (let buffer of buffers) {
+    for (const buffer of buffers) {
         result.set(buffer, offset)
         offset += buffer.length
     }

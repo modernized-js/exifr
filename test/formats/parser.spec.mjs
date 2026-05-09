@@ -9,7 +9,7 @@ describe('parser core', () => {
 	describe(`throws if the input file isn't supported`, () => {
 
 		it(`rejects random file 1`, async () => {
-			let input = await getFile('icc/D65_XYZ.icc')
+			const input = await getFile('icc/D65_XYZ.icc')
 			try {
 				await exifr.parse(input)
 			} catch(err) {
@@ -19,7 +19,7 @@ describe('parser core', () => {
 		})
 
 		it(`rejects random file 2`, async () => {
-			let input = await getFile('cookiezen.xmp')
+			const input = await getFile('cookiezen.xmp')
 			try {
 				await exifr.parse(input)
 			} catch(err) {

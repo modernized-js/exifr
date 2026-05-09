@@ -14,9 +14,9 @@ const boxHeaderLength = 16
 export class IsoBmffParser extends FileParserBase {
 
 	parseBoxes(offset = 0) {
-		let boxes = []
+		const boxes = []
 		while (offset < this.file.byteLength - 4) {
-			let box = this.parseBoxHead(offset)
+			const box = this.parseBoxHead(offset)
 			boxes.push(box)
 			if (box.length === 0) break
 			offset += box.length
@@ -35,7 +35,7 @@ export class IsoBmffParser extends FileParserBase {
 
 	parseBoxHead(offset) {
 		let length = this.file.getUint32(offset)
-		let kind   = this.file.getString(offset + 4, 4)
+		const kind   = this.file.getString(offset + 4, 4)
 		let start  = offset + 8 // 4+4 bytes
 		// length can be larger than 32b number in which case it is the first 64bits after header
 		if (length === 1) {
@@ -49,7 +49,7 @@ export class IsoBmffParser extends FileParserBase {
 		// ISO boxes come in 'old' and 'full' variants.
 		// The 'full' variant also contains version and flags information.
 		if (box.version !== undefined) return
-		let vflags = this.file.getUint32(box.start)
+		const vflags = this.file.getUint32(box.start)
 		box.version = vflags >> 24
 		box.start += 4
 	}
@@ -64,10 +64,10 @@ export class HeifFileParser extends IsoBmffParser {
 		// The file starts with 4 byte FTYP number. The value is unlikely more than 30, let alone 2^32 FTYPs.
 		// So it's safe to assume that if first two bytes are 0, then this is HEIC.
 		if (firstTwoBytes !== 0) return false
-		let ftypLength = file.getUint16(2)
+		const ftypLength = file.getUint16(2)
 		if (ftypLength > 50) return false
 		let offset = 16
-		let compatibleBrands = []
+		const compatibleBrands = []
 		while (offset < ftypLength) {
 			compatibleBrands.push(file.getString(offset, 4))
 			offset += 4
@@ -93,7 +93,7 @@ export class HeifFileParser extends IsoBmffParser {
 
 	async registerSegment(key, offset, length) {
 		await this.file.ensureChunk(offset, length)
-		let chunk = this.file.subarray(offset, length)
+		const chunk = this.file.subarray(offset, length)
 		this.createParser(key, chunk)
 	}
 /*
@@ -117,28 +117,28 @@ export class HeifFileParser extends IsoBmffParser {
 	}
 */
 	async findIcc(meta) {
-		let iprp = this.findBox(meta, 'iprp')
+		const iprp = this.findBox(meta, 'iprp')
 		if (iprp === undefined) return
-		let ipco = this.findBox(iprp, 'ipco')
+		const ipco = this.findBox(iprp, 'ipco')
 		if (ipco === undefined) return
-		let colr = this.findBox(ipco, 'colr')
+		const colr = this.findBox(ipco, 'colr')
 		if (colr === undefined) return
 		await this.registerSegment('icc', colr.offset + 12, colr.length)
 	}
 
 	async findExif(meta) {
-		let iinf = this.findBox(meta, 'iinf')
+		const iinf = this.findBox(meta, 'iinf')
 		if (iinf === undefined) return
-		let iloc = this.findBox(meta, 'iloc')
+		const iloc = this.findBox(meta, 'iloc')
 		if (iloc === undefined) return
-		let exifLocId = this.findExifLocIdInIinf(iinf)
-		let extent = this.findExtentInIloc(iloc, exifLocId)
+		const exifLocId = this.findExifLocIdInIinf(iinf)
+		const extent = this.findExtentInIloc(iloc, exifLocId)
 		if (extent === undefined) return
 		let [exifOffset, exifLength] = extent
 		await this.file.ensureChunk(exifOffset, exifLength)
-		let nameSize = this.file.getUint32(exifOffset)
+		const nameSize = this.file.getUint32(exifOffset)
 		//let name = this.file.getString(exifOffset + 4, nameSize)
-		let extentContentShift = 4 + nameSize
+		const extentContentShift = 4 + nameSize
 		exifOffset += extentContentShift
 		exifLength -= extentContentShift
 		await this.registerSegment('tiff', exifOffset, exifLength)
@@ -165,27 +165,27 @@ export class HeifFileParser extends IsoBmffParser {
 	}
 
 	get8bits(offset) {
-		let n = this.file.getUint8(offset)
-		let n0 = n >> 4
-		let n1 = n & 0xf
+		const n = this.file.getUint8(offset)
+		const n0 = n >> 4
+		const n1 = n & 0xf
 		return [n0, n1]
 	}
 
 	findExtentInIloc(box, wantedLocId) {
 		this.parseBoxFullHead(box)
 		let offset = box.start
-		let [offsetSize, lengthSize]    = this.get8bits(offset++)
-		let [baseOffsetSize, indexSize] = this.get8bits(offset++)
-		let itemIdSize = box.version === 2 ? 4 : 2
-		let constMethodSize = box.version === 1 || box.version === 2 ? 2 : 0
-		let extentSize = indexSize + offsetSize + lengthSize
-		let itemCountSize = box.version === 2 ? 4 : 2
+		const [offsetSize, lengthSize]    = this.get8bits(offset++)
+		const [baseOffsetSize, indexSize] = this.get8bits(offset++)
+		const itemIdSize = box.version === 2 ? 4 : 2
+		const constMethodSize = box.version === 1 || box.version === 2 ? 2 : 0
+		const extentSize = indexSize + offsetSize + lengthSize
+		const itemCountSize = box.version === 2 ? 4 : 2
 		let itemCount = this.file.getUintBytes(offset, itemCountSize)
 		offset += itemCountSize
 		while (itemCount--) {
-			let itemId = this.file.getUintBytes(offset, itemIdSize)
+			const itemId = this.file.getUintBytes(offset, itemIdSize)
 			offset += itemIdSize + constMethodSize + 2 + baseOffsetSize // itemId + construction_method + data_reference_index + base_offset
-			let extentCount = this.file.getUint16(offset)
+			const extentCount = this.file.getUint16(offset)
 			offset += 2
 			if (itemId === wantedLocId) {
 				if (extentCount > 1) {

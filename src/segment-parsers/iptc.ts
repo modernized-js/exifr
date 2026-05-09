@@ -35,10 +35,10 @@ export default class Iptc extends AppSegmentParserBase {
 	// https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577409_38034
 
 	static canHandle(file, offset, length) {
-		let isApp13 = file.getUint8(offset + 1) === MARKER
+		const isApp13 = file.getUint8(offset + 1) === MARKER
 				   && file.getString(offset + 4, 9) === PHOTOSHOP
 		if (!isApp13) return false
-		let i = this.containsIptc8bim(file, offset, length)
+		const i = this.containsIptc8bim(file, offset, length)
 		return i !== undefined
 	}
 
@@ -46,7 +46,7 @@ export default class Iptc extends AppSegmentParserBase {
 	// data, but no IPTC. We musn't falsely accept these segments as IPTC!
 	static headerLength(chunk, offset, length) {
 		let nameHeaderLength
-		let i = this.containsIptc8bim(chunk, offset, length)
+		const i = this.containsIptc8bim(chunk, offset, length)
 		if (i !== undefined) {
 			// Get the length of the name header (which is padded to an even number of bytes)
 			nameHeaderLength = chunk.getUint8(offset + i + 7)
@@ -73,8 +73,8 @@ export default class Iptc extends AppSegmentParserBase {
 	}
 
 	parse() {
-		let {raw} = this
-		let iterableLength = this.chunk.byteLength - 1
+		const {raw} = this
+		const iterableLength = this.chunk.byteLength - 1
 		let foundFirstProp = false
 		for (let offset = 0; offset < iterableLength; offset++) {
 			// NOTE: IPTC has wariable header. data can start immediately or after couple of bytes. So we need to seek
@@ -82,9 +82,9 @@ export default class Iptc extends AppSegmentParserBase {
 			// reading Uint8 and then another to prevent unnecessarry read of two subsequent bytes, when iterating
 			if (this.chunk.getUint8(offset) === 0x1C && this.chunk.getUint8(offset + 1) === 0x02) {
                 foundFirstProp = true
-				let size = this.chunk.getUint16(offset + 3)
-				let key = this.chunk.getUint8(offset + 2)
-				let val = this.chunk.getLatin1String(offset + 5, size)
+				const size = this.chunk.getUint16(offset + 3)
+				const key = this.chunk.getUint8(offset + 2)
+				const val = this.chunk.getLatin1String(offset + 5, size)
 				raw.set(key, this.pluralizeValue(raw.get(key), val))
 				// skip iterating over the bytes we've already read
 				offset += 4 + size

@@ -14,7 +14,7 @@ export function isEmpty(arg) {
 }
 
 export function throwError(message) {
-	let err = new Error(message)
+	const err = new Error(message)
 	delete err.stack
 	throw err
 }

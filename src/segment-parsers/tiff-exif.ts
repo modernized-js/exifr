@@ -73,7 +73,7 @@ export class TiffCore extends AppSegmentParserBase {
 
 	parseHeader() {
 		// Detect endian 11th byte of TIFF (1st after header)
-		var byteOrder = this.chunk.getUint16()
+		const byteOrder = this.chunk.getUint16()
 		if (byteOrder === TIFF_LITTLE_ENDIAN)
 			this.le = true // little endian
 		else if (byteOrder === TIFF_BIG_ENDIAN)
@@ -92,12 +92,12 @@ export class TiffCore extends AppSegmentParserBase {
 	parseTags(offset, blockKey, block = new Map) {
 		let {pick, skip} = this.options[blockKey]
 		pick = new Set(pick) // clone data from options because we will modify it here
-		let onlyPick = pick.size > 0
-		let nothingToSkip = skip.size === 0
-		let entriesCount = this.chunk.getUint16(offset)
+		const onlyPick = pick.size > 0
+		const nothingToSkip = skip.size === 0
+		const entriesCount = this.chunk.getUint16(offset)
 		offset += 2
 		for (let i = 0; i < entriesCount; i++) {
-			let tag = this.chunk.getUint16(offset)
+			const tag = this.chunk.getUint16(offset)
 			if (onlyPick) {
 				if (pick.has(tag)) {
 					// We have a list only of tags to pick, this tag is one of them, so read it.
@@ -115,11 +115,11 @@ export class TiffCore extends AppSegmentParserBase {
 	}
 
 	parseTag(offset, tag, blockKey) {
-		let {chunk} = this
-		let type       = chunk.getUint16(offset + 2)
-		let valueCount = chunk.getUint32(offset + 4)
-		let valueSize = SIZE_LOOKUP[type]
-		let totalSize = valueSize * valueCount
+		const {chunk} = this
+		const type       = chunk.getUint16(offset + 2)
+		const valueCount = chunk.getUint32(offset + 4)
+		const valueSize = SIZE_LOOKUP[type]
+		const totalSize = valueSize * valueCount
 		if (totalSize <= 4)
 			offset = offset + 8
 		else
@@ -151,10 +151,10 @@ export class TiffCore extends AppSegmentParserBase {
 			return this.parseTagValue(type, offset)
 		} else {
 			// Return array of values.
-			let ArrayType = getTypedArray(type)
-			let arr = new ArrayType(valueCount)
+			const ArrayType = getTypedArray(type)
+			const arr = new ArrayType(valueCount)
 			// rational numbers are stored as two integers that we divide when parsing.
-			let offsetIncrement = valueSize
+			const offsetIncrement = valueSize
 			for (let i = 0; i < valueCount; i++) {
 				arr[i] = this.parseTagValue(type, offset)
 				offset += offsetIncrement
@@ -164,7 +164,7 @@ export class TiffCore extends AppSegmentParserBase {
 	}
 
 	parseTagValue(type, offset) {
-		let {chunk} = this
+		const {chunk} = this
 		switch (type) {
 			case BYTE     : return chunk.getUint8(offset)
 			case SHORT    : return chunk.getUint16(offset)
@@ -223,7 +223,7 @@ export class TiffExif extends TiffCore {
 	// APP1 includes TIFF formatted values, grouped into IFD blocks (IFD0, Exif, Interop, GPS, IFD1)
 	async parse() {
 		this.parseHeader()
-		let {options} = this
+		const {options} = this
 		// WARNING: In .tif files, exif can be before ifd0 (issue-metadata-extractor-152.tif has: EXIF 2468122, IFD0 2468716)
 		if (options.ifd0.enabled)    await this.parseIfd0Block()                              // APP1 - IFD0
 		if (options.exif.enabled)    await this.safeParse('parseExifBlock')      // APP1 - EXIF IFD
@@ -250,15 +250,15 @@ export class TiffExif extends TiffCore {
 	findIfd1Offset() {
 		if (this.ifd1Offset === undefined) {
 			this.findIfd0Offset()
-			let ifd0Entries = this.chunk.getUint16(this.ifd0Offset)
-			let temp = this.ifd0Offset + 2 + (ifd0Entries * 12)
+			const ifd0Entries = this.chunk.getUint16(this.ifd0Offset)
+			const temp = this.ifd0Offset + 2 + (ifd0Entries * 12)
 			// IFD1 offset is number of bytes from start of TIFF header where thumbnail info is.
 			this.ifd1Offset = this.chunk.getUint32(temp)
 		}
 	}
 
 	parseBlock(offset, blockKey) {
-		let block = new Map
+		const block = new Map
 		this[blockKey] = block
 		this.parseTags(offset, blockKey, block)
 		return block
@@ -266,7 +266,7 @@ export class TiffExif extends TiffCore {
 
 	async parseIfd0Block() {
 		if (this.ifd0) return
-		let {file} = this
+		const {file} = this
 		// Read the IFD0 segment with basic info about the image
 		// (width, height, maker, model and pointers to another segments)
 		this.findIfd0Offset()
@@ -278,7 +278,7 @@ export class TiffExif extends TiffCore {
 		if (file.tiff)
 			await file.ensureChunk(this.ifd0Offset, estimateMetadataSize(this.options))
 		// Parse IFD0 block.
-		let ifd0 = this.parseBlock(this.ifd0Offset, 'ifd0')
+		const ifd0 = this.parseBlock(this.ifd0Offset, 'ifd0')
 		// Cancel if the ifd0 is empty (imaged created from scratch in photoshop).
 		if (ifd0.size === 0) return
 		// Store offsets of other blocks in the TIFF segment.
@@ -309,7 +309,7 @@ export class TiffExif extends TiffCore {
 		if (this.exifOffset === undefined) return
 		if (this.file.tiff)
 			await this.file.ensureChunk(this.exifOffset, estimateMetadataSize(this.options))
-		let exif = this.parseBlock(this.exifOffset, 'exif')
+		const exif = this.parseBlock(this.exifOffset, 'exif')
 		if (!this.interopOffset) this.interopOffset = exif.get(TAG_IFD_INTEROP)
 		this.makerNote   = exif.get(TAG_MAKERNOTE)
 		this.userComment = exif.get(TAG_USERCOMMENT)
@@ -324,7 +324,7 @@ export class TiffExif extends TiffCore {
 	}
 
 	unpack(map, key) {
-		let value = map.get(key)
+		const value = map.get(key)
 		if (value && value.length === 1)
 			map.set(key, value[0])
 	}
@@ -335,7 +335,7 @@ export class TiffExif extends TiffCore {
 		if (this.gps) return
 		if (!this.ifd0) await this.parseIfd0Block()
 		if (this.gpsOffset === undefined) return
-		let gps = this.parseBlock(this.gpsOffset, 'gps')
+		const gps = this.parseBlock(this.gpsOffset, 'gps')
 		if (gps && gps.has(TAG_GPS_LAT) && gps.has(TAG_GPS_LON)) {
 			// TODO: assign this to this.translated or this.output when blocks are broken down to separate classes
 			//gps.latitude  = ConvertDMSToDD(...gps.get(TAG_GPS_LAT), gps.get(TAG_GPS_LATREF))
@@ -376,8 +376,8 @@ export class TiffExif extends TiffCore {
 		if (!this.ifd1Parsed) await this.parseThumbnailBlock(true)
 		if (this.ifd1 === undefined) return 
 		// TODO: replace 'ThumbnailOffset' & 'ThumbnailLength' by raw keys (when tag dict is not included)
-		let offset = this.ifd1.get(THUMB_OFFSET)
-		let length = this.ifd1.get(THUMB_LENGTH)
+		const offset = this.ifd1.get(THUMB_OFFSET)
+		const length = this.ifd1.get(THUMB_LENGTH)
 		return this.chunk.getUint8Array(offset, length)
 	}
 
@@ -385,7 +385,7 @@ export class TiffExif extends TiffCore {
 	get thumbnail() {return this.ifd1}
 
 	createOutput() {
-		let tiff = {}
+		const tiff = {}
 		let block, blockKey, blockOutput
 		for (blockKey of tiffBlocks) {
 			block = this[blockKey]
@@ -412,7 +412,7 @@ export class TiffExif extends TiffCore {
 			// xmp contains only properties
 			Object.assign(root, tiff)
 		} else {
-			for (let [blockKey, block] of Object.entries(tiff))
+			for (const [blockKey, block] of Object.entries(tiff))
 				this.assignObjectToOutput(root, blockKey, block)
 		}
 	}
@@ -420,7 +420,7 @@ export class TiffExif extends TiffCore {
 }
 
 function ConvertDMSToDD(degrees, minutes, seconds, direction) {
-	var dd = degrees + (minutes / 60) + (seconds / (60*60))
+	let dd = degrees + (minutes / 60) + (seconds / (60*60))
 	if (direction === 'S' || direction === 'W') dd *= -1
 	return dd
 }

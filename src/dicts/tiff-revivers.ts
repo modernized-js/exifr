@@ -49,8 +49,8 @@ function reviveVersion(bytes) {
 // can be '2009-09-23 17:40:52 UTC' or '2010:07:06 20:45:12'
 function reviveDate(string) {
 	if (typeof string !== 'string') return undefined
-	var [year, month, day, hours, minutes, seconds] = string.trim().split(/[-: ]/g).map(Number)
-	var date = new Date(year, month - 1, day)
+	const [year, month, day, hours, minutes, seconds] = string.trim().split(/[-: ]/g).map(Number)
+	const date = new Date(year, month - 1, day)
 	if (!Number.isNaN(hours) && !Number.isNaN(minutes) && !Number.isNaN(seconds)) {
 		date.setHours(hours)
 		date.setMinutes(minutes)
@@ -64,8 +64,8 @@ function reviveDate(string) {
 
 function reviveUcs2String(arg) {
 	if (typeof arg === 'string') return arg
-	let codePoints = []
-	let le = arg[1] === 0 && arg[arg.length - 1] === 0 // little endian
+	const codePoints = []
+	const le = arg[1] === 0 && arg[arg.length - 1] === 0 // little endian
 	if (le) {
 		for (let i = 0; i < arg.length; i += 2)
 			codePoints.push(mergeBytes(arg[i + 1], arg[i]))

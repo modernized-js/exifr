@@ -42,7 +42,7 @@ export class BufferView {
 			this.byteLength = 0
 		} else if (arg instanceof ArrayBuffer) {
 			if (length === undefined) length = arg.byteLength - offset
-			let dataView = new DataView(arg, offset, length)
+			const dataView = new DataView(arg, offset, length)
 			this._swapDataView(dataView)
 		} else if (arg instanceof Uint8Array || arg instanceof DataView || arg instanceof BufferView) {
 			// Node.js Buffer is also instance of Uint8Array, but small ones are backed
@@ -51,10 +51,10 @@ export class BufferView {
 			offset += arg.byteOffset
 			if (offset + length > arg.byteOffset + arg.byteLength)
 				throwError('Creating view outside of available memory in ArrayBuffer')
-			let dataView = new DataView(arg.buffer, offset, length)
+			const dataView = new DataView(arg.buffer, offset, length)
 			this._swapDataView(dataView)
 		} else if (typeof arg === 'number') {
-			let dataView = new DataView(new ArrayBuffer(arg))
+			const dataView = new DataView(new ArrayBuffer(arg))
 			this._swapDataView(dataView)
 		} else {
 			throwError('Invalid input argument for BufferView: ' + arg)
@@ -87,7 +87,7 @@ export class BufferView {
 			arg = new Uint8Array(arg)
 		if (!(arg instanceof Uint8Array))
 			throwError(`BufferView.set(): Invalid data argument.`)
-		let uintView = this.toUint8()
+		const uintView = this.toUint8()
 		uintView.set(arg, offset)
 		return new Class(this, offset, arg.byteLength)
 	}
@@ -112,12 +112,12 @@ export class BufferView {
 	}
 
 	getString(offset = 0, length = this.byteLength) {
-		let arr = this.getUint8Array(offset, length)
+		const arr = this.getUint8Array(offset, length)
 		return uint8ArrayToUtf8String(arr)
 	}
 
 	getLatin1String(offset = 0, length = this.byteLength) {
-		let arr = this.getUint8Array(offset, length)
+		const arr = this.getUint8Array(offset, length)
 		return arrayToCharCode(arr)
 	}
 

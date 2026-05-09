@@ -12,7 +12,7 @@ import {createBase64Url} from './reader.spec.mjs'
 
 describe('ChunkedReader', () => {
 
-	let file1 = {
+	const file1 = {
 		name: 'IMG_20180725_163423.jpg',
 		size: 4055536,
 
@@ -33,7 +33,7 @@ describe('ChunkedReader', () => {
 		gpsPointer:  18478,
 	}
 
-	let file2 = {
+	const file2 = {
 		name: 'noexif.jpg',
 		size: 8318,
 	}
@@ -49,7 +49,7 @@ describe('ChunkedReader', () => {
 		})
 
 		it(`reads initial chunk`, async () => {
-			let file = new ReaderClass(file1.input, {firstChunkSize})
+			const file = new ReaderClass(file1.input, {firstChunkSize})
 			await file.readChunked()
 			assert.equal(file.byteLength, firstChunkSize)
 			assert.equal(file.getUint8(0), 0xFF)
@@ -60,14 +60,14 @@ describe('ChunkedReader', () => {
 		describe('readChunked()', () => {
 
 			it(`reading overlapping chunk does not negatively affect orignal view`, async () => {
-				let {input, tiffOffset, tiffLength} = file1
-				let file = new ReaderClass(input, options)
+				const {input, tiffOffset, tiffLength} = file1
+				const file = new ReaderClass(input, options)
 				await file.readChunked()
 				assert.equal(file.getUint8(0), 0xFF)
 				assert.equal(file.getUint8(1), 0xD8)
 				assert.equal(file.getUint8(2), 0xFF)
 				assert.equal(file.getUint8(3), 0xE1)
-				let tiffChunk = await file.readChunk(tiffOffset, tiffLength)
+				const tiffChunk = await file.readChunk(tiffOffset, tiffLength)
 				assert.equal(file.getUint8(0), 0xFF)
 				assert.equal(file.getUint8(1), 0xD8)
 				assert.equal(file.getUint8(2), 0xFF)
@@ -82,25 +82,25 @@ describe('ChunkedReader', () => {
 			})
 
 			it(`reading additional chunks keeps extending original view`, async () => {
-				let {input, tiffOffset, tiffLength, tiffEnd, jfifOffset, jfifLength, jfifEnd} = file1
-				let file = new ReaderClass(input, options)
+				const {input, tiffOffset, tiffLength, tiffEnd, jfifOffset, jfifLength, jfifEnd} = file1
+				const file = new ReaderClass(input, options)
 				await file.readChunked()
-				let tiffChunk = await file.readChunk(tiffOffset, tiffLength)
+				const tiffChunk = await file.readChunk(tiffOffset, tiffLength)
 				assert.equal(tiffChunk.byteLength, tiffLength)
 				assert.equal(file.byteLength, tiffEnd)
-				let jfifChunk = await file.readChunk(jfifOffset, jfifLength)
+				const jfifChunk = await file.readChunk(jfifOffset, jfifLength)
 				assert.equal(jfifChunk.byteLength, jfifLength)
 				assert.equal(file.byteLength, jfifEnd)
 				if (file.close) await file.close()
 			})
 
 			it(`reading sparsely creates second range`, async () => {
-				let {input, jfifOffset, jfifLength, jfifEnd} = file1
-				let file = new ReaderClass(input, options)
+				const {input, jfifOffset, jfifLength, jfifEnd} = file1
+				const file = new ReaderClass(input, options)
 				await file.readChunked()
 				assert.equal(file.ranges.list[0].end, firstChunkSize)
 				assert.lengthOf(file.ranges.list, 1)
-				let jfifChunk = await file.readChunk(jfifOffset, jfifLength)
+				const jfifChunk = await file.readChunk(jfifOffset, jfifLength)
 				assert.equal(file.ranges.list[1].end, jfifOffset + jfifLength)
 				assert.lengthOf(file.ranges.list, 2)
 				assert.equal(jfifChunk.byteLength, jfifLength)
@@ -121,10 +121,10 @@ describe('ChunkedReader', () => {
 			})
 */
 			it(`reading beyond the end of file doesn't throw or malform the view`, async () => {
-				let file = new ReaderClass(file1.input, options)
+				const file = new ReaderClass(file1.input, options)
 				await file.readChunked()
-				let chunkSize = 20
-				let chunk = await file.readChunk(file1.size - chunkSize, chunkSize * 2)
+				const chunkSize = 20
+				const chunk = await file.readChunk(file1.size - chunkSize, chunkSize * 2)
 				assert.equal(chunk.byteLength, chunkSize)
 				assert.equal(file.byteLength, file1.size)
 				assert.equal(file.getUint32(file1.size - 4), 0xAC7FFFD9)
@@ -136,8 +136,8 @@ describe('ChunkedReader', () => {
 		describe('readWhole()', () => {
 
 			it(`space between segments contains useful data`, async () => {
-				let {input, jfifOffset, size} = file1
-				let file = new ReaderClass(input, options)
+				const {input, jfifOffset, size} = file1
+				const file = new ReaderClass(input, options)
 				await file.readWhole()
 				assert.equal(file.getUint32(jfifOffset - 4), 0x5c47ffd9)
 				assert.equal(file.getUint32(jfifOffset), 0xffe00010)
@@ -145,8 +145,8 @@ describe('ChunkedReader', () => {
 			})
 
 			it(`fallback from firstChunk of chunked mode results in fully read file`, async () => {
-				let {input, jfifOffset, size} = file1
-				let file = new ReaderClass(input, options)
+				const {input, jfifOffset, size} = file1
+				const file = new ReaderClass(input, options)
 				await file.readChunked()
 				await file.readWhole()
 				assert.equal(file.getUint32(jfifOffset - 4), 0x5c47ffd9)
@@ -160,37 +160,37 @@ describe('ChunkedReader', () => {
 
 		describe('synthetic chunk reading', () => {
 
-			let options = {
+			const options = {
 				firstChunkSize: 10
 			}
 
 			it('read chunk 0-500 (out of 8318)', async () => {
-				let offset = 0
-				let length = 500
-				let reader = new ReaderClass(file2.input, options)
+				const offset = 0
+				const length = 500
+				const reader = new ReaderClass(file2.input, options)
 				await reader.readChunked()
-				let chunk = await reader.readChunk(offset, length)
+				const chunk = await reader.readChunk(offset, length)
 				assert.equal(chunk.byteLength, length)
 				await reader.close()
 			})
 
 			it('read chunk 8000-8500 (out of 8318)', async () => {
-				let offset = 8000
-				let length = 500
-				let reader = new ReaderClass(file2.input, options)
+				const offset = 8000
+				const length = 500
+				const reader = new ReaderClass(file2.input, options)
 				await reader.readChunked()
-				let chunk = await reader.readChunk(offset, length)
+				const chunk = await reader.readChunk(offset, length)
 				assert.isNumber(reader.size)
 				assert.equal(chunk.byteLength, 318)
 				await reader.close()
 			})
 
 			it('read chunk 8000-8500 & 8500-9000 (out of 8318) returns appropriate length', async () => {
-				let length = 500
-				let reader = new ReaderClass(file2.input, options)
+				const length = 500
+				const reader = new ReaderClass(file2.input, options)
 				await reader.readChunked()
-				let chunk1 = await reader.readChunk(8000, length)
-				let chunk2 = await reader.readChunk(8500, length)
+				const chunk1 = await reader.readChunk(8000, length)
+				const chunk2 = await reader.readChunk(8500, length)
 				assert.isNumber(reader.size)
 				assert.equal(chunk1.byteLength, 318)
 				assert.isUndefined(chunk2)
@@ -198,11 +198,11 @@ describe('ChunkedReader', () => {
 			})
 
 			it('read chunk 9000-9500 (out of 8318) returns undefined', async () => {
-				let offset = 9000
-				let length = 500
-				let reader = new ReaderClass(file2.input, options)
+				const offset = 9000
+				const length = 500
+				const reader = new ReaderClass(file2.input, options)
 				await reader.readChunked()
-				let chunk = await reader.readChunk(offset, length)
+				const chunk = await reader.readChunk(offset, length)
 				assert.isUndefined(chunk)
 				await reader.close()
 			})
@@ -212,17 +212,17 @@ describe('ChunkedReader', () => {
 		describe('runtime safe-checks', () => {
 
 			it('.readNextChunk() returns false when last chunk was read', async () => {
-				let chunkSize = 3000
-				let reader = new ReaderClass(file2.input, {
+				const chunkSize = 3000
+				const reader = new ReaderClass(file2.input, {
 					firstChunkSize: chunkSize,
 					chunkSize: chunkSize,
 				})
 				await reader.readChunked()
 				assert.equal(reader.byteLength, chunkSize * 1)
-				let canKeepReading1 = await reader.readNextChunk()
+				const canKeepReading1 = await reader.readNextChunk()
 				assert.isTrue(canKeepReading1)
 				assert.equal(reader.byteLength, chunkSize * 2)
-				let canKeepReading2 = await reader.readNextChunk()
+				const canKeepReading2 = await reader.readNextChunk()
 				assert.isFalse(canKeepReading2)
 				assert.equal(reader.byteLength, file2.size)
 				assert.equal(reader.size, file2.size)
@@ -230,8 +230,8 @@ describe('ChunkedReader', () => {
 			})
 
 			it('.nextChunkOffset tops up at file size', async () => {
-				let chunkSize = 5000
-				let reader = new ReaderClass(file2.input, {
+				const chunkSize = 5000
+				const reader = new ReaderClass(file2.input, {
 					firstChunkSize: chunkSize,
 					chunkSize: chunkSize,
 				})
@@ -244,8 +244,8 @@ describe('ChunkedReader', () => {
 			})
 
 			it(`.chunksRead is 5 when reading ${file2.size} by chunkSize 2000 - only read necessary amount of chunks`, async () => {
-				let chunkSize = 2000
-				let exr = new Exifr({
+				const chunkSize = 2000
+				const exr = new Exifr({
 					firstChunkSize: chunkSize,
 					chunkSize: chunkSize,
 					stopAfterSos: false, // disabled JPEG optimization
@@ -278,7 +278,7 @@ describe('ChunkedReader', () => {
 			after(stopStaticServer)
 			testReaderClass(getUrl, UrlFetcher)
 			it(`redirect`, async () => {
-				let file = new UrlFetcher(getUrl('redirect'))
+				const file = new UrlFetcher(getUrl('redirect'))
 				await file.readWhole()
 				assert.equal(file.getUint16(0), 0xFFD8)
 			})
@@ -295,54 +295,54 @@ describe('ChunkedReader', () => {
 		testReaderClass(createBase64Url, Base64Reader)
 
 		it(`'YWJj' readChunk() should return 'abc'`, async () => {
-			let base64 = 'YWJj' //btoa('abc')
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk()
+			const base64 = 'YWJj' //btoa('abc')
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk()
 			assert.equal(chunk.byteLength, 3)
 			assert.equal(chunk.getString(), 'abc')
 		})
 		it(`'YWJj' readChunk(0, 1) should return 'a'`, async () => {
-			let base64 = 'YWJj' //btoa('abc')
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk(0, 1)
+			const base64 = 'YWJj' //btoa('abc')
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk(0, 1)
 			assert.equal(chunk.byteLength, 1)
 			assert.equal(chunk.getString(), 'a')
 		})
 		it(`'YWJj' readChunk(1, 1) should return 'b'`, async () => {
-			let base64 = 'YWJj' //btoa('abc')
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk(1, 1)
+			const base64 = 'YWJj' //btoa('abc')
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk(1, 1)
 			assert.equal(chunk.byteLength, 1)
 			assert.equal(chunk.getString(), 'b')
 		})
 		it(`'YWJj' readChunk(1) should return 'bc'`, async () => {
-			let base64 = 'YWJj' //btoa('abc')
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk(1)
+			const base64 = 'YWJj' //btoa('abc')
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk(1)
 			assert.equal(chunk.byteLength, 2)
 			assert.equal(chunk.getString(), 'bc')
 		})
 		it(`'YWJjZGVmZ2hp' readChunk(3, 3) should return 'def'`, async () => {
-			let base64 = 'YWJjZGVmZ2hp'
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk(3, 3)
+			const base64 = 'YWJjZGVmZ2hp'
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk(3, 3)
 			assert.equal(chunk.byteLength, 3)
 			assert.equal(chunk.getString(), 'def')
 		})
 		it(`'YWJjZGVmZ2hp' readChunk(4, 1) should return 'e'`, async () => {
-			let base64 = 'YWJjZGVmZ2hp'
-			let reader = new Base64Reader(base64, {})
-			let chunk = await reader.readChunk(4, 1)
+			const base64 = 'YWJjZGVmZ2hp'
+			const reader = new Base64Reader(base64, {})
+			const chunk = await reader.readChunk(4, 1)
 			assert.equal(chunk.byteLength, 1)
 			assert.equal(chunk.getString(), 'e')
 		})
 	})
 
 	it(`should read file sequentially`, async () => {
-		let {name, tiffOffset, tiffLength, tiffEnd} = file1
-		let firstChunkSize = tiffOffset + Math.round(tiffLength / 2)
-		let options = {chunked: true, firstChunkSize, mergeOutput: false, exif: true, gps: true}
-		let exr = new Exifr(options)
+		const {name, tiffOffset, tiffLength, tiffEnd} = file1
+		const firstChunkSize = tiffOffset + Math.round(tiffLength / 2)
+		const options = {chunked: true, firstChunkSize, mergeOutput: false, exif: true, gps: true}
+		const exr = new Exifr(options)
 		await exr.read(getPath(name))
 		assert.equal(exr.file.byteLength, firstChunkSize)
 		assert.equal(exr.file.ranges.list[0].end, firstChunkSize)
@@ -353,10 +353,10 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`should only read one chunk if firstChunkSize sufficiently contains the wanted segment (TIFF)`, async () => {
-		let {name, tiffOffset, tiffLength, tiffEnd} = file1
-		let firstChunkSize = tiffOffset + tiffLength
-		let options = {chunked: true, firstChunkSize, tiff: true}
-		let exr = new Exifr(options)
+		const {name, tiffOffset, tiffLength, tiffEnd} = file1
+		const firstChunkSize = tiffOffset + tiffLength
+		const options = {chunked: true, firstChunkSize, tiff: true}
+		const exr = new Exifr(options)
 		await exr.read(getPath(name))
 		await exr.parse()
 		await exr.file.close()
@@ -365,10 +365,10 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`should only read one chunk if firstChunkSize sufficiently contains the wanted segment (ICC)`, async () => {
-		let {name, iccOffset, iccLength} = file1
-		let firstChunkSize = iccOffset + iccLength
-		let options = {chunked: true, firstChunkSize, icc: true}
-		let exr = new Exifr(options)
+		const {name, iccOffset, iccLength} = file1
+		const firstChunkSize = iccOffset + iccLength
+		const options = {chunked: true, firstChunkSize, icc: true}
+		const exr = new Exifr(options)
 		await exr.read(getPath(name))
 		await exr.parse()
 		await exr.file.close()
@@ -376,10 +376,10 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`should read two chunks if firstChunkSize does not fully contain the wanted segment (TIFF)`, async () => {
-		let {name, tiffOffset, tiffLength, tiffEnd} = file1
-		let firstChunkSize = tiffOffset + Math.round(tiffLength / 2)
-		let options = {chunked: true, firstChunkSize, mergeOutput: false, tiff: true}
-		let exr = new Exifr(options)
+		const {name, tiffOffset, tiffLength, tiffEnd} = file1
+		const firstChunkSize = tiffOffset + Math.round(tiffLength / 2)
+		const options = {chunked: true, firstChunkSize, mergeOutput: false, tiff: true}
+		const exr = new Exifr(options)
 		await exr.read(getPath(name))
 		await exr.parse()
 		await exr.file.close()
@@ -388,10 +388,10 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`should read two chunks if firstChunkSize does not fully contain the wanted segment (ICC)`, async () => {
-		let {name, iccOffset, iccLength, iccEnd} = file1
-		let firstChunkSize = iccOffset + Math.round(iccLength / 2)
-		let options = {chunked: true, firstChunkSize, mergeOutput: false, icc: true}
-		let exr = new Exifr(options)
+		const {name, iccOffset, iccLength, iccEnd} = file1
+		const firstChunkSize = iccOffset + Math.round(iccLength / 2)
+		const options = {chunked: true, firstChunkSize, mergeOutput: false, icc: true}
+		const exr = new Exifr(options)
 		await exr.read(getPath(name))
 		await exr.parse()
 		await exr.file.close()
@@ -401,8 +401,8 @@ describe('ChunkedReader', () => {
 
 	it(`should only read one chunk if only TIFF is wanted, when parsing file without exif`, async () => {
 		const chunkSize = 1000
-		let options = {chunked: true, tiff: true, icc: false, iptc: false, xmp: false, jfif: false, firstChunkSize: chunkSize, chunkSize, stopAfterSos: false}
-		let exr = new Exifr(options)
+		const options = {chunked: true, tiff: true, icc: false, iptc: false, xmp: false, jfif: false, firstChunkSize: chunkSize, chunkSize, stopAfterSos: false}
+		const exr = new Exifr(options)
 		await exr.read(getPath(file2.name))
 		await exr.parse()
 		await exr.file.close()
@@ -412,8 +412,8 @@ describe('ChunkedReader', () => {
 	it(`reads up to 'chunkLimit' chunks if more than TIFF is wanted, when parsing file without exif`, async () => {
 		const chunkSize = 1000
 		const chunkLimit = 4
-		let options = {chunked: true, tiff: true, icc: false, iptc: true, xmp: false, jfif: false, firstChunkSize: chunkSize, chunkSize, chunkLimit, stopAfterSos: false}
-		let exr = new Exifr(options)
+		const options = {chunked: true, tiff: true, icc: false, iptc: true, xmp: false, jfif: false, firstChunkSize: chunkSize, chunkSize, chunkLimit, stopAfterSos: false}
+		const exr = new Exifr(options)
 		await exr.read(getPath(file2.name))
 		await exr.parse()
 		await exr.file.close()
@@ -437,8 +437,8 @@ describe('ChunkedReader', () => {
 	? Adobed   | offset  571479 | length      16 | end  571495 | <Buffer ff ee 00 0e 41 64 6f 62 65 00 64 00 00 00>
 	*/
 	it(`file with multisegment ICC - should read only first segment when {multiSegment: undefined}`, async () => {
-		let input = await getPath('issue-metadata-extractor-65.jpg')
-		let exr = new Exifr({tiff: false, icc: true, firstChunkSize: 14149  + 100})
+		const input = await getPath('issue-metadata-extractor-65.jpg')
+		const exr = new Exifr({tiff: false, icc: true, firstChunkSize: 14149  + 100})
 		await exr.read(input)
 		await exr.parse()
 		await exr.file.close()
@@ -446,8 +446,8 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`file with multisegment ICC - should read all segments when {multiSegment: true}`, async () => {
-		let input = await getPath('issue-metadata-extractor-65.jpg')
-		let exr = new Exifr({tiff: false, icc: true, firstChunkSize: 14149  + 100, multiSegment: true})
+		const input = await getPath('issue-metadata-extractor-65.jpg')
+		const exr = new Exifr({tiff: false, icc: true, firstChunkSize: 14149  + 100, multiSegment: true})
 		await exr.read(input)
 		await exr.parse()
 		await exr.file.close()
@@ -455,17 +455,17 @@ describe('ChunkedReader', () => {
 	})
 
 	it(`file with segment header split between chunks (markers at 510-512, length at 512-514, firstChunkSize: 512)`, async () => {
-		let input = await getPath('door-knocker.jpg')
-		let options = {
+		const input = await getPath('door-knocker.jpg')
+		const options = {
 			chunked: true,
 			// some segment starts at 510. since header is 4 bytes long, it spans to next chunk.
 			firstChunkSize: 512,
 			// this just causes jpeg segment parser to keep looking
 			xmp: true
 		}
-		let exr = new Exifr(options)
+		const exr = new Exifr(options)
 		await exr.read(input)
-		let output = await exr.parse()
+		const output = await exr.parse()
 		await exr.file.close()
 		assert.equal(output.Make, 'OLYMPUS IMAGING CORP.')
 	})
@@ -473,30 +473,30 @@ describe('ChunkedReader', () => {
 	describe(`001.tif - reading scattered (IFD0 pointing to the end of file)`, async () => {
 
 		it(`input path & {chunked: true, firstChunkSize: 100}`, async () => {
-			let input = await getPath('001.tif')
-			let options = {chunked: true, firstChunkSize: 100}
-			let exr = new Exifr(options)
+			const input = await getPath('001.tif')
+			const options = {chunked: true, firstChunkSize: 100}
+			const exr = new Exifr(options)
 			await exr.read(input)
-			let output = await exr.parse()
+			const output = await exr.parse()
 			await exr.file.close()
 			assert.equal(output.Make, 'DJI')
 		})
 
 		it(`input path & {chunked: true}`, async () => {
-			let input = await getPath('001.tif')
-			let options = {chunked: false}
-			let exr = new Exifr(options)
+			const input = await getPath('001.tif')
+			const options = {chunked: false}
+			const exr = new Exifr(options)
 			await exr.read(input)
-			let output = await exr.parse()
+			const output = await exr.parse()
 			await exr.file.close()
 			assert.equal(output.Make, 'DJI')
 		})
 
 		it(`input buffer & no options`, async () => {
-			let input = await getFile('001.tif')
-			let exr = new Exifr()
+			const input = await getFile('001.tif')
+			const exr = new Exifr()
 			await exr.read(input)
-			let output = await exr.parse()
+			const output = await exr.parse()
 			assert.equal(output.Make, 'DJI')
 		})
 
@@ -518,21 +518,21 @@ describe('ChunkedReader', () => {
 		function testChunkedFile(fileName, segKeys) {
 
 			it(`reads fixture ${fileName} with default settings`, async () => {
-				let input = await getPath(fileName)
-				let options = {chunked: true, mergeOutput: false, firstChunkSize: 100}
-				let exr = new Exifr(options)
+				const input = await getPath(fileName)
+				const options = {chunked: true, mergeOutput: false, firstChunkSize: 100}
+				const exr = new Exifr(options)
 				await exr.read(input)
-				let output = await exr.parse()
+				const output = await exr.parse()
 				await exr.file.close()
 				assert.isObject(output)
 			})
 
 			it(`reads fixture ${fileName} with all segments enabled`, async () => {
-				let input = await getPath(fileName)
-				let options = {chunked: true, mergeOutput: false, firstChunkSize: 100, xmp: true, icc: true, iptc: true}
-				let exr = new Exifr(options)
+				const input = await getPath(fileName)
+				const options = {chunked: true, mergeOutput: false, firstChunkSize: 100, xmp: true, icc: true, iptc: true}
+				const exr = new Exifr(options)
 				await exr.read(input)
-				let output = await exr.parse()
+				const output = await exr.parse()
 				await exr.file.close()
 				assert.isObject(output)
 			})
@@ -540,29 +540,29 @@ describe('ChunkedReader', () => {
 			if (segKeys) {
 
 				it(`reads fixture ${fileName} with specific segments: ${segKeys.join(', ')} (chunked)`, async () => {
-					let input = await getPath(fileName)
-					let options = {chunked: true, mergeOutput: false, firstChunkSize: 100}
-					for (let segKey of segKeys) options[segKey] = true
+					const input = await getPath(fileName)
+					const options = {chunked: true, mergeOutput: false, firstChunkSize: 100}
+					for (const segKey of segKeys) options[segKey] = true
 					if (options.xmp) options.xmp = {parse: false} // exception for the way XMP parser works with namespaces
-					let exr = new Exifr(options)
+					const exr = new Exifr(options)
 					await exr.read(input)
-					let output = await exr.parse()
+					const output = await exr.parse()
 					await exr.file.close()
 					assert.isObject(output)
-					for (let segKey of segKeys) assert.exists(output[segKey], `${segKey} doesnt exist`)
+					for (const segKey of segKeys) assert.exists(output[segKey], `${segKey} doesnt exist`)
 				})
 
 				// test to compare with
 				it(`reads fixture ${fileName} with specific segments: ${segKeys.join(', ')} (whole file)`, async () => {
-					let input = await getFile(fileName)
-					let options = {mergeOutput: false, firstChunkSize: 100}
-					for (let segKey of segKeys) options[segKey] = true
+					const input = await getFile(fileName)
+					const options = {mergeOutput: false, firstChunkSize: 100}
+					for (const segKey of segKeys) options[segKey] = true
 					if (options.xmp) options.xmp = {parse: false} // exception for the way XMP parser works with namespaces
-					let exr = new Exifr(options)
+					const exr = new Exifr(options)
 					await exr.read(input)
-					let output = await exr.parse()
+					const output = await exr.parse()
 					assert.isObject(output)
-					for (let segKey of segKeys) assert.exists(output[segKey], `${segKey} doesnt exist`)
+					for (const segKey of segKeys) assert.exists(output[segKey], `${segKey} doesnt exist`)
 				})
 
 			}

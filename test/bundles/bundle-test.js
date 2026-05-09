@@ -1,6 +1,6 @@
-let img = document.createElement('img')
+const img = document.createElement('img')
 img.onload = async e => {
-	let [exif, gps, orientation] = await Promise.all([
+	const [exif, gps, orientation] = await Promise.all([
 		exifr.parse(img),
 		exifr.gps(img),
 		exifr.orientation(img),

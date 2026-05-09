@@ -4,8 +4,8 @@ import * as exifr from '../src/bundles/full.ts'
 
 
 function testFile(fileName, segmentsAndBlocks) {
-	let options = {mergeOutput: false}
-	for (let key of segmentsAndBlocks) {
+	const options = {mergeOutput: false}
+	for (const key of segmentsAndBlocks) {
 		if (key === 'xmp')
 			options[key] = {parse: false}
 		else
@@ -13,16 +13,16 @@ function testFile(fileName, segmentsAndBlocks) {
 	}
 
 	it(`${fileName} - whole file`, async () => {
-		let input = await getFile(fileName)
-		let output = await exifr.parse(input, options)
-		for (let key of segmentsAndBlocks)
+		const input = await getFile(fileName)
+		const output = await exifr.parse(input, options)
+		for (const key of segmentsAndBlocks)
 			assert.exists(output[key], `should parse ${key}`)
 	})
 
 	it(`${fileName} - chunked mode`, async () => {
-		let input = await getPath(fileName)
-		let output = await exifr.parse(input, options)
-		for (let key of segmentsAndBlocks)
+		const input = await getPath(fileName)
+		const output = await exifr.parse(input, options)
+		for (const key of segmentsAndBlocks)
 			assert.exists(output[key], `should parse ${key}`)
 	})
 
