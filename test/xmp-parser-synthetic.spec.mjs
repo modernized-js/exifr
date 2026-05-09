@@ -1,4 +1,4 @@
-import {assert, getFile} from './test-util-core.mjs'
+import {assert} from './test-util-core.mjs'
 // FIXME: importing directly from src/ breaks bundle tests
 import Xmp from '../src/segment-parsers/xmp.ts'
 import {XmlTag, normalizeValue, XmlAttr, idNestedTags} from '../src/segment-parsers/xmp.ts'
@@ -124,7 +124,7 @@ describe('Xmp - synthetic tests', () => {
 			})
 
 			it(`properly parses all attributes`, () => {
-				const [match1, match2, match3] = XmlAttr.findAll(`foo:first="abc" bar:second='def'`)
+				const [match1, match2] = XmlAttr.findAll(`foo:first="abc" bar:second='def'`)
 				assert.equal(match1.ns, 'foo')
 				assert.equal(match1.name, 'first')
 				assert.equal(match1.value, 'abc')
@@ -742,6 +742,11 @@ describe('Xmp - synthetic tests', () => {
 				assert.lengthOf(serialized, 3)
 				assert.deepEqual(serialized[0], {tagString: 'first item', tagInteger: 67})
 				assert.deepEqual(serialized[1], {foo: 'bar', baz: 'quo'})
+				// Last `tagString` value wins per object-literal semantics; the
+				// duplicate is intentional in this test fixture (it exercises
+				// the parser's later-value-takes-precedence behavior). The
+				// eslint warning is suppressed because the dupe is the point.
+				// eslint-disable-next-line no-dupe-keys
 				assert.deepEqual(serialized[2], {tagString: 'third item', tagString: 'another string', tagBool: false})
 			})
 

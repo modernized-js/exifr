@@ -37,6 +37,6 @@ class PluginList extends Map {
 
 }
 
-export var fileParsers    = new PluginList('file parser')
-export var segmentParsers = new PluginList('segment parser')
-export var fileReaders    = new PluginList('file reader')
+export const fileParsers    = new PluginList('file parser')
+export const segmentParsers = new PluginList('segment parser')
+export const fileReaders    = new PluginList('file reader')

@@ -1,7 +1,6 @@
 import {assert, assertOutputWithoutErrors} from './test-util-core.mjs'
 import {getFile} from './test-util-core.mjs'
 import {testSegment, testMergeSegment, testSegmentTranslation, testImage} from './test-util-suites.mjs'
-import {Exifr} from '../src/bundles/full.ts'
 import * as exifr from '../src/bundles/full.ts'
 
 

@@ -115,7 +115,8 @@ export class TiffCore extends AppSegmentParserBase {
 	}
 
 	parseTags(offset, blockKey, block = new Map) {
-		let {pick, skip} = this.options[blockKey]
+		const {skip} = this.options[blockKey]
+		let {pick} = this.options[blockKey]
 		pick = new Set(pick) // clone data from options because we will modify it here
 		const onlyPick = pick.size > 0
 		const nothingToSkip = skip.size === 0

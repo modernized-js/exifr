@@ -1,4 +1,4 @@
-import {assert, getFile} from './test-util-core.mjs'
+import {assert} from './test-util-core.mjs'
 import Xmp from '../src/segment-parsers/xmp.ts'
 
 

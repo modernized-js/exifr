@@ -1,6 +1,5 @@
 import {fileReaders} from '../plugins.ts'
 import {ChunkedReader} from './ChunkedReader.ts'
-import * as platform from '../util/platform.ts'
 import dynamicImport from '../util/import.ts'
 
 

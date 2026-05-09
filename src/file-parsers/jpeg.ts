@@ -104,7 +104,8 @@ export class JpegFileParser extends FileParserBase {
 
 	async findAppSegments(offset = 0, wantedArray?) {
 		this.setupSegmentFinderArgs(wantedArray)
-		let {file, findAll, wanted, remaining} = this
+		const {file, wanted, remaining} = this
+		let {findAll} = this
 		if (!findAll && this.file.chunked) {
 			findAll = Array.from(wanted).some(type => {
 				const Parser = segmentParsers.get(type)

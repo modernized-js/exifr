@@ -1,4 +1,4 @@
-import {assert, getPath, getFile, assertOutputWithoutErrors} from './test-util-core.mjs'
+import {assert, getFile, assertOutputWithoutErrors} from './test-util-core.mjs'
 import * as exifr from '../src/bundles/full.ts'
 
 
@@ -146,7 +146,7 @@ export function testSegmentTranslation({type, file, tags}) {
 				const output = await exifr.parse(input, options)
 				const segment = output[type]
 				assertOutputWithoutErrors(output)
-				for (const [rawKey, translatedKey, rawValue, translatedValue] of tags) {
+				for (const [rawKey, translatedKey, rawValue] of tags) {
 					assert.equal(segment[rawKey] || segment[translatedKey], rawValue)
 				}
 			})
@@ -157,7 +157,7 @@ export function testSegmentTranslation({type, file, tags}) {
 				const output = await exifr.parse(input, options)
 				const segment = output[type]
 				assertOutputWithoutErrors(output)
-				for (const [rawKey, translatedKey, rawValue, translatedValue] of tags) {
+				for (const [, translatedKey, rawValue, translatedValue] of tags) {
 					const val = translatedValue || rawValue
 					assert.equal(segment[translatedKey], val)
 				}

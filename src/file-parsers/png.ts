@@ -1,5 +1,5 @@
 import {FileParserBase} from '../parser.ts'
-import {fileParsers, segmentParsers} from '../plugins.ts'
+import {fileParsers} from '../plugins.ts'
 import * as platform from '../util/platform.ts'
 import dynamicImport from '../util/import.ts'
 

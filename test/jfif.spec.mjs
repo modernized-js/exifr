@@ -1,7 +1,4 @@
-import {assert} from './test-util-core.mjs'
 import {testSegment, testMergeSegment, testImage} from './test-util-suites.mjs'
-import {Exifr} from '../src/bundles/full.ts'
-import * as exifr from '../src/bundles/full.ts'
 
 
 describe('JFIF Segment', () => {
