@@ -59,4 +59,6 @@ typings/
 
 package-lock.json
 /dist
+/dist-types
 /test/webpack/dist
+/.claude
