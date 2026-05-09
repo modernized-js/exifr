@@ -1,7 +1,7 @@
 import {assert, getFile} from './test-util-core.mjs'
 // FIXME: importing directly from src/ breaks bundle tests
-import Xmp from '../src/segment-parsers/xmp.mjs'
-import {XmlTag, normalizeValue, XmlAttr, idNestedTags} from '../src/segment-parsers/xmp.mjs'
+import Xmp from '../src/segment-parsers/xmp.ts'
+import {XmlTag, normalizeValue, XmlAttr, idNestedTags} from '../src/segment-parsers/xmp.ts'
 
 
 const VALUE_PROP = 'value'

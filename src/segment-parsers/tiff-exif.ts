@@ -1,3 +1,4 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {AppSegmentParserBase} from '../parser.mjs'
 import {segmentParsers} from '../plugins.mjs'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP, TAG_MAKERNOTE, TAG_USERCOMMENT, TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.mjs'
