@@ -7,8 +7,8 @@ export default lite
 export * from '../highlevel/sidecar.mjs'
 
 // File Readers
-import '../file-readers/FsReader.mjs'
-import '../file-readers/Base64Reader.mjs'
+import '../file-readers/FsReader.ts'
+import '../file-readers/Base64Reader.ts'
 
 // File Parsers
 import '../file-parsers/tiff.mjs'
