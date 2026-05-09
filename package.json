@@ -1,8 +1,11 @@
 {
   "name": "@modernized-js/exifr",
   "version": "8.0.0",
-  "description": "📷 The fastest and most versatile JavaScript EXIF reading library.",
-  "author": "Mike Kovarik",
+  "description": "📷 The fastest and most versatile JavaScript EXIF reading library — modernized fork of exifr (TypeScript, Node 22+, ES2020+ browser targets).",
+  "author": "modernized-js (https://github.com/modernized-js)",
+  "contributors": [
+    "Mike Kovarik (https://github.com/MikeKovarik) — original author of exifr"
+  ],
   "license": "MIT",
   "keywords": [
     "exif",
