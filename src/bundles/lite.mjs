@@ -12,7 +12,7 @@ import '../file-parsers/jpeg.ts'
 import '../file-parsers/heif.ts'
 
 // TIFF Parser
-import '../segment-parsers/tiff-exif.mjs'
+import '../segment-parsers/tiff-exif.ts'
 
 // TIFF Keys
 import '../dicts/tiff-ifd0-keys.ts'
@@ -27,4 +27,4 @@ import '../dicts/tiff-exif-values.ts'
 import '../dicts/tiff-revivers.ts'
 
 // XMP
-import '../segment-parsers/xmp.mjs'
+import '../segment-parsers/xmp.ts'

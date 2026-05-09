@@ -15,4 +15,4 @@ import '../file-readers/BlobReader.ts'
 import '../file-parsers/jpeg.ts'
 
 // TIFF Parser
-import '../segment-parsers/tiff-exif.mjs'
+import '../segment-parsers/tiff-exif.ts'

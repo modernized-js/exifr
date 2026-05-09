@@ -1,3 +1,4 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {AppSegmentParserBase} from '../parser.mjs'
 import {segmentParsers} from '../plugins.mjs'
 

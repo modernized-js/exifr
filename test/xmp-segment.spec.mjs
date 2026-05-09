@@ -4,7 +4,7 @@ import {testSegment} from './test-util-suites.mjs'
 import * as exifr from '../src/bundles/full.mjs'
 import {Exifr} from '../src/bundles/full.mjs'
 // FIXME: importing directly from src/ breaks bundle tests
-import Xmp from '../src/segment-parsers/xmp.mjs'
+import Xmp from '../src/segment-parsers/xmp.ts'
 import {BufferView} from '../src/util/BufferView.ts'
 
 

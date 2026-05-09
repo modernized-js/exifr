@@ -21,20 +21,20 @@ import '../dicts/tiff-other-keys.ts'
 import '../dicts/tiff-gps-values.ts'
 
 // JFIF (JPEG header)
-import '../segment-parsers/jfif.mjs'
+import '../segment-parsers/jfif.ts'
 import '../dicts/jfif-keys.ts'
 
 // IHDR (PNG header)
-import '../segment-parsers/ihdr.mjs'
+import '../segment-parsers/ihdr.ts'
 import '../dicts/ihdr-keys.ts'
 import '../dicts/ihdr-values.ts'
 
 // ICC
-import '../segment-parsers/icc.mjs'
+import '../segment-parsers/icc.ts'
 import '../dicts/icc-keys.ts'
 import '../dicts/icc-values.ts'
 
 // IPTC
-import '../segment-parsers/iptc.mjs'
+import '../segment-parsers/iptc.ts'
 import '../dicts/iptc-keys.ts'
 import '../dicts/iptc-values.ts'

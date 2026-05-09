@@ -1,5 +1,5 @@
 import {assert, getFile} from './test-util-core.mjs'
-import Xmp from '../src/segment-parsers/xmp.mjs'
+import Xmp from '../src/segment-parsers/xmp.ts'
 
 
 describe('Xmp - issues', () => {
