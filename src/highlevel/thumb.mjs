@@ -1,5 +1,5 @@
-import * as platform from '../util/platform.mjs'
-import {Buffer} from '../util/platform.mjs'
+import * as platform from '../util/platform.ts'
+import {Buffer} from '../util/platform.ts'
 import {Exifr} from '../Exifr.mjs'
 import {disableAllOptions} from './disableAllOptions.mjs'
 

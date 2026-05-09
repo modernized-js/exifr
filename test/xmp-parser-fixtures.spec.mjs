@@ -1,7 +1,7 @@
 import {assert, getFile} from './test-util-core.mjs'
 // FIXME: importing directly from src/ breaks bundle tests
 import Xmp from '../src/segment-parsers/xmp.mjs'
-import {BufferView} from '../src/util/BufferView.mjs'
+import {BufferView} from '../src/util/BufferView.ts'
 
 
 describe('Xmp - real world cases', () => {

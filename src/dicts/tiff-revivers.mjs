@@ -1,6 +1,6 @@
 import {tagRevivers, createDictionary} from '../tags.mjs'
-import {toAsciiString} from '../util/BufferView.mjs'
-import {normalizeString} from '../util/helpers.mjs'
+import {toAsciiString} from '../util/BufferView.ts'
+import {normalizeString} from '../util/helpers.ts'
 
 
 createDictionary(tagRevivers, ['ifd0', 'ifd1'], [

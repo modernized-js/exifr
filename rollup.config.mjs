@@ -61,6 +61,11 @@ const tsConfig = {
 	declarationMap: false,
 	emitDeclarationOnly: false,
 	noEmitOnError: false,
+	// tsconfig.json has allowImportingTsExtensions:true so `tsc --noEmit`
+	// and Node's strip-types loader can resolve `./foo.ts` imports during
+	// the gradual migration. Rollup's plugin emits JS and would refuse the
+	// combination, so we explicitly turn it off here.
+	allowImportingTsExtensions: false,
 }
 
 const external = [...builtinModules, ...Object.keys(pkg.dependencies || {})]

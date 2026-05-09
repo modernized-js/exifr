@@ -1,7 +1,7 @@
 import {FileParserBase} from '../parser.mjs'
 import {fileParsers, segmentParsers} from '../plugins.mjs'
-import * as platform from '../util/platform.mjs'
-import dynamicImport from '../util/import.mjs'
+import * as platform from '../util/platform.ts'
+import dynamicImport from '../util/import.ts'
 
 
 let zlibPromise = dynamicImport('zlib')

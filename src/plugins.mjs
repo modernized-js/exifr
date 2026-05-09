@@ -1,4 +1,4 @@
-import {throwError} from './util/helpers.mjs'
+import {throwError} from './util/helpers.ts'
 
 
 export function throwUnknown(kind, key) {

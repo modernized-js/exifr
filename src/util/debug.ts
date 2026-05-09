@@ -1,3 +1,4 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 const DEFAULT_SIZE = 16
 
 // TODO: delete me before releasing.

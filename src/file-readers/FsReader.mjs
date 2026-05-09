@@ -1,7 +1,7 @@
 import {fileReaders} from '../plugins.mjs'
 import {ChunkedReader} from './ChunkedReader.mjs'
-import * as platform from '../util/platform.mjs'
-import dynamicImport from '../util/import.mjs'
+import * as platform from '../util/platform.ts'
+import dynamicImport from '../util/import.ts'
 
 
 let fsPromise = dynamicImport('fs', fs => fs.promises)

@@ -2,9 +2,9 @@ import {AppSegmentParserBase} from '../parser.mjs'
 import {segmentParsers} from '../plugins.mjs'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP, TAG_MAKERNOTE, TAG_USERCOMMENT, TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.mjs'
 import {TAG_GPS_LATREF, TAG_GPS_LAT, TAG_GPS_LONREF, TAG_GPS_LON} from '../tags.mjs'
-import {TIFF_LITTLE_ENDIAN, TIFF_BIG_ENDIAN} from '../util/helpers.mjs'
-import {isEmpty, normalizeString} from '../util/helpers.mjs'
-import {throwError, estimateMetadataSize} from '../util/helpers.mjs'
+import {TIFF_LITTLE_ENDIAN, TIFF_BIG_ENDIAN} from '../util/helpers.ts'
+import {isEmpty, normalizeString} from '../util/helpers.ts'
+import {throwError, estimateMetadataSize} from '../util/helpers.ts'
 import {tiffBlocks} from '../options.mjs'
 
 

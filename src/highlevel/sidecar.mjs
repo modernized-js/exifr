@@ -1,7 +1,7 @@
 import {segmentParsers} from '../plugins.mjs'
 import {Options} from '../options.mjs'
 import {read} from '../reader.mjs'
-import {throwError} from '../util/helpers.mjs'
+import {throwError} from '../util/helpers.ts'
 
 
 const allowedSidecars = ['xmp', 'icc', 'iptc', 'tiff']
