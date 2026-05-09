@@ -1,4 +1,4 @@
-import exifr from '../src/bundles/full.mjs'
+import exifr from '../src/bundles/full.ts'
 
 
 //exifr.parse(process.argv[2] || '../../exifr-fixtures/11_146169.IIQ', {xmp: true})

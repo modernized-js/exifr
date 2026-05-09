@@ -1,4 +1,4 @@
-import * as exifr from '../src/bundles/full.mjs'
+import * as exifr from '../src/bundles/full.ts'
 import {promises as fs} from 'fs'
 
 ;(async () => {

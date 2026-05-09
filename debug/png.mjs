@@ -1,5 +1,5 @@
 // node --experimental-modules enumerate-segments.js
-import * as exifr from '../src/bundles/full.mjs'
+import * as exifr from '../src/bundles/full.ts'
 //import * as exifr from '../dist/full.esm.mjs'
 import {promises as fs} from 'fs'
 import path from 'path'
