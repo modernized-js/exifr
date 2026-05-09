@@ -2,6 +2,42 @@
 
 ## [Unreleased]
 
+## [8.0.1]
+
+Patch release with packaging and internal-types polish on top of 8.0.0.
+No public API changes; the published runtime bundles are byte-equivalent
+in shape. **All consumers should benefit from cleaner type resolution
+under modern bundlers and Node ESM.**
+
+### Fixed
+
+- **Type resolution under Node 16+ ESM**. The published package now
+  ships an `exports` map with separate `import` / `require` conditions,
+  plus matching `index.d.mts` (ESM types) and `index.d.cts` (CJS types)
+  alongside the existing `index.d.ts`. Verified via
+  `@arethetypeswrong/cli` — all four module-resolution modes (node10,
+  node16-from-CJS, node16-from-ESM, bundler) now report clean. Before
+  this, ESM consumers could see `Named exports` or `FalseCJS`
+  warnings depending on toolchain.
+
+### Changed (internal — invisible to consumers)
+
+- All 25+ `// @ts-nocheck` migration markers removed from `src/`.
+  Every source file now type-checks under `tsc --noEmit`.
+- Lint coverage extended to `.ts` files via `typescript-eslint`.
+  Auto-fix sweep replaced ~1180 `var` / re-bound-`let` declarations
+  with `const`.
+- CI gains a `yarn check:exports` step that runs
+  `@arethetypeswrong/cli` against the built package.
+
+### Notes
+
+- The hand-written `index.d.ts` (and the new `.d.mts` / `.d.cts`
+  copies) remain byte-identical to upstream `exifr`'s published
+  types. A future minor release may switch to TS-emitted `.d.ts`
+  bundling via `rollup-plugin-dts` once internal types are tightened
+  enough that emit precision matches the hand-written surface.
+
 ## [8.0.0] — modernization release
 
 This is a major modernization of the toolchain and runtime targets. The
