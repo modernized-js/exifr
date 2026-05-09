@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {fileReaders} from '../plugins.ts'
 import {ChunkedReader} from './ChunkedReader.ts'
 import * as platform from '../util/platform.ts'
@@ -8,6 +7,9 @@ import dynamicImport from '../util/import.ts'
 const fsPromise = dynamicImport('fs', fs => fs.promises)
 
 export class FsReader extends ChunkedReader {
+
+	declare fs: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	declare fh: any // eslint-disable-line @typescript-eslint/no-explicit-any
 
 	async readWhole() {
 		this.chunked = false
