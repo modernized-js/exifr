@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {FileParserBase} from '../parser.ts'
 import {fileParsers, segmentParsers} from '../plugins.ts'
 import * as platform from '../util/platform.ts'
