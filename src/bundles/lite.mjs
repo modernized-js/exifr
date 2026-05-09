@@ -15,16 +15,16 @@ import '../file-parsers/heif.mjs'
 import '../segment-parsers/tiff-exif.mjs'
 
 // TIFF Keys
-import '../dicts/tiff-ifd0-keys.mjs'
-import '../dicts/tiff-exif-keys.mjs'
-import '../dicts/tiff-gps-keys.mjs'
+import '../dicts/tiff-ifd0-keys.ts'
+import '../dicts/tiff-exif-keys.ts'
+import '../dicts/tiff-gps-keys.ts'
 
 // TIFF Values
-import '../dicts/tiff-ifd0-values.mjs'
-import '../dicts/tiff-exif-values.mjs'
+import '../dicts/tiff-ifd0-values.ts'
+import '../dicts/tiff-exif-values.ts'
 
 // TIFF Revivers
-import '../dicts/tiff-revivers.mjs'
+import '../dicts/tiff-revivers.ts'
 
 // XMP
 import '../segment-parsers/xmp.mjs'
