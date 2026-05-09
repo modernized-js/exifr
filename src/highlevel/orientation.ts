@@ -1,6 +1,7 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {Exifr} from '../Exifr.mjs'
 import {TAG_ORIENTATION} from '../tags.mjs'
-import {disableAllOptions} from './disableAllOptions.mjs'
+import {disableAllOptions} from './disableAllOptions.ts'
 
 
 export const orientationOnlyOptions = Object.assign({}, disableAllOptions, {
