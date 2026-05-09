@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {FileParserBase, AppSegmentParserBase} from '../parser.mjs'
-import {fileParsers, segmentParsers} from '../plugins.mjs'
+import {FileParserBase, AppSegmentParserBase} from '../parser.ts'
+import {fileParsers, segmentParsers} from '../plugins.ts'
 
 
 const JPEG_SOI = 0xffd8

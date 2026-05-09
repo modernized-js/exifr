@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {AppSegmentParserBase} from '../parser.mjs'
-import {segmentParsers} from '../plugins.mjs'
+import {AppSegmentParserBase} from '../parser.ts'
+import {segmentParsers} from '../plugins.ts'
 import {TAG_IFD_EXIF, TAG_IFD_GPS, TAG_IFD_INTEROP, TAG_MAKERNOTE, TAG_USERCOMMENT, TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.ts'
 import {TAG_GPS_LATREF, TAG_GPS_LAT, TAG_GPS_LONREF, TAG_GPS_LON} from '../tags.ts'
 import {TIFF_LITTLE_ENDIAN, TIFF_BIG_ENDIAN} from '../util/helpers.ts'

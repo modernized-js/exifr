@@ -1,6 +1,7 @@
-import {FileParserBase} from '../parser.mjs'
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
+import {FileParserBase} from '../parser.ts'
 import {TAG_XMP, TAG_IPTC, TAG_ICC} from '../tags.ts'
-import {fileParsers} from '../plugins.mjs'
+import {fileParsers} from '../plugins.ts'
 import {estimateMetadataSize} from '../util/helpers.ts'
 import {TIFF_LITTLE_ENDIAN, TIFF_BIG_ENDIAN} from '../util/helpers.ts'
 

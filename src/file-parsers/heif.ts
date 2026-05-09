@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {fileParsers} from '../plugins.mjs'
-import {FileParserBase} from '../parser.mjs'
+import {fileParsers} from '../plugins.ts'
+import {FileParserBase} from '../parser.ts'
 // Only HEIC uses BufferView.getUint64
 import '../util/BufferView-get64.ts'
 import {BufferView} from '../util/BufferView.ts'

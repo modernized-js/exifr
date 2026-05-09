@@ -1,7 +1,7 @@
-import {read} from './reader.mjs'
+import {read} from './reader.ts'
 import {undefinedIfEmpty} from './util/helpers.ts'
 import {Options} from './options.ts'
-import {fileParsers, segmentParsers} from './plugins.mjs'
+import {fileParsers, segmentParsers} from './plugins.ts'
 import {throwError} from './util/helpers.ts'
 
 
