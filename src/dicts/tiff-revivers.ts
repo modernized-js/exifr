@@ -1,3 +1,4 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {tagRevivers, createDictionary} from '../tags.mjs'
 import {toAsciiString} from '../util/BufferView.ts'
 import {normalizeString} from '../util/helpers.ts'

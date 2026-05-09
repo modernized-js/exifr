@@ -16,25 +16,25 @@ import '../file-parsers/heif.mjs'
 import '../file-parsers/png.mjs'
 
 // TIFF - Additional tags
-import '../dicts/tiff-interop-keys.mjs'
-import '../dicts/tiff-other-keys.mjs'
-import '../dicts/tiff-gps-values.mjs'
+import '../dicts/tiff-interop-keys.ts'
+import '../dicts/tiff-other-keys.ts'
+import '../dicts/tiff-gps-values.ts'
 
 // JFIF (JPEG header)
 import '../segment-parsers/jfif.mjs'
-import '../dicts/jfif-keys.mjs'
+import '../dicts/jfif-keys.ts'
 
 // IHDR (PNG header)
 import '../segment-parsers/ihdr.mjs'
-import '../dicts/ihdr-keys.mjs'
-import '../dicts/ihdr-values.mjs'
+import '../dicts/ihdr-keys.ts'
+import '../dicts/ihdr-values.ts'
 
 // ICC
 import '../segment-parsers/icc.mjs'
-import '../dicts/icc-keys.mjs'
-import '../dicts/icc-values.mjs'
+import '../dicts/icc-keys.ts'
+import '../dicts/icc-values.ts'
 
 // IPTC
 import '../segment-parsers/iptc.mjs'
-import '../dicts/iptc-keys.mjs'
-import '../dicts/iptc-values.mjs'
+import '../dicts/iptc-keys.ts'
+import '../dicts/iptc-values.ts'
