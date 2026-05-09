@@ -1,5 +1,6 @@
-import {AppSegmentParserBase} from '../parser.mjs'
-import {segmentParsers} from '../plugins.mjs'
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
+import {AppSegmentParserBase} from '../parser.ts'
+import {segmentParsers} from '../plugins.ts'
 
 
 export default class Ihdr extends AppSegmentParserBase {

@@ -1,7 +1,8 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import * as platform from './util/platform.ts'
 import {BufferView} from './util/BufferView.ts'
 import {throwError} from './util/helpers.ts'
-import {fileReaders} from './plugins.mjs'
+import {fileReaders} from './plugins.ts'
 
 
 // TODO: - API for including 3rd party XML parser

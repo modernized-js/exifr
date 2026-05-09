@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {AppSegmentParserBase} from '../parser.mjs'
-import {segmentParsers} from '../plugins.mjs'
+import {AppSegmentParserBase} from '../parser.ts'
+import {segmentParsers} from '../plugins.ts'
 import {throwError, normalizeString} from '../util/helpers.ts'
 import {BufferView} from '../util/BufferView.ts'
 

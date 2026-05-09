@@ -1,8 +1,9 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {BufferView} from './util/BufferView.ts'
 import {Options, segments} from './options.ts'
 import {tagKeys, tagValues, tagRevivers} from './tags.ts'
 import {throwError} from './util/helpers.ts'
-import {segmentParsers} from './plugins.mjs'
+import {segmentParsers} from './plugins.ts'
 
 
 const MAX_APP_SIZE = 65536 // 64kb

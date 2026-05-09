@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {fileReaders} from '../plugins.mjs'
-import {fetchUrlAsArrayBuffer} from '../reader.mjs'
+import {fileReaders} from '../plugins.ts'
+import {fetchUrlAsArrayBuffer} from '../reader.ts'
 import {ChunkedReader} from './ChunkedReader.ts'
 
 

@@ -2,10 +2,10 @@
 export {Exifr} from './Exifr.mjs'
 // for advanced users
 export * from './options.ts'
-export {fileParsers, segmentParsers, fileReaders} from './plugins.mjs'
+export {fileParsers, segmentParsers, fileReaders} from './plugins.ts'
 export {tagKeys, tagValues, tagRevivers, createDictionary, extendDictionary} from './tags.ts'
 // undocumented, needed for demo page and tests
-export {fetchUrlAsArrayBuffer, readBlobAsArrayBuffer} from './reader.mjs'
+export {fetchUrlAsArrayBuffer, readBlobAsArrayBuffer} from './reader.ts'
 
 import {Exifr} from './Exifr.mjs'
 

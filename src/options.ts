@@ -5,7 +5,7 @@ import {TAG_XMP, TAG_IPTC, TAG_ICC} from './tags.ts'
 import {tagKeys} from './tags.ts'
 import * as platform from './util/platform.ts'
 import {throwError} from './util/helpers.ts'
-import {segmentParsers, throwNotLoaded} from './plugins.mjs'
+import {segmentParsers, throwNotLoaded} from './plugins.ts'
 
 
 export const chunkedProps = [
