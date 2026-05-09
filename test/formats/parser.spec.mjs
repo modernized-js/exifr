@@ -1,6 +1,5 @@
 import {assert} from '../test-util-core.mjs'
-import {isBrowser, isNode, getPath, getFile} from '../test-util-core.mjs'
-import {Exifr} from '../../src/bundles/full.ts'
+import { getFile} from '../test-util-core.mjs'
 import * as exifr from '../../src/bundles/full.ts'
 
 

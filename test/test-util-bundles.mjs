@@ -1,4 +1,4 @@
-import {assert, getPath, getFile} from './test-util-core.mjs'
+import {assert, getFile} from './test-util-core.mjs'
 
 
 export function testBundle(bundleName, exifr, bundleOptions) {
@@ -87,7 +87,7 @@ export function testBundle(bundleName, exifr, bundleOptions) {
 
 			const baseOptions = Object.fromEntries(Object.entries(bundleOptions.segmentParsers).map(entry => [entry[0], false]))
 
-			for (const [key, enabled] of Object.entries(bundleOptions.segmentParsers)) {
+			for (const [key] of Object.entries(bundleOptions.segmentParsers)) {
 
 				const outputKey = key === 'tiff' ? 'ifd0' : key
 				const enabled = bundleOptions.segmentParsers[key]

@@ -1,12 +1,8 @@
 import {assert} from './test-util-core.mjs'
-import {getFile, getPath, isNode, isBrowser, createIframe} from './test-util-core.mjs'
+import {isBrowser, createIframe} from './test-util-core.mjs'
 
 
 describe('bundles', () => {
-
-	if (isNode) {
-
-	}
 
 	if (isBrowser) {
 

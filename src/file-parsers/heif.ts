@@ -2,7 +2,6 @@ import {fileParsers} from '../plugins.ts'
 import {FileParserBase} from '../parser.ts'
 // Only HEIC uses BufferView.getUint64
 import '../util/BufferView-get64.ts'
-import {BufferView} from '../util/BufferView.ts'
 
 
 // 4 length + 4 kind + 8 (not always) for additional 64b length field

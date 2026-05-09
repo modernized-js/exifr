@@ -143,7 +143,7 @@ segmentParsers.set('xmp', Xmp)
 
 export class XmlAttr {
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	declare ns: string
 	declare name: string
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -198,12 +198,13 @@ export class XmlTag {
 	static findAll(xmpString, ns?, name?) {
 		// NOTE: regex has to be recreated each time because it's stateful due to use in exec()
 		// handles both pair and self-closing tags.
+		let regex: RegExp
 		if (ns !== undefined || name !== undefined) {
 			ns   = ns   || tagNamePartRegex
 			name = name || tagNamePartRegex
-			var regex = new RegExp(`<(${ns}):(${name})(#\\d+)?((\\s+?[\\w\\d-:]+=("[^"]*"|'[^']*'))*\\s*)(\\/>|>([\\s\\S]*?)<\\/\\1:\\2\\3>)`, 'gm')
+			regex = new RegExp(`<(${ns}):(${name})(#\\d+)?((\\s+?[\\w\\d-:]+=("[^"]*"|'[^']*'))*\\s*)(\\/>|>([\\s\\S]*?)<\\/\\1:\\2\\3>)`, 'gm')
 		} else {
-			var regex = /<([\w\d-]+):([\w\d-]+)(#\d+)?((\s+?[\w\d-:]+=("[^"]*"|'[^']*'))*\s*)(\/>|>([\s\S]*?)<\/\1:\2\3>)/gm
+			regex = /<([\w\d-]+):([\w\d-]+)(#\d+)?((\s+?[\w\d-:]+=("[^"]*"|'[^']*'))*\s*)(\/>|>([\s\S]*?)<\/\1:\2\3>)/gm
 		}
 		return matchAll(xmpString, regex).map(XmlTag.unpackMatch)
 	}
@@ -285,11 +286,11 @@ function assignToObject(prop, target) {
 		target[prop.name] = serialized
 }
 
-var serialize = prop => prop.serialize()
+const serialize = prop => prop.serialize()
 
-var unwrapArray = array => array.length === 1 ? array[0] : array
+const unwrapArray = array => array.length === 1 ? array[0] : array
 
-var getNamespace = (ns, root) => root[ns] ? root[ns] : root[ns] = {}
+const getNamespace = (ns, root) => root[ns] ? root[ns] : root[ns] = {}
 
 function matchAll(string, regex) {
 	const matches = []

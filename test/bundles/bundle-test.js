@@ -1,3 +1,4 @@
+/* global exifr */ // UMD global from the bundle loaded via <script> tag
 const img = document.createElement('img')
 img.onload = async e => {
 	const [exif, gps, orientation] = await Promise.all([

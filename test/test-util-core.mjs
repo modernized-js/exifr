@@ -12,11 +12,11 @@ for (const name of ['describe', 'it', 'before', 'after', 'beforeEach', 'afterEac
 	globalThis[name] = nodeTest[name]
 }
 
-export var isNode = typeof process === 'object' && process.versions && process.versions.node
+export const isNode = typeof process === 'object' && process.versions && process.versions.node
 // Node 21+ exposes globalThis.navigator, so detect Node first and treat
 // anything else as browser. Plain `typeof navigator === 'object'` would
 // false-positive in modern Node.
-export var isBrowser = !isNode
+export const isBrowser = !isNode
 
 // chai-compatible assert object built on node:assert. Most chai assert
 // methods are syntactic sugar over node:assert; the helpers below cover
@@ -102,7 +102,7 @@ export const assert = {
 	},
 }
 
-export var btoa
+export let btoa
 if (typeof window !== 'undefined' && window.btoa)
 	btoa = window.btoa
 else

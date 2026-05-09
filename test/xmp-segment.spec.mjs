@@ -279,7 +279,7 @@ describe('XMP Segment', () => {
 				.map(seg => seg.chunk)
 				.map(bufferView => bufferView.getString(0, 5))
 			assert.lengthOf(actualSegStarts, 45)
-			for (let i = 0; i > actualSegStarts; i++) {
+			for (let i = 0; i < actualSegStarts.length; i++) {
 				const expected = expectedSegStarts[i]
 				const actual   = actualSegStarts[i]
 				assert.equal(actual, expected)
@@ -290,7 +290,6 @@ describe('XMP Segment', () => {
 			const exr = new Exifr(options)
 			await exr.read(input)
 			await exr.parse()
-			const xmpSegments = exr.fileParser.appSegments.filter(seg => seg.type === 'xmp')
 			const mergedXmpSegment = exr.fileParser.mergedAppSegments.find(seg => seg.type === 'xmp')
 			const extended = mergedXmpSegment.chunk
 			assert.include(extended, 'xmlns:GImage="http://ns.google.com/photos/1.0/image/"')

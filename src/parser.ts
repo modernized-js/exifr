@@ -106,7 +106,7 @@ end    = end of the content (as well as the APPn segment)
 */
 export class AppSegmentParserBase {
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	static headerLength: number | ((buffer: BufferView, offset: number, length: number) => number) = 4
 	// name. Couldn't use static name property because it is used by contructor name
 	static type: string
@@ -193,6 +193,7 @@ export class AppSegmentParserBase {
 			return this.translated
 		else if (this.raw)
 			return Object.fromEntries(this.raw)
+		return undefined
 	}
 
 	// split into separate function so that it can be used by TIFF but shared with other parsers.
@@ -244,5 +245,3 @@ export class AppSegmentParserBase {
 
 }
 
-const isDefined = val => val !== undefined
-const findDefined = (...values) => values.find(isDefined)

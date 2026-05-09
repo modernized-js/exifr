@@ -30,12 +30,12 @@ export async function createObjectUrl(fileName) {
 export async function createBase64Url(fileName) {
 	const url = getPath(fileName)
 	if (isBrowser) {
-		return new Promise(async (resolve, reject) => {
-			const blob = await createBlob(url)
+		const blob = await createBlob(url)
+		return new Promise((resolve, reject) => {
 			const reader = new FileReader()
 			reader.onloadend = () => resolve(reader.result)
 			reader.onerror = reject
-			reader.readAsDataURL(blob) 
+			reader.readAsDataURL(blob)
 		})
 	} else if (isNode) {
 		const buffer = await fs.readFile(url)
