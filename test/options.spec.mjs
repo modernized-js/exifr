@@ -1,6 +1,6 @@
 import {assert} from './test-util-core.mjs'
 import {getFile, getPath, isNode, isBrowser} from './test-util-core.mjs'
-import {Options} from '../src/options.mjs'
+import {Options} from '../src/options.ts'
 import {Exifr} from '../src/bundles/full.mjs'
 
 

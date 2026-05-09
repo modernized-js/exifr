@@ -1,4 +1,4 @@
-import {tagKeys, extendDictionary} from '../tags.mjs'
+import {tagKeys, extendDictionary} from '../tags.ts'
 
 
 // all other uncathegorized or SubIFD tags from:

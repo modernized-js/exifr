@@ -1,4 +1,4 @@
-import {tagKeys, createDictionary} from '../tags.mjs'
+import {tagKeys, createDictionary} from '../tags.ts'
 
 
 

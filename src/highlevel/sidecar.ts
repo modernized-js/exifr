@@ -1,6 +1,6 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {segmentParsers} from '../plugins.mjs'
-import {Options} from '../options.mjs'
+import {Options} from '../options.ts'
 import {read} from '../reader.mjs'
 import {throwError} from '../util/helpers.ts'
 

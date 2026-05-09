@@ -1,4 +1,4 @@
-import {tagValues, createDictionary} from '../tags.mjs'
+import {tagValues, createDictionary} from '../tags.ts'
 
 
 createDictionary(tagValues, ['ifd0', 'ifd1'], [

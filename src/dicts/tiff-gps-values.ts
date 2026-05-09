@@ -1,4 +1,4 @@
-import {tagValues, createDictionary} from '../tags.mjs'
+import {tagValues, createDictionary} from '../tags.ts'
 
 
 // TODO https://exiftool.org/TagNames/GPS.html
