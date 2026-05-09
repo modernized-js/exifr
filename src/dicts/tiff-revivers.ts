@@ -63,7 +63,7 @@ function reviveDate(string) {
 
 function reviveUcs2String(arg) {
 	if (typeof arg === 'string') return arg
-	const codePoints = []
+	const codePoints: number[] = []
 	const le = arg[1] === 0 && arg[arg.length - 1] === 0 // little endian
 	if (le) {
 		for (let i = 0; i < arg.length; i += 2)

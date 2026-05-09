@@ -117,7 +117,7 @@ export default class Icc extends AppSegmentParserBase {
 		const entryCount  = chunk.getUint32(tagOffset + 8)
 		const entrySize   = chunk.getUint32(tagOffset + 12)
 		let entryOffset = tagOffset + 16
-		const values      = []
+		const values: {lang: string; country: string; text: string}[] = []
 		for (let i = 0; i < entryCount; i++) {
 			const lang    = chunk.getString(entryOffset + 0, 2)
 			const country = chunk.getString(entryOffset + 2, 2)

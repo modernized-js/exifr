@@ -144,7 +144,7 @@ export class TiffCore extends AppSegmentParserBase {
 		const {chunk} = this
 		const type       = chunk.getUint16(offset + 2)
 		const valueCount = chunk.getUint32(offset + 4)
-		const valueSize = SIZE_LOOKUP[type]
+		const valueSize = SIZE_LOOKUP[type] ?? 0
 		const totalSize = valueSize * valueCount
 		if (totalSize <= 4)
 			offset = offset + 8
@@ -276,8 +276,8 @@ export class TiffExif extends TiffCore {
 	findIfd1Offset() {
 		if (this.ifd1Offset === undefined) {
 			this.findIfd0Offset()
-			const ifd0Entries = this.chunk.getUint16(this.ifd0Offset)
-			const temp = this.ifd0Offset + 2 + (ifd0Entries * 12)
+			const ifd0Entries = this.chunk.getUint16(this.ifd0Offset!)
+			const temp = this.ifd0Offset! + 2 + (ifd0Entries * 12)
 			// IFD1 offset is number of bytes from start of TIFF header where thumbnail info is.
 			this.ifd1Offset = this.chunk.getUint32(temp)
 		}
@@ -296,9 +296,9 @@ export class TiffExif extends TiffCore {
 		// Read the IFD0 segment with basic info about the image
 		// (width, height, maker, model and pointers to another segments)
 		this.findIfd0Offset()
-		if (this.ifd0Offset < 8)
+		if (this.ifd0Offset! < 8)
 			throwError(MALFORMED)
-		if (!file.chunked && this.ifd0Offset > file.byteLength)
+		if (!file.chunked && this.ifd0Offset! > file.byteLength)
 			throwError(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${file.byteLength}`)
 		//await this.ensureBlockChunk(this.ifd0Offset, estimateMetadataSize(this.options))
 		if (file.tiff)
@@ -391,8 +391,8 @@ export class TiffExif extends TiffCore {
 		if (this.ifd1 || this.ifd1Parsed) return
 		if (this.options.mergeOutput && !force) return
 		this.findIfd1Offset()
-		if (this.ifd1Offset > 0) {
-			this.parseBlock(this.ifd1Offset, 'ifd1')
+		if (this.ifd1Offset! > 0) {
+			this.parseBlock(this.ifd1Offset!, 'ifd1')
 			this.ifd1Parsed = true
 		}
 		return this.ifd1

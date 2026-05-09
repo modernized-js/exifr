@@ -35,8 +35,8 @@ export class FsReader extends ChunkedReader {
 		// reopen if needed
 		if (this.fh === undefined) await this.open()
 		// stay within file-size boundaries
-		if (offset + length > this.size)
-			length = this.size - offset
+		if (offset + length > this.size!)
+			length = this.size! - offset
 		// read the chunk into newly created/extended chunk of the dynamic buffer.
 		const chunk = this.subarray(offset, length, true)
 		await this.fh.read(chunk.dataView, 0, length, offset)

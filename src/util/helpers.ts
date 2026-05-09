@@ -13,7 +13,7 @@ export function isEmpty(arg) {
 	    return Object.values(arg).filter(isDefined).length === 0
 }
 
-export function throwError(message) {
+export function throwError(message: string): never {
 	const err = new Error(message)
 	delete err.stack
 	throw err

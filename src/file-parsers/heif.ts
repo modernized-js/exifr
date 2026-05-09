@@ -12,7 +12,8 @@ const boxHeaderLength = 16
 export class IsoBmffParser extends FileParserBase {
 
 	parseBoxes(offset = 0) {
-		const boxes = []
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const boxes: any[] = []
 		while (offset < this.file.byteLength - 4) {
 			const box = this.parseBoxHead(offset)
 			boxes.push(box)
@@ -70,7 +71,7 @@ export class HeifFileParser extends IsoBmffParser {
 		const ftypLength = file.getUint16(2)
 		if (ftypLength > 50) return false
 		let offset = 16
-		const compatibleBrands = []
+		const compatibleBrands: string[] = []
 		while (offset < ftypLength) {
 			compatibleBrands.push(file.getString(offset, 4))
 			offset += 4

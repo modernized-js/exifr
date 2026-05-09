@@ -77,9 +77,15 @@ export class DynamicBufferView extends BufferView {
 
 }
 
+interface Range {
+	offset: number
+	length: number
+	end: number
+}
+
 export class Ranges {
 
-	list = []
+	list: Range[] = []
 
 	get length() {
 		return this.list.length
@@ -94,7 +100,7 @@ export class Ranges {
 			offset = Math.min(offset, ...within.map(range => range.offset))
 			end    = Math.max(end,    ...within.map(range => range.end))
 			length = end - offset
-			const range = within.shift()
+			const range = within.shift()!
 			range.offset = offset
 			range.length = length
 			range.end    = end
