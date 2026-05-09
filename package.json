@@ -33,7 +33,7 @@
   "types": "index.d.ts",
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.10.0"
   },
   "scripts": {
     "test": "node ./test/run.mjs",
@@ -41,7 +41,7 @@
     "test-full": "node ./test/run.mjs --full",
     "test-lite": "node ./test/run.mjs --lite",
     "test-mini": "node ./test/run.mjs --mini",
-    "coverage": "c8 yarn test",
+    "coverage": "node ./test/run.mjs --coverage",
     "dev": "rollup -c rollup.config.js -w",
     "build-mini": "rollup -c rollup.config.js mini",
     "build-lite": "rollup -c rollup.config.js lite",
@@ -74,7 +74,6 @@
     "@eslint/js": "^10.0.1",
     "babel-plugin-transform-async-to-promises": "^0.8.15",
     "babel-plugin-transform-for-of-without-iterator": "^1.0.3",
-    "c8": "^7.0.1",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "express": "^4.17.1",
@@ -83,23 +82,6 @@
     "rollup": "^2.40.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^7.0.2"
-  },
-  "c8": {
-    "exclude": [
-      "src/file-readers/BlobReader.js",
-      "src/file-readers/UrlFetcher.js",
-      "src/util/debug.js",
-      "benchmark/**.*",
-      "debug/**.*",
-      "examples/**.*",
-      "dist/**.*",
-      "test/**.*"
-    ],
-    "reporter": [
-      "html",
-      "text",
-      "text-summary"
-    ]
   },
   "dependencies": {}
 }
