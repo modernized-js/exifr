@@ -1,5 +1,5 @@
 // @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
-import {Exifr} from '../Exifr.mjs'
+import {Exifr} from '../Exifr.ts'
 import {TAG_ORIENTATION} from '../tags.ts'
 import {disableAllOptions} from './disableAllOptions.ts'
 

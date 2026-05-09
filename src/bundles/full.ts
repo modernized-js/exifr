@@ -1,5 +1,5 @@
-export * from './lite.mjs'
-import * as lite from './lite.mjs'
+export * from './lite.ts'
+import * as lite from './lite.ts'
 export default lite
 
 

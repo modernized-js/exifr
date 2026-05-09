@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs'
 import {assert} from './test-util-core.mjs'
 import {isBrowser, isNode, getPath, getFile} from './test-util-core.mjs'
-import * as exifr from '../src/bundles/full.mjs'
+import * as exifr from '../src/bundles/full.ts'
 
 
 export function createImg(url) {

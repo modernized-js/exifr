@@ -1,6 +1,6 @@
 import {assert} from '../test-util-core.mjs'
 import {getFile} from '../test-util-core.mjs'
-import * as exifr from '../../src/bundles/full.mjs'
+import * as exifr from '../../src/bundles/full.ts'
 
 
 describe('HEIC - HeicFileParser', () => {

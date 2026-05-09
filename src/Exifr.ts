@@ -1,3 +1,4 @@
+// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {read} from './reader.ts'
 import {undefinedIfEmpty} from './util/helpers.ts'
 import {Options} from './options.ts'

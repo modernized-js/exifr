@@ -1,5 +1,5 @@
-export * from './nano.mjs'
-import * as nano from './nano.mjs'
+export * from './nano.ts'
+import * as nano from './nano.ts'
 export default nano
 
 

@@ -103,15 +103,15 @@ export default args => {
 	const output = []
 	if (bundle === 'full' || bundle === undefined) {
 		delete args.input
-		output.push(createBundle('src/bundles/full.mjs', 'dist/full.esm.mjs', 'dist/full.umd.cjs'))
+		output.push(createBundle('src/bundles/full.ts', 'dist/full.esm.mjs', 'dist/full.umd.cjs'))
 	}
 	if (bundle === 'lite' || bundle === undefined) {
 		delete args.input
-		output.push(createBundle('src/bundles/lite.mjs', 'dist/lite.esm.mjs', 'dist/lite.umd.cjs'))
+		output.push(createBundle('src/bundles/lite.ts', 'dist/lite.esm.mjs', 'dist/lite.umd.cjs'))
 	}
 	if (bundle === 'mini' || bundle === undefined) {
 		delete args.input
-		output.push(createBundle('src/bundles/mini.mjs', 'dist/mini.esm.mjs', 'dist/mini.umd.cjs'))
+		output.push(createBundle('src/bundles/mini.ts', 'dist/mini.esm.mjs', 'dist/mini.umd.cjs'))
 	}
 	return output
 }
