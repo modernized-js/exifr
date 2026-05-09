@@ -8,8 +8,8 @@ import '../file-readers/UrlFetcher.ts'
 import '../file-readers/BlobReader.ts'
 
 // File Parser
-import '../file-parsers/jpeg.mjs'
-import '../file-parsers/heif.mjs'
+import '../file-parsers/jpeg.ts'
+import '../file-parsers/heif.ts'
 
 // TIFF Parser
 import '../segment-parsers/tiff-exif.mjs'

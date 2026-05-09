@@ -4,7 +4,7 @@ export default core
 
 
 // File Parser
-import '../file-parsers/jpeg.mjs'
+import '../file-parsers/jpeg.ts'
 
 // TIFF Parser
 import '../segment-parsers/tiff-exif.mjs'

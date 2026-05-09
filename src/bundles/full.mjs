@@ -11,9 +11,9 @@ import '../file-readers/FsReader.ts'
 import '../file-readers/Base64Reader.ts'
 
 // File Parsers
-import '../file-parsers/tiff.mjs'
-import '../file-parsers/heif.mjs'
-import '../file-parsers/png.mjs'
+import '../file-parsers/tiff.ts'
+import '../file-parsers/heif.ts'
+import '../file-parsers/png.ts'
 
 // TIFF - Additional tags
 import '../dicts/tiff-interop-keys.ts'
