@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {segmentParsers} from '../plugins.ts'
 import {Options} from '../options.ts'
 import {read} from '../reader.ts'
