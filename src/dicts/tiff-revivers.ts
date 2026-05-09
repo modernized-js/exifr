@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {tagRevivers, createDictionary} from '../tags.ts'
 import {toAsciiString} from '../util/BufferView.ts'
 import {normalizeString} from '../util/helpers.ts'
@@ -38,10 +37,10 @@ function unwrapExifSizeArray(arr) {
 		return arr
 }
 
-function reviveVersion(bytes) {
-	let array = Array.from(bytes).slice(1)
-	if (array[1] > 0x0f)
-		array = array.map(code => String.fromCharCode(code))
+function reviveVersion(bytes: Iterable<number>) {
+	let array: (number | string)[] = (Array.from(bytes) as number[]).slice(1)
+	if ((array[1] as number) > 0x0f)
+		array = array.map(code => String.fromCharCode(code as number))
 	if (array[2] === '0' || array[2] === 0) array.pop()
 	return array.join('.')
 }

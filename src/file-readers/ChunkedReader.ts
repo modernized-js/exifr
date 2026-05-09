@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {DynamicBufferView} from '../util/DynamicBufferView.ts'
 
 
@@ -29,6 +28,20 @@ import {DynamicBufferView} from '../util/DynamicBufferView.ts'
 
 export class ChunkedReader extends DynamicBufferView {
 
+	// Set by the constructor; declared so subclasses (FsReader / BlobReader /
+	// Base64Reader / UrlFetcher) can read them without TS faulting. `declare`
+	// keeps them type-only — initialization happens explicitly below.
+	// `input` is polymorphic across the reader hierarchy (string path /
+	// data-url / Blob / URL / etc.) so it stays as `any`.
+	declare input: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	declare options: any // eslint-disable-line @typescript-eslint/no-explicit-any
+	declare size?: number
+
+	// Each subclass provides its own _readChunk (file fetch, blob slice, fs
+	// read, etc.). Declared here as a method-shape so subclass definitions
+	// satisfy the override check.
+	async _readChunk(_offset: number, _length?: number): Promise<unknown> { return undefined }
+
 	constructor(input, options) {
 		super(0)
 		this.input = input
@@ -53,13 +66,16 @@ export class ChunkedReader extends DynamicBufferView {
 			return false
 		}
 		const sizeToRead = this.options.chunkSize
-		const chunk = await this.readChunk(offset, sizeToRead)
+		const chunk: any = await this.readChunk(offset, sizeToRead)
 		if (chunk) return chunk.byteLength === sizeToRead
 		return false
 	}
 
 	// todo: only read unread bytes. ignore overlaping bytes.
-	async readChunk(offset, length) {
+	// @ts-expect-error -- intentional override of DynamicBufferView's narrower
+	// (offset, length) -> Promise<unknown> shape; readChunk here returns the
+	// chunk view (not just void) which is consumed by callers in this class.
+	async readChunk(offset, length?) {
 		this.chunksRead++
 		length = this.safeWrapAddress(offset, length)
 		if (length === 0) return undefined

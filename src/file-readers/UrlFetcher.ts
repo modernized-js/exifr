@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {fileReaders} from '../plugins.ts'
 import {fetchUrlAsArrayBuffer} from '../reader.ts'
 import {ChunkedReader} from './ChunkedReader.ts'
@@ -8,7 +7,7 @@ export class UrlFetcher extends ChunkedReader {
 
 	async readWhole() {
 		this.chunked = false
-		const chunk = await fetchUrlAsArrayBuffer(this.input)
+		const chunk = (await fetchUrlAsArrayBuffer(this.input)) as ArrayBuffer | Uint8Array
 		if (chunk instanceof ArrayBuffer)
 			this._swapArrayBuffer(chunk)
 		else if (chunk instanceof Uint8Array)

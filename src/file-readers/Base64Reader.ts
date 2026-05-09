@@ -1,4 +1,3 @@
-// @ts-nocheck — TS migration in progress; types will be added in a follow-up PR
 import {fileReaders} from '../plugins.ts'
 import {ChunkedReader} from './ChunkedReader.ts'
 import * as platform from '../util/platform.ts'
@@ -7,7 +6,7 @@ import {Buffer} from '../util/platform.ts'
 
 export class Base64Reader extends ChunkedReader {
 
-	constructor(...args) {
+	constructor(...args: ConstructorParameters<typeof ChunkedReader>) {
 		super(...args)
 		// Remove the mime type and base64 marker at the beginning so that we're left off with clear b64 string.
 		this.input = this.input.replace(/^data:([^;]+);base64,/gmi, '')
