@@ -4,7 +4,7 @@ export default lite
 
 
 // Highlevel API: parseSidecar()
-export * from '../highlevel/sidecar.mjs'
+export * from '../highlevel/sidecar.ts'
 
 // File Readers
 import '../file-readers/FsReader.ts'
