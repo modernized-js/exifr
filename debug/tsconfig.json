@@ -1,4 +1,13 @@
 {
-    "compilerOptions": {
-    }
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "types": ["node"]
+  },
+  "include": ["types-debug.ts"]
 }

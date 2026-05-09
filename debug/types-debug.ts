@@ -24,16 +24,23 @@ async function main() {
 	exifr.parse('../test/fixtures/002.tiff', {xmp: {parse: false}})
 	exifr.parse('../test/fixtures/002.tiff', {tiff: true, ifd0: {translateValues: false}})
 
+	// @ts-expect-error -- thumbnail takes only the file
 	exifr.thumbnail('../test/fixtures/002.tiff', 'no second argument');
+	// @ts-expect-error -- thumbnailUrl takes only the file
 	exifr.thumbnailUrl('../test/fixtures/002.tiff', 'no second argument');
+	// @ts-expect-error -- gps takes only the file
 	exifr.gps('../test/fixtures/002.tiff', 'no second argument');
+	// @ts-expect-error -- orientation takes only the file
 	exifr.orientation('../test/fixtures/002.tiff', 'no second argument');
+	// @ts-expect-error -- rotation takes only the file
 	exifr.rotation('../test/fixtures/002.tiff', 'no second argument');
 
 	exifr.sidecar('../test/fixtures/002.tiff');
+	// @ts-expect-error -- 2nd argument must be Options object
 	exifr.sidecar('../test/fixtures/002.tiff', 'second argument must be object');
 	exifr.sidecar('../test/fixtures/002.tiff', {});
 	exifr.sidecar('../test/fixtures/002.tiff', {}, 'tiff');
+	// @ts-expect-error -- sidecar accepts at most 3 arguments
 	exifr.sidecar('../test/fixtures/002.tiff', {}, 'tiff', 'no fourth arg');
 }
 

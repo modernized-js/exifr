@@ -1,4 +1,4 @@
-import bench from '../benchmark/benchlib.mjs'
+import bench from '../benchmark/benchlib.js'
 
 
 let arr1 = [0,1,2,3,4]

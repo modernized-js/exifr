@@ -1,5 +1,5 @@
 // this is broken
-import {Exifr} from '../src/index-full.js'
+import {Exifr} from '../src/bundles/full.ts'
 import {promises as fs} from 'fs'
 
 class Flir extends Tiff {

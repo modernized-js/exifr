@@ -1,5 +1,5 @@
 // node --experimental-modules enumerate-segments.js
-import * as exifr from '../src/bundles/full.mjs'
+import * as exifr from '../src/bundles/full.ts'
 
 //let imagePath = '../test/fixtures/door-knocker.jpg'
 let imagePath = '../test/fixtures/empty-imagedesc-in-ifd0.jpg'

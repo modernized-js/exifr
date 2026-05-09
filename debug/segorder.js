@@ -1,5 +1,5 @@
 // node --experimental-modules enumerate-segments.js
-import {Exifr} from '../src/bundles/full.mjs'
+import {Exifr} from '../src/bundles/full.ts'
 import {createReadStream, promises as fs} from 'fs'
 import path from 'path'
 
