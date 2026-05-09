@@ -1,5 +1,5 @@
 import {BufferView} from './util/BufferView.mjs'
-import {Options} from './options.mjs'
+import {Options, segments} from './options.mjs'
 import {tagKeys, tagValues, tagRevivers} from './tags.mjs'
 import {throwError} from './util/helpers.mjs'
 import {segmentParsers} from './plugins.mjs'
@@ -120,8 +120,18 @@ export class AppSegmentParserBase {
 	}
 
 	static parse(input, segOptions = {}) {
-		let options = new Options({[this.type]: segOptions})
-		let instance = new this(input, options, input)
+		// Parse a single segment's chunk in isolation. Disable every OTHER
+		// segment so checkLoadedPlugins() doesn't fault on parsers we're
+		// not using; the target segment's own blocks (ifd0 / exif / gps /
+		// etc. for tiff) keep their defaults so parsing still produces
+		// normal output.
+		const userOptions = {}
+		for (const name of segments) {
+			if (name !== this.type) userOptions[name] = false
+		}
+		userOptions[this.type] = segOptions
+		const options = new Options(userOptions)
+		const instance = new this(input, options, input)
 		return instance.parse()
 	}
 

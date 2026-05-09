@@ -273,8 +273,7 @@ describe('ChunkedReader', () => {
 		testReaderClass(getPath, UrlFetcher)
 	})
 	if (isNode) {
-		describe('UrlFetcher', function() {
-			this.timeout(10000)
+		describe('UrlFetcher', {timeout: 10000}, () => {
 			before(startStaticServer)
 			after(stopStaticServer)
 			testReaderClass(getUrl, UrlFetcher)
