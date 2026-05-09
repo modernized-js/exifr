@@ -33,7 +33,7 @@
   "types": "index.d.ts",
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.10.0"
   },
   "scripts": {
     "test": "node ./test/run.mjs",
