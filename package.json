@@ -77,7 +77,7 @@
     "prerelease": "yarn build"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.2",
+    "@arethetypeswrong/cli": "^0.18.4",
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
@@ -85,7 +85,7 @@
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "express": "^4.17.1",
+    "express": "^5.2.1",
     "globals": "^17.7.0",
     "prettier": "^3.9.4",
     "rollup": "^4.62.2",
