@@ -1,6 +1,6 @@
 {
   "name": "@modernized/exifr",
-  "version": "8.0.2",
+  "version": "8.0.3",
   "description": "📷 The fastest and most versatile JavaScript EXIF reading library — modernized fork of exifr (TypeScript, Node 22+, ES2020+ browser targets).",
   "author": "modernized (https://github.com/modernized-js)",
   "contributors": [
@@ -77,21 +77,21 @@
     "prerelease": "yarn build"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.4",
+    "@arethetypeswrong/cli": "^0.18.5",
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^26.1.0",
-    "eslint": "^10.6.0",
+    "@types/node": "^26.1.1",
+    "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.4.1",
     "express": "^5.2.1",
     "globals": "^17.7.0",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.5",
     "rollup": "^4.62.2",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.1"
+    "typescript-eslint": "^8.64.0"
   },
   "dependencies": {}
 }
