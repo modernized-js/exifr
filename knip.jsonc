@@ -1,0 +1,27 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  // The library's real entry points are the three rollup bundles (src/bundles/{full,lite,mini}.ts,
+  // built into dist/*.esm.mjs / *.umd.js). package.json "exports"/"main" point at the dist BUILD
+  // OUTPUT, not source, so knip cannot auto-detect the source entries — they are listed explicitly.
+  // Every test/**/*.mjs (and the .js webpack fixtures) is a standalone node --test script that
+  // imports ../src/*.ts directly, so tests are entry points, not analyzed source.
+  "entry": ["src/bundles/{full,lite,mini}.ts", "test/**/*.mjs", "test/**/*.js"],
+  "project": ["src/**/*.ts"],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": false,
+  "rules": {
+    // Warn mode: every rule is "warn" (reported, exit 0) or "off". Nothing gates CI here.
+    "files": "warn",
+    "dependencies": "warn",
+    "devDependencies": "warn",
+    "unlisted": "warn",
+    "exports": "warn",
+    "types": "warn",
+    "unresolved": "off",
+    "binaries": "off",
+    "nsExports": "off",
+    "nsTypes": "off",
+    "enumMembers": "off",
+    "duplicates": "off",
+  },
+}

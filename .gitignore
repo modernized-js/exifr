@@ -62,3 +62,6 @@ package-lock.json
 /dist-types
 /test/webpack/dist
 /.claude
+
+# jscpd duplication-scan output
+report/
